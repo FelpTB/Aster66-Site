@@ -80,6 +80,10 @@ window.ASTER_MUNDO = {
   ],
 
   noticias: [
+    { data: "2026-11-09", titulo: "Site reorganizado",
+      texto: "Nova aba Ferramentas com o catálogo de cartas e o montador de fichas; Explorar agora conta a história da magia, do céu de Aster, do Panteão e dos países, com fichas técnicas de raças e classes." },
+    { data: "2026-11-09", titulo: "Conteúdo direto do livro",
+      texto: "Raças, classes, cartas, deuses e países do site agora vêm da mesma base do livro de regras — o que muda no livro aparece aqui." },
     { data: "2026-11-08", titulo: "Nova versão do site em avaliação",
       texto: "Estamos reconstruindo o portal de Aster66 do zero, com a paleta oficial do sistema e sem artes geradas por IA. Esta é uma versão local para revisão." },
     { data: "2026-11-08", titulo: "Ficha de personagem atualizada",

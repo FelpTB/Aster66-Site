@@ -18,16 +18,18 @@
     <div class="stars" aria-hidden="true"></div>
     <div class="wrap">
       <div>
-        <span class="eyebrow">Sistema de RPG por cartas</span>
+        <span class="eyebrow">Bem-vindo ao mundo de Aster</span>
         <h1>Um mundo vivo,<br>tocado pela <em>magia</em>.</h1>
         <p class="lead">
-          Aster66 te leva para Aster, um planeta vasto e misterioso onde a magia flui por mares, desertos,
-          florestas e geleiras. Monte seu personagem com cartas e escreva seu pedaço dessa história.
+          Ninguém sabe o tamanho de Aster nem quantos continentes ele esconde. Sabe-se que a magia flui por seus mares,
+          desertos, florestas e geleiras — que ela tornou mortais em deuses e, depois, os derrubou. O reino eterno de Édin
+          caiu, e das suas ruínas nasceram impérios, cultos e cidades que ainda disputam o que restou.
         </p>
+        <p class="lead" style="color:var(--text)">Que lugar o seu personagem vai ocupar nessa história?</p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="documentos.html">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 19h16"/></svg>
-            Baixar a ficha
+            Ver os documentos
           </a>
           <a class="btn btn-ghost" href="explorar.html">Explorar o mundo</a>
         </div>
@@ -91,59 +93,64 @@
         </p>
       </div>
       <div class="grid grid-3 pillars">
-        <article class="card card-frame">
+        <a class="card card-frame card-link" href="explorar.html#povo">
           <span class="num">I</span>
-          <h3>Raça + Classe</h3>
+          <h3>Raças e Classes</h3>
           <p class="dim">Definem atributos, vida, energia e as primeiras origens do personagem. Dá para ser híbrido de duas raças e acumular várias classes.</p>
-        </article>
-        <article class="card card-frame">
+        </a>
+        <a class="card card-frame card-link" href="ferramentas.html#cartas">
           <span class="num">II</span>
           <h3>Origens</h3>
           <p class="dim">Seu personagem pode adicionar ao baralho qualquer carta de uma origem que ele possua. Novas origens chegam por raças, classes e cartas.</p>
-        </article>
-        <article class="card card-frame">
+        </a>
+        <a class="card card-frame card-link" href="ferramentas.html#cartas">
           <span class="num">III</span>
           <h3>Cartas</h3>
           <p class="dim">Habilidades, magias, rituais e técnicas. A complexidade do personagem — em combate ou fora dele — vem das cartas que você monta.</p>
-        </article>
+        </a>
       </div>
-      <p class="dim" style="margin-top:32px;max-width:70ch">
-        Aster66 foi pensado para ser simples de entender, mas com espaço para ser complexo: atende tanto
-        quem gosta de montar combos quanto quem prefere a narrativa e uma jogabilidade mais leve.
-      </p>
+
+      <div class="card card-frame teste" style="margin-top:20px">
+        <div class="formula" aria-label="2d6 mais atributo contra a dificuldade">
+          <span class="dado">d6</span><span class="dado">d6</span>
+          <span class="op">+</span><span>Atributo</span>
+          <span class="op">vs</span><span class="alvo">Dificuldade</span>
+        </div>
+        <div>
+          <span class="num" style="font-size:2rem;margin-bottom:6px">IV</span>
+          <h3>Como funcionam os testes</h3>
+          <p class="dim">Quando o resultado de uma ação é incerto, role <strong>2d6</strong> e some o atributo que combina com ela —
+            Corpo, Mente, Alma, Destreza, Foco ou Conhecimento. O mestre define a dificuldade. Num ataque, o resultado
+            precisa <strong>superar a Esquiva</strong> do alvo (6 + Destreza) para acertar; quem ainda tem reações pode
+            tentar bloquear ou esquivar.</p>
+        </div>
+      </div>
     </div>
   </section>
 
   <section class="band">
-    <div class="wrap">
-      <div class="section-head" style="margin-bottom:24px">
-        <span class="eyebrow">O céu de Aster</span>
-        <h2>Nigredo, Albedo e Rubedo</h2>
-        <p class="dim">Duas luas e uma estrela iluminam o planeta — e dão nome às cores deste site.</p>
-      </div>
-      <div class="grid grid-3" id="astros" style="width:100%"></div>
-    </div>
-  </section>
-
-  <section>
-    <div class="wrap">
-      <div class="section-head">
-        <span class="eyebrow">Notícias</span>
-        <h2>Novidades do sistema</h2>
-      </div>
-      <div id="noticias"></div>
-    </div>
-  </section>
-
-  <section class="band">
-    <div class="wrap">
-      <div>
+    <div class="wrap" style="display:block">
+      <div class="section-head" style="margin-bottom:28px">
+        <span class="eyebrow">Ferramentas</span>
         <h2 style="margin-bottom:.2em">Pronto para criar seu personagem?</h2>
-        <p class="dim" style="margin:0">Baixe a ficha editável ou preencha direto no navegador.</p>
+        <p class="dim" style="margin:0">Tudo o que você precisa para montar a ficha e o baralho.</p>
       </div>
-      <div class="hero-actions" style="margin:0">
-        <a class="btn btn-primary" href="ficha.html">Ficha online</a>
-        <a class="btn btn-ghost" href="comunidade.html">Fale com a gente</a>
+      <div class="ferramentas-grid">
+        <article class="card card-frame ferramenta">
+          <h3>Montador de fichas</h3>
+          <p class="dim">Escolha raça e classe e a ficha se preenche sozinha. Salve na nuvem e exporte para o PDF editável.</p>
+          <a class="btn btn-primary" href="ficha.html">Criar personagem</a>
+        </article>
+        <article class="card card-frame ferramenta">
+          <h3>Catálogo de cartas</h3>
+          <p class="dim">Todas as cartas do sistema, com busca e filtros por origem, tipo, custo e raridade.</p>
+          <a class="btn btn-ghost" href="ferramentas.html#cartas">Abrir o catálogo</a>
+        </article>
+        <article class="card card-frame ferramenta">
+          <h3>Ficha em PDF</h3>
+          <p class="dim">Prefere papel? Baixe a ficha editável e os outros materiais de mesa.</p>
+          <a class="btn btn-ghost" href="documentos.html">Ver documentos</a>
+        </article>
       </div>
     </div>
   </section>
@@ -153,22 +160,5 @@
 <script src="js/db.js"></script>
 <script src="js/common.js"></script>
 <script src="js/auth-ui.js"></script>
-<script src="js/data-mundo.js"></script>
-<script src="js/astros.js"></script>
-<script>
-  const M = window.ASTER_MUNDO;
-  document.getElementById("astros").innerHTML = M.astros.map((a) => `
-    <article class="astro">
-      ${window.ASTRO_SVG[a.id]}
-      <div><h3 style="margin:0">${a.nome}</h3>
-      <span class="eyebrow" style="margin:.2rem 0 .6rem">${a.tipo}</span>
-      <p class="dim" style="font-size:.95rem">${a.texto}</p></div>
-    </article>`).join("");
-  document.getElementById("noticias").innerHTML = M.noticias.map((n) => `
-    <article class="news-item">
-      <time datetime="${n.data}">${formatDate(n.data)}</time>
-      <div><h3>${escapeHTML(n.titulo)}</h3><p class="dim" style="margin:0">${escapeHTML(n.texto)}</p></div>
-    </article>`).join("");
-</script>
 </body>
 </html>

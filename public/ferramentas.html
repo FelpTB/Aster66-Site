@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ferramentas — Aster66</title>
+  <meta name="description" content="Catálogo de cartas e montador de fichas do Aster66.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<main id="conteudo">
+  <header class="page-head">
+    <div class="wrap">
+      <span class="eyebrow">Ferramentas</span>
+      <h1>Monte seu personagem</h1>
+      <p class="lead">O catálogo completo de cartas e o montador de fichas, direto no navegador.</p>
+    </div>
+  </header>
+
+  <nav class="subnav" aria-label="Seções">
+    <div class="wrap">
+      <a href="#montador">Montador de fichas</a>
+      <a href="#cartas">Catálogo de cartas</a>
+    </div>
+  </nav>
+
+  <section id="montador" class="anchor">
+    <div class="wrap">
+      <div class="ferramentas-grid">
+        <article class="card card-frame ferramenta">
+          <span class="eyebrow" style="margin-bottom:.2rem">Web</span>
+          <h2 style="font-size:2rem;margin:0">Montador de fichas</h2>
+          <p class="dim">Escolha raça e classe e a ficha se preenche: atributos, vida, energia, origens e as habilidades iniciais.
+            Salva sozinha neste dispositivo, guarda na nuvem com uma conta e exporta para o PDF editável.</p>
+          <a class="btn btn-primary" href="ficha.html">Abrir o montador</a>
+        </article>
+        <article class="card card-frame ferramenta">
+          <span class="eyebrow" style="margin-bottom:.2rem">Referência</span>
+          <h2 style="font-size:2rem;margin:0">Como montar o baralho</h2>
+          <p class="dim">Seu personagem pode adicionar qualquer carta de uma origem que ele possua — as origens vêm da raça,
+            da classe e de algumas cartas. Cartas de origem <strong>Livre</strong> servem para todos. Use o filtro de origem
+            abaixo para ver o que está ao seu alcance.</p>
+          <a class="btn btn-ghost" href="#cartas">Ver as cartas</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule-ouro">
+
+  <section id="cartas" class="anchor">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Baralho</span>
+        <h2>Catálogo de cartas</h2>
+        <p class="dim">Todas as cartas do sistema. Clique em uma carta para ver todos os detalhes.</p>
+      </div>
+
+      <div class="filtros" role="search">
+        <div class="linha">
+          <input class="input" type="search" id="busca-cartas" placeholder="Buscar por nome, efeito ou palavra-chave…" aria-label="Buscar cartas" style="flex:1;min-width:220px">
+          <button class="btn btn-ghost btn-small" id="limpar-filtros" type="button">Limpar filtros</button>
+        </div>
+        <div class="linha" id="filtro-custo" role="group" aria-label="Custo em energia"><span class="rotulo">Energia</span></div>
+        <div class="linha">
+          <select class="select" id="filtro-origem" aria-label="Origem"><option value="">Todas as origens</option></select>
+          <select class="select" id="filtro-tipo" aria-label="Tipo"><option value="">Todos os tipos</option></select>
+          <select class="select" id="filtro-raridade" aria-label="Raridade"><option value="">Todas as raridades</option></select>
+          <select class="select" id="filtro-modo" aria-label="Modo de uso"><option value="">Qualquer modo de uso</option></select>
+          <select class="select" id="filtro-palavra" aria-label="Palavra-chave"><option value="">Qualquer palavra-chave</option></select>
+        </div>
+      </div>
+
+      <p class="dim" id="cartas-contagem" style="font-size:.9rem"></p>
+      <div class="galeria" id="cartas-lista"><p class="empty">Carregando cartas…</p></div>
+      <div style="text-align:center;margin-top:28px"><button class="btn btn-ghost" id="cartas-mais" hidden>Mostrar mais</button></div>
+    </div>
+  </section>
+</main>
+<script src="js/config.js"></script>
+<script src="js/db.js"></script>
+<script src="js/common.js"></script>
+<script src="js/auth-ui.js"></script>
+<script src="js/ferramentas.js"></script>
+</body>
+</html>

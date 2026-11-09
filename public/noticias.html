@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Notícias — Aster66</title>
+  <meta name="description" content="Novidades sobre o desenvolvimento do Aster66.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<main id="conteudo">
+  <header class="page-head">
+    <div class="wrap">
+      <span class="eyebrow">Notícias</span>
+      <h1>Novidades do sistema</h1>
+      <p class="lead">Desenvolvimento, lançamentos e mudanças em Aster66.</p>
+    </div>
+  </header>
+
+  <section>
+    <div class="wrap">
+      <div id="noticias"></div>
+    </div>
+  </section>
+</main>
+<script src="js/config.js"></script>
+<script src="js/db.js"></script>
+<script src="js/common.js"></script>
+<script src="js/auth-ui.js"></script>
+<script src="js/data-mundo.js"></script>
+<script>
+  document.getElementById("noticias").innerHTML = [...window.ASTER_MUNDO.noticias]
+    .sort((a, b) => b.data.localeCompare(a.data))
+    .map((n) => `
+      <article class="news-item">
+        <time datetime="${n.data}">${formatDate(n.data)}</time>
+        <div><h3>${escapeHTML(n.titulo)}</h3><p class="dim" style="margin:0">${escapeHTML(n.texto)}</p></div>
+      </article>`).join("");
+</script>
+</body>
+</html>

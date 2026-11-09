@@ -150,10 +150,10 @@
       const { atributos, livres } = parseAtributos(juntar(x.atributos_iniciais));
       const hab = (relIds || []).map((id) => habs.get(id)).find(Boolean);
       return {
-        tipo, nome: ren(x.nome), resumo: mdTexto(x.conteudo), atributos, livres,
+        tipo, nome: ren(x.nome), resumo: mdTexto(x.conteudo), conteudo: x.conteudo || "", atributos, livres,
         vida: +x.vida_inicial || 0, energia: +x.energia_inicial || 0,
         origens: origens.filter(Boolean).map(ren),
-        habilidade: { nome: hab?.nome || "", texto: mdTexto(hab?.conteudo) },
+        habilidade: { nome: hab?.nome || "", texto: mdTexto(hab?.conteudo), conteudo: hab?.conteudo || "" },
       };
     };
     return [
@@ -169,10 +169,57 @@
     falha(error);
     return data.map((c) => ({
       id: c.id, nome: c.nome, tipo: juntar(c.tipo, " / "), modo: juntar(c.modo_de_uso, " / "),
+      tipos: c.tipo || [], modos: c.modo_de_uso || [], custos: c.custo_em_energia || [],
       alcance: juntar(c.alcance), tempo: juntar(c.cooldown), custo: juntar(c.custo_em_energia, " / "),
       custoExtra: c.custo_extra || "", raridade: c.raridade || "", palavras: c.palavra_chave || [],
-      texto: mdTexto(c.conteudo), origens: [...new Set((c.origem || []).map(ren))],
+      texto: mdTexto(c.conteudo), conteudo: c.conteudo || "", origens: [...new Set((c.origem || []).map(ren))],
     }));
+  }
+
+  // ---------------- Mundo (esquema aster) ----------------
+  // Panteão de Édin: personagens de nível "Divindade" ligados ao Panteão Ediniano.
+  let cachePanteao = null;
+  async function panteao() {
+    if (cachePanteao) return cachePanteao;
+    const db = await pronto;
+    if (!db) return [];
+    const { data, error } = await aster().from("personagens")
+      .select("id,nome,organizacoes_relacionadas,locais_relacionados,conteudo")
+      .eq("nivel_do_personagem", "Divindade").order("nome");
+    falha(error);
+    return (cachePanteao = data
+      .filter((d) => (d.organizacoes_relacionadas || []).includes("Panteão Ediniano"))
+      .map((d) => {
+        const [nome, ...resto] = d.nome.split(",");
+        return { id: d.id, nome: nome.trim(), titulo: resto.join(",").trim(), conteudo: d.conteudo || "",
+          resumo: mdTexto(d.conteudo).split("\n")[0], organizacoes: d.organizacoes_relacionadas || [] };
+      }));
+  }
+
+  // Países de Maresia com seus locais internos (Cenários com Abrangência = País).
+  let cachePaises = null;
+  async function paises() {
+    if (cachePaises) return cachePaises;
+    const db = await pronto;
+    if (!db) return [];
+    const { data, error } = await aster().from("cenarios")
+      .select("id,nome,abrangencia,cenarios_relacionados,conteudo,icone").order("nome").limit(2000);
+    falha(error);
+    const porId = new Map(data.map((c) => [c.id, c]));
+    const ehPais = (c) => c?.abrangencia === "País";
+    // Um "país" ligado a outro país maior é um reino interno (ex.: os seis reinos da Elesidônia).
+    const interno = (c) => ehPais(c) && (c.cenarios_relacionados || []).some((id) => {
+      const o = porId.get(id);
+      return ehPais(o) && (o.cenarios_relacionados || []).length > (c.cenarios_relacionados || []).length;
+    });
+    const ORDEM = ["País", "Cidade (Capital)", "Cidade", "Região", "Edifício"];
+    return (cachePaises = data.filter((c) => ehPais(c) && !interno(c)).map((p) => ({
+      id: p.id, nome: p.nome, icone: p.icone, conteudo: p.conteudo || "",
+      resumo: mdTexto(p.conteudo).replace(/^Página original:.*$/m, "").split("\n")[0],
+      locais: (p.cenarios_relacionados || []).map((id) => porId.get(id)).filter(Boolean)
+        .sort((a, b) => ORDEM.indexOf(a.abrangencia) - ORDEM.indexOf(b.abrangencia) || a.nome.localeCompare(b.nome, "pt"))
+        .map((l) => ({ nome: l.nome, abrangencia: l.abrangencia || "", conteudo: l.conteudo || "" })),
+    })));
   }
 
   const TIPOS = { Tecnica_Inigualavel: "Técnica Inigualável", Musica: "Música", Lingua: "Língua" };
@@ -198,6 +245,8 @@
       const custo = c.custo_energia ?? (c.custo_energia_texto || c.propriedades_importacao?.["Custo em Energia"] || "");
       return {
         id: c.id_carta, nome: c.nome_carta, tipo: TIPOS[c.tipo] || c.tipo, modo: MODOS[c.modo_uso] || c.modo_uso,
+        tipos: [TIPOS[c.tipo] || c.tipo].filter(Boolean), modos: [MODOS[c.modo_uso] || c.modo_uso].filter(Boolean),
+        custos: [String(c.custo_energia ?? c.custo_energia_texto ?? "")].filter(Boolean), raridade: "", palavras: [], conteudo: c.texto_corpo || "",
         alcance: c.alcance || "", tempo: c.tempo_de_uso || "", custo: String(custo ?? ""), custoExtra: c.custo_extra || "",
         texto: c.texto_corpo || "", origens: [...new Set(origens.map(ren))],
       };
@@ -294,5 +343,5 @@
     },
   };
 
-  window.AsterDB = { ativo: !!cfg, pronto, catalogoPersonagens, cartas, auth, fichas, comentarios, traduzErro };
+  window.AsterDB = { ativo: !!cfg, pronto, catalogoPersonagens, cartas, panteao, paises, auth, fichas, comentarios, traduzErro, mdTexto };
 })();

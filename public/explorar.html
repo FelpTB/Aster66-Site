@@ -17,42 +17,67 @@
     <div class="wrap">
       <span class="eyebrow">Explorar</span>
       <h1>O mundo de Aster</h1>
-      <p class="lead">Mais do que um planeta, Aster é um ser vivo inundado de magia. Ninguém sabe ao certo
-        seu tamanho nem quantos continentes ele esconde — mas Maresia é o lugar onde tudo começou.</p>
+      <p class="lead">A magia, os astros, o continente de Maresia, seus deuses e países — e os povos que você pode interpretar.</p>
     </div>
   </header>
 
   <nav class="subnav" aria-label="Seções">
     <div class="wrap">
+      <a href="#magia">A Magia</a>
       <a href="#mundo">O Mundo</a>
+      <a href="#ceu">Céu de Aster</a>
       <a href="#maresia">Maresia</a>
-      <a href="#panteao">Panteão de Édin</a>
+      <a href="#panteao">Panteão</a>
       <a href="#paises">Países</a>
-      <a href="#racas">Raças</a>
-      <a href="#classes">Classes</a>
-      <a href="#cartas">Cartas</a>
+      <a href="#povo">Povo de Aster</a>
     </div>
   </nav>
 
-  <section id="mundo" class="anchor">
+  <section id="magia" class="anchor">
     <div class="wrap">
       <div class="section-head">
-        <span class="eyebrow">A magia</span>
+        <span class="eyebrow">A Magia</span>
         <h2>Uma força que sempre existiu</h2>
-        <p class="dim">Alguns chamam de mana, outros de chi; uns a usam por fórmulas, outros por rituais. A magia fluiu
-          nos primeiros mortais e os tornou Deuses — e depois causou sua queda. Em certos momentos dividiu o mundo,
-          em outros o uniu. Toda experiência em Aster é, de algum modo, tocada por ela.</p>
+        <p class="dim">Não se sabe como essa energia surgiu. Alguns a chamam de mana, outros de chi; uns a usam por fórmulas,
+          outros por rituais. Mas uma coisa é certa: essa força misteriosa sempre existiu em Aster — e sempre vai existir.</p>
+        <p class="dim">A magia fluiu nos primeiros mortais e os tornou Deuses; depois, causou a sua queda. Em certos momentos ela
+          dividiu o mundo, em outros o uniu. Eras, guerras e reinos inteiros foram moldados por ela, do mais extraordinário dos
+          fenômenos ao menos relevante dos instantes — e toda aventura em Aster é, de algum modo, tocada por ela.</p>
       </div>
-      <div class="grid grid-3" id="astros"></div>
     </div>
   </section>
 
   <hr class="rule-ouro">
 
+  <section id="mundo" class="anchor">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">O Mundo de Aster</span>
+        <h2>Um planeta vivo</h2>
+        <p class="dim">Aster é um mundo vasto e misterioso: ninguém sabe ao certo o tamanho do planeta nem quantos continentes
+          ele esconde. Mais do que um planeta, Aster é um ser vivo e inundado de magia, que flui por mares, vulcões, desertos,
+          florestas, cavernas, geleiras e montanhas — todos influenciam e são influenciados por ela.</p>
+        <p class="dim">É um mundo desigual, e talvez por isso tão interessante: da mais avançada das cidades à mais profunda das
+          florestas, do mais alegre dos festivais à mais sangrenta das guerras.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="ceu" class="anchor band">
+    <div class="wrap" style="display:block">
+      <div class="section-head" style="margin-bottom:24px">
+        <span class="eyebrow">Céu de Aster</span>
+        <h2>Nigredo, Albedo e Rubedo</h2>
+        <p class="dim">Duas luas e uma estrela iluminam o planeta.</p>
+      </div>
+      <div class="grid grid-3" id="astros"></div>
+    </div>
+  </section>
+
   <section id="maresia" class="anchor">
     <div class="wrap">
       <div class="section-head">
-        <span class="eyebrow">O continente</span>
+        <span class="eyebrow">Continente de Maresia</span>
         <h2>Maresia e o Reino de É-Dingirra</h2>
         <p class="dim">Em Maresia, o povo Ediniano foi um dos primeiros a dominar a magia. A pequena tribo tornou-se uma
           sociedade que se estendeu por todo o continente — batizado em homenagem à exploradora que primeiro o desbravou.</p>
@@ -68,8 +93,9 @@
       <div class="section-head">
         <span class="eyebrow">Os eleitos do Rei</span>
         <h2>O Panteão de Édin</h2>
+        <p class="dim">Clique em uma divindade para ler sua história.</p>
       </div>
-      <div class="pantheon" id="panteao-lista"></div>
+      <div class="entidades" id="panteao-lista"></div>
     </div>
   </section>
 
@@ -80,18 +106,18 @@
       <div class="section-head">
         <span class="eyebrow">Geografia política</span>
         <h2>Países de Maresia</h2>
-        <p class="dim">Clique em um país para ler mais sobre sua história, governo e economia.</p>
+        <p class="dim">Clique em um país para ler sua história, política e economia — e conhecer seus locais.</p>
       </div>
-      <div class="grid grid-3" id="paises-lista"></div>
+      <div class="entidades" id="paises-lista"></div>
     </div>
   </section>
 
   <hr class="rule-ouro">
 
-  <section id="racas" class="anchor">
+  <section id="povo" class="anchor">
     <div class="wrap">
       <div class="section-head">
-        <span class="eyebrow">Criação de personagem</span>
+        <span class="eyebrow">Povo de Aster</span>
         <h2>Raças</h2>
         <p class="dim">A raça define atributos, vida e energia iniciais, além de cartas e origens únicas — e como seu
           personagem se encaixa no cenário. Um personagem pode ser híbrido de duas raças.</p>
@@ -99,7 +125,7 @@
       <div class="toolbar">
         <input class="input" type="search" id="busca-racas" placeholder="Buscar raça, origem ou habilidade…" aria-label="Buscar raças">
       </div>
-      <div class="grid grid-3" id="racas-lista"></div>
+      <div class="entidades" id="racas-lista"></div>
     </div>
   </section>
 
@@ -114,42 +140,17 @@
         <input class="input" type="search" id="busca-classes" placeholder="Buscar classe, origem ou habilidade…" aria-label="Buscar classes">
         <div class="chip-group" id="filtro-attr" role="group" aria-label="Filtrar por atributo"></div>
       </div>
-      <div class="grid grid-3" id="classes-lista"></div>
+      <div class="entidades" id="classes-lista"></div>
+      <p class="dim" style="margin-top:32px">Procurando as cartas? Elas estão no <a href="ferramentas.html#cartas">Catálogo de cartas</a>.</p>
     </div>
   </section>
-
-  <hr class="rule-ouro">
-
-  <section id="cartas" class="anchor">
-    <div class="wrap">
-      <div class="section-head">
-        <span class="eyebrow">Baralho</span>
-        <h2>Cartas</h2>
-        <p class="dim">Um personagem pode adicionar ao baralho qualquer carta de uma origem que ele possua.
-          Filtre por origem para ver o que cada raça, classe ou magia oferece.</p>
-      </div>
-      <div class="toolbar">
-        <input class="input" type="search" id="busca-cartas" placeholder="Buscar carta ou efeito…" aria-label="Buscar cartas" style="flex:1;min-width:200px">
-        <select class="select" id="filtro-origem" aria-label="Origem"><option value="">Todas as origens</option></select>
-        <select class="select" id="filtro-tipo" aria-label="Tipo"><option value="">Todos os tipos</option></select>
-        <select class="select" id="filtro-modo" aria-label="Modo de uso"><option value="">Qualquer modo</option></select>
-      </div>
-      <p class="dim" id="cartas-contagem" style="font-size:.9rem"></p>
-      <div class="grid grid-3" id="cartas-lista"><p class="empty">Carregando cartas…</p></div>
-      <div style="text-align:center;margin-top:28px"><button class="btn btn-ghost" id="cartas-mais" hidden>Mostrar mais</button></div>
-    </div>
-  </section>
-
-  <dialog class="modal" id="modal-pais">
-    <button class="modal-close" aria-label="Fechar" data-close>×</button>
-    <div class="modal-body" id="modal-conteudo"></div>
-  </dialog>
 </main>
 <script src="js/config.js"></script>
 <script src="js/db.js"></script>
 <script src="js/common.js"></script>
 <script src="js/auth-ui.js"></script>
 <script src="js/astros.js"></script>
+<script src="js/simbolos.js"></script>
 <script src="js/data-mundo.js"></script>
 <script src="js/data-personagens.js"></script>
 <script src="js/explorar.js"></script>
