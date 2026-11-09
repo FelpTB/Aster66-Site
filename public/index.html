@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aster66 — RPG de cartas</title>
+  <meta name="description" content="Aster66: o sistema de RPG por cartas ambientado no mundo de Aster.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<main id="conteudo">
+
+  <section class="hero">
+    <div class="stars" aria-hidden="true"></div>
+    <div class="wrap">
+      <div>
+        <span class="eyebrow">Sistema de RPG por cartas</span>
+        <h1>Um mundo vivo,<br>tocado pela <em>magia</em>.</h1>
+        <p class="lead">
+          Aster66 te leva para Aster, um planeta vasto e misterioso onde a magia flui por mares, desertos,
+          florestas e geleiras. Monte seu personagem com cartas e escreva seu pedaço dessa história.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="documentos.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 19h16"/></svg>
+            Baixar a ficha
+          </a>
+          <a class="btn btn-ghost" href="explorar.html">Explorar o mundo</a>
+        </div>
+      </div>
+
+      <div class="hero-art" aria-hidden="true">
+        <svg viewBox="0 0 500 500" role="img">
+          <defs>
+            <radialGradient id="rub" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#ff5a66"/>
+              <stop offset="45%" stop-color="#C91D2E"/>
+              <stop offset="100%" stop-color="#C91D2E" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="alb" cx="38%" cy="35%" r="70%">
+              <stop offset="0%" stop-color="#ffffff"/>
+              <stop offset="100%" stop-color="#cfcfd6"/>
+            </radialGradient>
+          </defs>
+          <!-- hexagrama dos atributos -->
+          <g fill="none" stroke="#E5A93C" stroke-opacity=".22" stroke-width="1">
+            <circle cx="250" cy="250" r="150"/>
+            <polygon points="250,100 380,325 120,325"/>
+            <polygon points="250,400 120,175 380,175"/>
+          </g>
+          <!-- órbitas -->
+          <circle cx="250" cy="250" r="205" fill="none" stroke="#E5A93C" stroke-opacity=".35" stroke-dasharray="2 6"/>
+          <circle cx="250" cy="250" r="235" fill="none" stroke="#ffffff" stroke-opacity=".12"/>
+          <!-- Rubedo -->
+          <circle cx="250" cy="250" r="95" fill="url(#rub)" opacity=".55"/>
+          <circle cx="250" cy="250" r="44" fill="#C91D2E"/>
+          <circle cx="250" cy="250" r="44" fill="none" stroke="#E5A93C" stroke-width="1.5"/>
+          <!-- Albedo -->
+          <g class="orbit">
+            <circle cx="250" cy="45" r="22" fill="url(#alb)"/>
+          </g>
+          <!-- Nigredo -->
+          <g class="orbit slow">
+            <circle cx="455" cy="250" r="20" fill="#08080A" stroke="#E5A93C" stroke-width="1.5"/>
+            <circle cx="455" cy="250" r="27" fill="none" stroke="#E5A93C" stroke-opacity=".35"/>
+          </g>
+          <!-- pontos dos atributos -->
+          <g fill="#08080A" stroke="#E5A93C" stroke-width="1.5">
+            <circle cx="250" cy="100" r="7"/><circle cx="380" cy="175" r="7"/><circle cx="380" cy="325" r="7"/>
+            <circle cx="250" cy="400" r="7"/><circle cx="120" cy="325" r="7"/><circle cx="120" cy="175" r="7"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule-ouro">
+
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">O sistema</span>
+        <h2>Cada personagem é um baralho único</h2>
+        <p class="lead">
+          Em Aster não há caminhos pré-definidos. Dois personagens da mesma raça e classe podem seguir
+          rumos completamente diferentes — tudo depende das cartas que você escolhe.
+        </p>
+      </div>
+      <div class="grid grid-3 pillars">
+        <article class="card card-frame">
+          <span class="num">I</span>
+          <h3>Raça + Classe</h3>
+          <p class="dim">Definem atributos, vida, energia e as primeiras origens do personagem. Dá para ser híbrido de duas raças e acumular várias classes.</p>
+        </article>
+        <article class="card card-frame">
+          <span class="num">II</span>
+          <h3>Origens</h3>
+          <p class="dim">Seu personagem pode adicionar ao baralho qualquer carta de uma origem que ele possua. Novas origens chegam por raças, classes e cartas.</p>
+        </article>
+        <article class="card card-frame">
+          <span class="num">III</span>
+          <h3>Cartas</h3>
+          <p class="dim">Habilidades, magias, rituais e técnicas. A complexidade do personagem — em combate ou fora dele — vem das cartas que você monta.</p>
+        </article>
+      </div>
+      <p class="dim" style="margin-top:32px;max-width:70ch">
+        Aster66 foi pensado para ser simples de entender, mas com espaço para ser complexo: atende tanto
+        quem gosta de montar combos quanto quem prefere a narrativa e uma jogabilidade mais leve.
+      </p>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <div class="section-head" style="margin-bottom:24px">
+        <span class="eyebrow">O céu de Aster</span>
+        <h2>Nigredo, Albedo e Rubedo</h2>
+        <p class="dim">Duas luas e uma estrela iluminam o planeta — e dão nome às cores deste site.</p>
+      </div>
+      <div class="grid grid-3" id="astros" style="width:100%"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Notícias</span>
+        <h2>Novidades do sistema</h2>
+      </div>
+      <div id="noticias"></div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <div>
+        <h2 style="margin-bottom:.2em">Pronto para criar seu personagem?</h2>
+        <p class="dim" style="margin:0">Baixe a ficha editável ou preencha direto no navegador.</p>
+      </div>
+      <div class="hero-actions" style="margin:0">
+        <a class="btn btn-primary" href="ficha.html">Ficha online</a>
+        <a class="btn btn-ghost" href="comunidade.html">Fale com a gente</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+<script src="js/config.js"></script>
+<script src="js/db.js"></script>
+<script src="js/common.js"></script>
+<script src="js/auth-ui.js"></script>
+<script src="js/data-mundo.js"></script>
+<script src="js/astros.js"></script>
+<script>
+  const M = window.ASTER_MUNDO;
+  document.getElementById("astros").innerHTML = M.astros.map((a) => `
+    <article class="astro">
+      ${window.ASTRO_SVG[a.id]}
+      <div><h3 style="margin:0">${a.nome}</h3>
+      <span class="eyebrow" style="margin:.2rem 0 .6rem">${a.tipo}</span>
+      <p class="dim" style="font-size:.95rem">${a.texto}</p></div>
+    </article>`).join("");
+  document.getElementById("noticias").innerHTML = M.noticias.map((n) => `
+    <article class="news-item">
+      <time datetime="${n.data}">${formatDate(n.data)}</time>
+      <div><h3>${escapeHTML(n.titulo)}</h3><p class="dim" style="margin:0">${escapeHTML(n.texto)}</p></div>
+    </article>`).join("");
+</script>
+</body>
+</html>

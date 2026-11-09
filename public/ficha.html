@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ficha online — Aster66</title>
+  <meta name="description" content="Preencha sua ficha de personagem Aster66 no navegador e exporte para PDF.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/ficha.css">
+</head>
+<body>
+<main id="conteudo">
+  <header class="page-head no-print">
+    <div class="wrap">
+      <span class="eyebrow"><a href="documentos.html">Documentos</a> / Ficha online</span>
+      <h1>Ficha de personagem</h1>
+      <p class="lead">Escolha raça e classe para preencher os valores iniciais, complete o resto à mão e exporte para o
+        PDF editável. Tudo é salvo automaticamente neste navegador.</p>
+    </div>
+  </header>
+
+  <section class="no-print assist-wrap">
+    <div class="wrap">
+      <div class="card card-frame assist">
+        <div class="assist-row">
+          <label>Raça inicial <select class="select" id="sel-raca"></select></label>
+          <label>Classe inicial <select class="select" id="sel-classe"></select></label>
+          <button class="btn btn-primary" id="btn-aplicar" type="button">Aplicar raça e classe</button>
+        </div>
+        <p class="dim assist-note" id="assist-info">Atributos = Raça + Classe · Vida = Raça + Classe + Corpo · Energia = Raça + Classe + Alma · Esquiva = 6 + Destreza · Reações = 2 + Destreza.</p>
+        <div class="assist-row actions">
+          <button class="btn btn-ghost btn-small" id="btn-recalc" type="button">Recalcular vida, energia e esquiva</button>
+          <button class="btn btn-ghost btn-small" id="btn-pdf" type="button">Baixar PDF preenchido</button>
+          <button class="btn btn-ghost btn-small" id="btn-print" type="button">Imprimir</button>
+          <button class="btn btn-ghost btn-small" id="btn-export" type="button">Exportar (.json)</button>
+          <label class="btn btn-ghost btn-small" for="inp-import">Importar (.json)</label>
+          <input type="file" id="inp-import" accept="application/json,.json" hidden>
+          <button class="btn btn-ghost btn-small danger" id="btn-limpar" type="button">Limpar ficha</button>
+          <span class="save-state" id="save-state" role="status"></span>
+        </div>
+        <div class="cloud" id="cloud" hidden>
+          <div class="cloud-head">
+            <span class="eyebrow" style="margin:0">Minhas fichas na nuvem</span>
+            <span class="save-state" id="cloud-state" role="status"></span>
+          </div>
+          <div id="cloud-off">
+            <p class="dim assist-note">Entre na sua conta para salvar fichas na nuvem e abrir em qualquer dispositivo.</p>
+            <button class="btn btn-ghost btn-small" type="button" id="btn-cloud-login" style="margin-top:8px">Entrar ou criar conta</button>
+          </div>
+          <div class="assist-row actions" id="cloud-on" hidden>
+            <select class="select" id="sel-nuvem" aria-label="Fichas salvas"></select>
+            <button class="btn btn-primary btn-small" id="btn-nuvem-salvar" type="button">Salvar na nuvem</button>
+            <button class="btn btn-ghost btn-small" id="btn-nuvem-nova" type="button">Nova ficha</button>
+            <button class="btn btn-ghost btn-small danger" id="btn-nuvem-excluir" type="button">Excluir da nuvem</button>
+          </div>
+        </div>
+        <div class="cloud" id="nova-senha" hidden>
+          <span class="eyebrow">Definir nova senha</span>
+          <div class="assist-row">
+            <input class="input" type="password" id="inp-nova-senha" minlength="6" autocomplete="new-password" aria-label="Nova senha" placeholder="Nova senha (mín. 6)">
+            <button class="btn btn-primary btn-small" id="btn-nova-senha" type="button">Salvar senha</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <form id="ficha" class="wrap ficha" autocomplete="off" onsubmit="return false">
+    <!-- ================= FRENTE ================= -->
+    <div class="sheet">
+      <div class="sheet-title"><span>Ficha de personagem</span><span class="mark">Aster<b>66</b></span></div>
+
+      <div class="sheet-grid top">
+        <fieldset class="block">
+          <legend>Atributos</legend>
+          <div class="hexa" id="hexa">
+            <svg viewBox="0 0 300 300" aria-hidden="true">
+              <circle cx="150" cy="150" r="118" fill="none" stroke="currentColor" stroke-opacity=".5"/>
+              <polygon points="150,40 245.3,205 54.7,205" fill="none" stroke="#E5A93C"/>
+              <polygon points="150,260 54.7,95 245.3,95" fill="none" stroke="#E5A93C"/>
+            </svg>
+          </div>
+          <div class="pools">
+            <div class="pool vida">
+              <h4>Vida</h4>
+              <div class="pool-row">
+                <label>Atual<input class="num" name="vida_atual" inputmode="numeric"></label>
+                <span>/</span>
+                <label>Total<input class="num" name="vida_total" inputmode="numeric"></label>
+              </div>
+            </div>
+            <div class="pool energia">
+              <h4>Energia</h4>
+              <div class="pool-row">
+                <label>Atual<input class="num" name="energia_atual" inputmode="numeric"></label>
+                <span>/</span>
+                <label>Total<input class="num" name="energia_total" inputmode="numeric"></label>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="block">
+          <legend>Cicatrizes</legend>
+          <div class="bodies" aria-hidden="true">
+            <svg viewBox="-40 -75 80 140"><circle cx="0" cy="-51" r="10"/><path d="M-6,-40 L-20,-36 L-26,-6 L-30,24 L-25,25 L-18,-4 L-15,-20 L-14,10 L-16,58 L-6,58 L-2,14 L2,14 L6,58 L16,58 L14,10 L15,-20 L18,-4 L25,25 L30,24 L26,-6 L20,-36 L6,-40 Z"/><text y="72">FRENTE</text></svg>
+            <svg viewBox="-40 -75 80 140"><circle cx="0" cy="-51" r="10"/><path d="M-6,-40 L-20,-36 L-26,-6 L-30,24 L-25,25 L-18,-4 L-15,-20 L-14,10 L-16,58 L-6,58 L-2,14 L2,14 L6,58 L16,58 L14,10 L15,-20 L18,-4 L25,25 L30,24 L26,-6 L20,-36 L6,-40 Z"/><line x1="0" y1="-38" x2="0" y2="8" stroke-dasharray="3 3"/><text y="72">COSTAS</text></svg>
+          </div>
+          <div class="lines" id="cicatrizes"></div>
+        </fieldset>
+      </div>
+
+      <div class="sheet-grid bottom">
+        <fieldset class="block">
+          <legend>Defesas e movimento</legend>
+          <label class="def"><span>Bloqueio</span><input class="num big" name="bloqueio" inputmode="numeric"></label>
+          <label class="def"><span>Esquiva</span><input class="num big" name="esquiva" inputmode="numeric"></label>
+          <label class="def"><span>Deslocamento</span><input class="num big" name="deslocamento" inputmode="numeric"></label>
+          <hr class="dash">
+          <h4 class="sub-legend">Ações e reações</h4>
+          <span class="mini">Ações</span>
+          <div class="checks" id="acoes"></div>
+          <span class="mini">Reações</span>
+          <div class="checks" id="reacoes"></div>
+        </fieldset>
+
+        <div class="stack">
+          <fieldset class="block">
+            <legend>Dados do personagem</legend>
+            <label class="line-field">Nome<input name="nome"></label>
+            <div class="line-row">
+              <label class="line-field">Idade<input name="idade"></label>
+              <label class="line-field">Raça<input name="raca"></label>
+              <label class="line-field">Classe<input name="classe"></label>
+            </div>
+            <label class="line-field col">Aparência<textarea name="aparencia" rows="3"></textarea></label>
+          </fieldset>
+
+          <fieldset class="block">
+            <legend>Inventário</legend>
+            <div class="slots" id="slots"></div>
+            <table class="tbl">
+              <thead><tr><th>Nome</th><th style="width:30%">Tipo de espaço</th><th style="width:14%">Qtd.</th></tr></thead>
+              <tbody id="inventario"></tbody>
+            </table>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= VERSO ================= -->
+    <div class="sheet">
+      <fieldset class="block">
+        <legend>Origens</legend>
+        <div class="origens" id="origens"></div>
+      </fieldset>
+      <fieldset class="block">
+        <legend>Cartas</legend>
+        <div class="tbl-scroll">
+          <table class="tbl cartas">
+            <thead><tr><th style="width:36px">#</th><th style="width:24%">Nome</th><th style="width:12%">Custo</th><th>Efeito</th></tr></thead>
+            <tbody id="cartas"></tbody>
+          </table>
+        </div>
+      </fieldset>
+    </div>
+  </form>
+</main>
+<script src="js/config.js"></script>
+<script src="js/db.js"></script>
+<script src="js/common.js"></script>
+<script src="js/auth-ui.js"></script>
+<script src="js/data-personagens.js"></script>
+<script src="js/ficha.js"></script>
+</body>
+</html>

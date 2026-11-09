@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Comunidade — Aster66</title>
+  <meta name="description" content="Deixe seu comentário, sugestão ou relato de mesa e fale com a equipe do Aster66.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<main id="conteudo">
+  <header class="page-head">
+    <div class="wrap">
+      <span class="eyebrow">Comunidade</span>
+      <h1>A mesa é de todos</h1>
+      <p class="lead">Conte como foi sua sessão, sugira cartas, aponte dúvidas nas regras ou só diga oi.
+        Cada comentário ajuda a moldar o sistema.</p>
+    </div>
+  </header>
+
+  <section>
+    <div class="wrap community">
+      <div>
+        <h2 style="font-size:2rem">Deixe seu comentário</h2>
+        <form class="form card" id="form-comentario" novalidate>
+          <label>Nome
+            <input class="input" name="nome" maxlength="60" required autocomplete="nickname">
+          </label>
+          <label>Assunto
+            <select class="select" name="topico">
+              <option>Geral</option><option>Regras</option><option>Ficha</option>
+              <option>Mundo</option><option>Sugestão</option><option>Mesa / Campanha</option>
+            </select>
+          </label>
+          <label>Mensagem
+            <textarea class="input" name="mensagem" maxlength="1500" required></textarea>
+          </label>
+          <label class="hp" aria-hidden="true">Site <input name="site" tabindex="-1" autocomplete="off"></label>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+            <button class="btn btn-primary" type="submit">Publicar comentário</button>
+            <p class="form-msg" id="form-msg" role="status"></p>
+          </div>
+        </form>
+
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin:48px 0 8px;gap:12px;flex-wrap:wrap">
+          <h2 style="font-size:2rem;margin:0">Comentários</h2>
+          <select class="select" id="filtro-topico" aria-label="Filtrar por assunto">
+            <option value="">Todos os assuntos</option><option>Geral</option><option>Regras</option><option>Ficha</option>
+            <option>Mundo</option><option>Sugestão</option><option>Mesa / Campanha</option>
+          </select>
+        </div>
+        <div id="lista-comentarios"><p class="empty">Carregando…</p></div>
+      </div>
+
+      <aside class="card card-frame contact-card">
+        <span class="eyebrow">Contato</span>
+        <h3>Fale com a equipe</h3>
+        <p class="dim">Parcerias, dúvidas, relatos de bugs na ficha ou propostas para o sistema:</p>
+        <p><a class="contact-mail" data-email href="#"></a></p>
+        <p class="dim" style="font-size:.92rem">Respondemos por e-mail. Para discussões abertas, use os comentários ao lado.</p>
+        <hr class="rule-ouro" style="margin:20px 0">
+        <span class="eyebrow">Boas práticas</span>
+        <ul class="dim" style="font-size:.92rem;padding-left:18px;margin:0">
+          <li>Seja gentil com outros jogadores.</li>
+          <li>Evite spoilers de campanhas sem avisar.</li>
+          <li>Não compartilhe dados pessoais nos comentários.</li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+</main>
+<script src="js/config.js"></script>
+<script src="js/db.js"></script>
+<script src="js/common.js"></script>
+<script src="js/auth-ui.js"></script>
+<script src="js/comunidade.js"></script>
+</body>
+</html>

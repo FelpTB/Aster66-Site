@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Explorar Aster — Aster66</title>
+  <meta name="description" content="Conheça o mundo de Aster, o continente de Maresia, seus países, raças e classes.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<main id="conteudo">
+  <header class="page-head">
+    <div class="wrap">
+      <span class="eyebrow">Explorar</span>
+      <h1>O mundo de Aster</h1>
+      <p class="lead">Mais do que um planeta, Aster é um ser vivo inundado de magia. Ninguém sabe ao certo
+        seu tamanho nem quantos continentes ele esconde — mas Maresia é o lugar onde tudo começou.</p>
+    </div>
+  </header>
+
+  <nav class="subnav" aria-label="Seções">
+    <div class="wrap">
+      <a href="#mundo">O Mundo</a>
+      <a href="#maresia">Maresia</a>
+      <a href="#panteao">Panteão de Édin</a>
+      <a href="#paises">Países</a>
+      <a href="#racas">Raças</a>
+      <a href="#classes">Classes</a>
+      <a href="#cartas">Cartas</a>
+    </div>
+  </nav>
+
+  <section id="mundo" class="anchor">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">A magia</span>
+        <h2>Uma força que sempre existiu</h2>
+        <p class="dim">Alguns chamam de mana, outros de chi; uns a usam por fórmulas, outros por rituais. A magia fluiu
+          nos primeiros mortais e os tornou Deuses — e depois causou sua queda. Em certos momentos dividiu o mundo,
+          em outros o uniu. Toda experiência em Aster é, de algum modo, tocada por ela.</p>
+      </div>
+      <div class="grid grid-3" id="astros"></div>
+    </div>
+  </section>
+
+  <hr class="rule-ouro">
+
+  <section id="maresia" class="anchor">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">O continente</span>
+        <h2>Maresia e o Reino de É-Dingirra</h2>
+        <p class="dim">Em Maresia, o povo Ediniano foi um dos primeiros a dominar a magia. A pequena tribo tornou-se uma
+          sociedade que se estendeu por todo o continente — batizado em homenagem à exploradora que primeiro o desbravou.</p>
+        <p class="dim">Seu líder se dizia eleito pela vontade do universo para criar em Aster um reino eterno e perfeito.
+          Como Rei de É-Dingirra, ele podia elevar seguidores à divindade. O reino dominou o continente por milênios; após
+          sua queda, religiões, culturas, tecnologias e políticas de todos os países que surgiram ainda carregam seus resquícios.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="panteao" class="anchor" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Os eleitos do Rei</span>
+        <h2>O Panteão de Édin</h2>
+      </div>
+      <div class="pantheon" id="panteao-lista"></div>
+    </div>
+  </section>
+
+  <hr class="rule-ouro">
+
+  <section id="paises" class="anchor">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Geografia política</span>
+        <h2>Países de Maresia</h2>
+        <p class="dim">Clique em um país para ler mais sobre sua história, governo e economia.</p>
+      </div>
+      <div class="grid grid-3" id="paises-lista"></div>
+    </div>
+  </section>
+
+  <hr class="rule-ouro">
+
+  <section id="racas" class="anchor">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Criação de personagem</span>
+        <h2>Raças</h2>
+        <p class="dim">A raça define atributos, vida e energia iniciais, além de cartas e origens únicas — e como seu
+          personagem se encaixa no cenário. Um personagem pode ser híbrido de duas raças.</p>
+      </div>
+      <div class="toolbar">
+        <input class="input" type="search" id="busca-racas" placeholder="Buscar raça, origem ou habilidade…" aria-label="Buscar raças">
+      </div>
+      <div class="grid grid-3" id="racas-lista"></div>
+    </div>
+  </section>
+
+  <section id="classes" class="anchor" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Classes</h2>
+        <p class="dim">A classe inicial define atributos e ajuda a construir a imagem do personagem — ofício, classe social e
+          até crença. Novas classes concedem novas origens e cartas, mas não novos atributos iniciais.</p>
+      </div>
+      <div class="toolbar">
+        <input class="input" type="search" id="busca-classes" placeholder="Buscar classe, origem ou habilidade…" aria-label="Buscar classes">
+        <div class="chip-group" id="filtro-attr" role="group" aria-label="Filtrar por atributo"></div>
+      </div>
+      <div class="grid grid-3" id="classes-lista"></div>
+    </div>
+  </section>
+
+  <hr class="rule-ouro">
+
+  <section id="cartas" class="anchor">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Baralho</span>
+        <h2>Cartas</h2>
+        <p class="dim">Um personagem pode adicionar ao baralho qualquer carta de uma origem que ele possua.
+          Filtre por origem para ver o que cada raça, classe ou magia oferece.</p>
+      </div>
+      <div class="toolbar">
+        <input class="input" type="search" id="busca-cartas" placeholder="Buscar carta ou efeito…" aria-label="Buscar cartas" style="flex:1;min-width:200px">
+        <select class="select" id="filtro-origem" aria-label="Origem"><option value="">Todas as origens</option></select>
+        <select class="select" id="filtro-tipo" aria-label="Tipo"><option value="">Todos os tipos</option></select>
+        <select class="select" id="filtro-modo" aria-label="Modo de uso"><option value="">Qualquer modo</option></select>
+      </div>
+      <p class="dim" id="cartas-contagem" style="font-size:.9rem"></p>
+      <div class="grid grid-3" id="cartas-lista"><p class="empty">Carregando cartas…</p></div>
+      <div style="text-align:center;margin-top:28px"><button class="btn btn-ghost" id="cartas-mais" hidden>Mostrar mais</button></div>
+    </div>
+  </section>
+
+  <dialog class="modal" id="modal-pais">
+    <button class="modal-close" aria-label="Fechar" data-close>×</button>
+    <div class="modal-body" id="modal-conteudo"></div>
+  </dialog>
+</main>
+<script src="js/config.js"></script>
+<script src="js/db.js"></script>
+<script src="js/common.js"></script>
+<script src="js/auth-ui.js"></script>
+<script src="js/astros.js"></script>
+<script src="js/data-mundo.js"></script>
+<script src="js/data-personagens.js"></script>
+<script src="js/explorar.js"></script>
+</body>
+</html>
