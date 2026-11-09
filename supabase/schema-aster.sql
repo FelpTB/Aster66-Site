@@ -67,6 +67,7 @@ CREATE TABLE IF NOT EXISTS aster.racas (
   origens_relacionadas  TEXT[] NOT NULL DEFAULT '{}', -- Origens Relacionadas
   habilidade_inata      UUID[] NOT NULL DEFAULT '{}', -- Habilidade Inata → aster.cartas
   conteudo              TEXT NOT NULL DEFAULT '',
+  lore                  TEXT NOT NULL DEFAULT '',     -- página da raça em Sumário › Raças e Classes
   icone                 TEXT,
   capa                  TEXT,
   extras                JSONB NOT NULL DEFAULT '{}'::JSONB,
@@ -88,6 +89,7 @@ CREATE TABLE IF NOT EXISTS aster.classes (
   origem_relacionada         TEXT,                         -- Origem Relacionada
   habilidade_caracteristica  UUID[] NOT NULL DEFAULT '{}', -- Habilidade Característica → aster.cartas
   conteudo                   TEXT NOT NULL DEFAULT '',
+  lore                       TEXT NOT NULL DEFAULT '',     -- página da classe em Sumário › Raças e Classes
   icone                      TEXT,
   capa                       TEXT,
   extras                     JSONB NOT NULL DEFAULT '{}'::JSONB,
@@ -204,6 +206,12 @@ CREATE TABLE IF NOT EXISTS aster.cenarios (
   editado_em             TIMESTAMPTZ,
   sincronizado_em        TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+-- ---------------------------------------------------------------------------
+-- Colunas acrescentadas depois da primeira versão (para bancos já criados)
+-- ---------------------------------------------------------------------------
+ALTER TABLE aster.racas   ADD COLUMN IF NOT EXISTS lore TEXT NOT NULL DEFAULT '';
+ALTER TABLE aster.classes ADD COLUMN IF NOT EXISTS lore TEXT NOT NULL DEFAULT '';
 
 -- ---------------------------------------------------------------------------
 -- Registro das sincronizações

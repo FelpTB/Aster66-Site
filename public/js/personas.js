@@ -61,10 +61,11 @@
   const abrirPersona = (x, opcoes) => window.abrirModal(`
     ${cabecaModal(window.monograma(nomeExibido(x)), nomeExibido(x), x.tipo === "raca" ? "Raça" : "Classe", x.tipo === "classe")}
     <div class="md">${md(x.conteudo || x.resumo)}</div>
-    ${fichaTecnica(x, opcoes)}`, { largo: true });
+    ${fichaTecnica(x, opcoes)}
+    ${x.lore ? `<div class="lore"><span class="eyebrow">Do livro · Lore</span><div class="md">${md(x.lore)}</div></div>` : ""}`, { largo: true });
 
   const casaBusca = (x, q) => !q ||
-    norm([x.nome, x.resumo, x.origens.join(" "), x.habilidade.nome, x.habilidade.texto].join(" ")).includes(norm(q));
+    norm([x.nome, x.resumo, x.origens.join(" "), x.habilidade.nome, x.habilidade.texto, x.lore || ""].join(" ")).includes(norm(q));
 
   window.AsterUI = { cardEntidade, cabecaModal, cardPersona, fichaTecnica, abrirPersona, casaBusca, nomeExibido, grupo, norm };
 })();

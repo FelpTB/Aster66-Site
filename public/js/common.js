@@ -99,7 +99,7 @@ window.mdHTML = (md, { semLinkOriginal = true } = {}) => {
     if (semLinkOriginal && /^Página original:/i.test(l.trim())) continue;
     let m;
     if (!l.trim()) { fechaPara(); fechaLista(); continue; }
-    if ((m = l.match(/^(#{1,3})\s+(.*)$/))) { fechaPara(); fechaLista(); const n = Math.min(m[1].length + 2, 5); out.push(`<h${n}>${inline(m[2])}</h${n}>`); continue; }
+    if ((m = l.match(/^(#{1,6})\s+(.*)$/))) { fechaPara(); fechaLista(); const n = Math.min(m[1].length + 2, 6); out.push(`<h${n}>${inline(m[2])}</h${n}>`); continue; }
     if (/^---+$/.test(l.trim())) { fechaPara(); fechaLista(); out.push("<hr>"); continue; }
     if ((m = l.match(/^>\s?(.*)$/))) { fechaPara(); fechaLista(); out.push(`<blockquote>${inline(m[1])}</blockquote>`); continue; }
     if ((m = l.match(/^\s*(?:[-*]|\d+\.)\s+(?:\[[ x]\]\s+)?(.*)$/))) {

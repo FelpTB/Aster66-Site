@@ -379,8 +379,8 @@ dialog.modal.modal-largo { max-width: 860px; }
 .modal-cabeca { display: flex; gap: 18px; align-items: center; margin-bottom: 18px; }
 .modal-cabeca h2 { margin: 0; }
 .md { color: var(--text-dim); font-size: 1rem; }
-.md h3, .md h4, .md h5 { color: var(--text); font-family: var(--font-display); margin: 1.4em 0 .4em; }
-.md h3 { font-size: 1.6rem; } .md h4 { font-size: 1.3rem; } .md h5 { font-size: 1.1rem; }
+.md h3, .md h4, .md h5, .md h6 { color: var(--text); font-family: var(--font-display); margin: 1.4em 0 .4em; }
+.md h3 { font-size: 1.6rem; } .md h4 { font-size: 1.3rem; } .md h5 { font-size: 1.15rem; } .md h6 { font-size: 1.05rem; color: var(--ouro); }
 .md strong { color: var(--text); }
 .md ul, .md ol { padding-left: 1.3em; }
 .md blockquote { margin: 1em 0; padding: 10px 16px; border-left: 2px solid var(--ouro); background: var(--surface-2); }
@@ -470,3 +470,8 @@ details.tecnica .stats { margin-top: 0; }
 .conceito:hover { border-color: var(--line-ouro); background: var(--surface-2); }
 .conceito b { font-family: var(--font-display); font-size: 1.25rem; }
 .conceito span { color: var(--text-dim); font-size: .86rem; line-height: 1.45; }
+
+/* Lore de raças e classes (páginas do livro) */
+.lore { margin-top: 26px; padding-top: 18px; border-top: 1px solid var(--line); }
+.lore .md h5 { font-size: 1.35rem; }
+.lore .md h6 { font-size: 1.1rem; }

@@ -134,10 +134,13 @@
   }
 
   async function personagensAster() {
-    const [r, c] = await Promise.all([
-      aster().from("racas").select("nome,atributos_iniciais,vida_inicial,energia_inicial,origens_relacionadas,habilidade_inata,conteudo").order("nome"),
-      aster().from("classes").select("nome,atributos_iniciais,vida_inicial,energia_inicial,origem_relacionada,habilidade_caracteristica,conteudo").order("nome"),
+    // `lore` (páginas do livro) pode ainda não existir no banco — nesse caso lê sem ela.
+    const ler = (comLore) => Promise.all([
+      aster().from("racas").select("nome,atributos_iniciais,vida_inicial,energia_inicial,origens_relacionadas,habilidade_inata,conteudo" + (comLore ? ",lore" : "")).order("nome"),
+      aster().from("classes").select("nome,atributos_iniciais,vida_inicial,energia_inicial,origem_relacionada,habilidade_caracteristica,conteudo" + (comLore ? ",lore" : "")).order("nome"),
     ]);
+    let [r, c] = await ler(true);
+    if (/lore/.test(r.error?.message || "") || /lore/.test(c.error?.message || "")) [r, c] = await ler(false);
     falha(r.error); falha(c.error);
     const ids = [...new Set([...r.data.flatMap((x) => x.habilidade_inata || []), ...c.data.flatMap((x) => x.habilidade_caracteristica || [])])];
     const habs = new Map();
@@ -150,7 +153,7 @@
       const { atributos, livres } = parseAtributos(juntar(x.atributos_iniciais));
       const hab = (relIds || []).map((id) => habs.get(id)).find(Boolean);
       return {
-        tipo, nome: ren(x.nome), resumo: mdTexto(x.conteudo), conteudo: x.conteudo || "", atributos, livres,
+        tipo, nome: ren(x.nome), resumo: mdTexto(x.conteudo), conteudo: x.conteudo || "", lore: x.lore || "", atributos, livres,
         vida: +x.vida_inicial || 0, energia: +x.energia_inicial || 0,
         origens: origens.filter(Boolean).map(ren),
         habilidade: { nome: hab?.nome || "", texto: mdTexto(hab?.conteudo), conteudo: hab?.conteudo || "" },

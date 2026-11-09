@@ -72,6 +72,10 @@ npm run sync:notion -- --full  # relê tudo (depois de mudar colunas)
 npm run sync:notion -- --dry-run  # só lê o Notion e salva JSON em data/notion-export/
 ```
 
+Também traz a **Lore** de cada raça e classe (páginas em Sumário › Raças e Classes, com subpáginas) para a coluna
+`lore` de `racas`/`classes` (`--only=lore` atualiza só ela). Bancos criados antes dessa coluna: rode uma vez
+`supabase/migracoes/002-lore-racas-classes.sql`.
+
 O mesmo comando exporta o **Sumário › Conceitos** do livro (não é uma base de dados) para `public/js/data-conceitos.js`,
 usado na aba Ferramentas. Quando esse arquivo mudar, faça commit para publicar
 (`npm run sync:notion -- --only=conceitos` atualiza só ele).

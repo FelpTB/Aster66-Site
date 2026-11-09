@@ -373,6 +373,8 @@ function criarSupabase(url, chave) {
         await chamar("DELETE", `${tabela}?id=in.(${ids.slice(i, i + 100).join(",")})`, null, { Prefer: "return=minimal" });
       }
     },
+    listar: (tabela, select) => chamar("GET", `${tabela}?select=${select}&limit=5000`),
+    atualizar: (tabela, id, dados) => chamar("PATCH", `${tabela}?id=eq.${id}`, dados, { Prefer: "return=minimal" }),
     registrar: (resumo) => chamar("POST", "sincronizacao", { concluido_em: new Date().toISOString(), resumo }, { Prefer: "return=minimal" }),
   };
 }
@@ -386,9 +388,10 @@ async function main() {
   const dryRun = args.includes("--dry-run");
   const full = args.includes("--full");
   const only = (args.find((a) => a.startsWith("--only=")) || "").slice(7).split(",").filter(Boolean);
-  const tabelas = (only.length ? only : Object.keys(BASES)).filter((t) => t !== "conceitos");
+  const tabelas = (only.length ? only : Object.keys(BASES)).filter((t) => !["conceitos", "lore"].includes(t));
   const comConceitos = !only.length || only.includes("conceitos");
-  for (const t of tabelas) if (!BASES[t]) throw new Error(`Base desconhecida: ${t}. Opções: ${Object.keys(BASES).join(", ")}, conceitos`);
+  const comLore = !only.length || ["lore", "racas", "classes"].some((t) => only.includes(t));
+  for (const t of tabelas) if (!BASES[t]) throw new Error(`Base desconhecida: ${t}. Opções: ${Object.keys(BASES).join(", ")}, lore, conceitos`);
 
   const tokenNotion = process.env.NOTION_TOKEN;
   if (!tokenNotion) throw new Error("Falta NOTION_TOKEN no .env (token da integração do Notion).");
@@ -476,10 +479,101 @@ async function main() {
     avisos.forEach((a) => console.log("  ⚠ " + a));
   }
 
+  if (comLore) resumo.lore = await sincronizarLore(notion, supa);
   if (comConceitos) resumo.conceitos = await exportarConceitos(notion);
 
   if (supa) await supa.registrar(resumo).catch((e) => console.warn("  (não foi possível registrar a sincronização: " + e.message + ")"));
   console.log(dryRun ? "\nTeste concluído — JSON salvo em data/notion-export/. Nada foi gravado no Supabase." : "\nSincronização concluída.");
+}
+
+// ---------------------------------------------------------------------------
+// Lore de raças e classes (Sumário › Raças e Classes › Raças / Classes).
+// Cada raça/classe tem uma página no livro com a seção "Lore" e subpáginas
+// (ex.: Ritual de Descensão). Isso vai para a coluna `lore` de racas/classes.
+// Ignorados: a lista de cartas embutida, os links "Info" do workspace antigo e
+// subpáginas que são cartas (já estão em aster.cartas).
+// ---------------------------------------------------------------------------
+const PAGINAS_LORE = { racas: "f2ff5867e9608335ad29010acf92f6b8", classes: "094f5867e96082b9bf0c811f547ba67d" };
+
+async function loreDaPagina(notion, pageId, cartas, { semSubpaginasDe = [] } = {}) {
+  const blocos = await notion.blocos(pageId);
+  const partes = [];
+  let secao = "", buffer = [];
+  const descarrega = () => { if (buffer.length) { partes.push(blocosMd(buffer)); buffer = []; } };
+  const subpaginas = [];
+  for (const b of blocos) {
+    if (b.type === "heading_1") { descarrega(); secao = norm(textoPuro(b.heading_1.rich_text)); continue; }
+    if (b.type === "child_page") {
+      const titulo = b.child_page.title.trim();
+      if (cartas.has(norm(titulo)) || semSubpaginasDe.some((s) => secao.startsWith(s))) { subpaginas.push({ id: b.id, titulo }); continue; }
+      descarrega();
+      const corpo = await subpaginaMd(notion, b.id, titulo, 3, cartas);
+      if (corpo) partes.push(corpo);
+      continue;
+    }
+    if (secao === "lore") buffer.push(b);
+  }
+  descarrega();
+  return { texto: partes.filter(Boolean).join("\n\n").trim(), subpaginas };
+}
+
+// Subpágina → "### Título" + texto, abrindo as subpáginas dela (até ####). Sem texto → "".
+async function subpaginaMd(notion, id, titulo, nivel, cartas) {
+  const blocos = await notion.blocos(id);
+  const filhas = blocos.filter((b) => b.type === "child_page" && !cartas.has(norm(b.child_page.title)) && nivel < 4);
+  const proprio = blocosMd(blocos.filter((b) => b.type !== "child_page"))
+    .replace(/^\[[^\]]*\]\(notion:[^)]*\)\s*$/gm, "").replace(/\n{3,}/g, "\n\n").trim();
+  const sub = [];
+  for (const f of filhas) {
+    const md = await subpaginaMd(notion, f.id, f.child_page.title.trim(), nivel + 1, cartas);
+    if (md) sub.push(md);
+  }
+  if (!proprio && !sub.length) return "";
+  return [`${"#".repeat(nivel)} ${titulo}`, proprio, ...sub].filter(Boolean).join("\n\n");
+}
+
+async function sincronizarLore(notion, supa) {
+  process.stdout.write("\n▸ lore de raças e classes: lendo o Notion… ");
+  const cartas = new Set(supa ? (await supa.listar("cartas", "nome")).map((c) => norm(c.nome)) : []);
+  const resultado = {};
+  for (const [tabela, lista] of Object.entries(PAGINAS_LORE)) {
+    const paginas = (await notion.blocos(lista)).filter((b) => b.type === "child_page").map((b) => ({ id: b.id, nome: b.child_page.title.trim() }));
+    const lores = []; // { nome, texto }
+    await emParalelo(paginas, 3, async (p) => {
+      // Aventureiro: as profissões (subpáginas) viram a lore de cada "Aventureiro: X".
+      const { texto, subpaginas } = await loreDaPagina(notion, p.id, cartas, { semSubpaginasDe: ["profissoes"] });
+      lores.push({ nome: p.nome, texto });
+      for (const sp of subpaginas.filter((s) => !cartas.has(norm(s.titulo)))) {
+        const sub = await loreDaPagina(notion, sp.id, cartas);
+        lores.push({ nome: `${p.nome}: ${sp.titulo}`, texto: [texto, sub.texto && `### ${sp.titulo}\n\n${sub.texto}`].filter(Boolean).join("\n\n") });
+      }
+    });
+    if (!supa) { resultado[tabela] = { paginas: lores.length }; continue; }
+    const linhas = await supa.listar(tabela, "id,nome");
+    // Casa pelo nome: igual, "Grupo: Nome" ou variação ("Infernal Completo" → "Infernal").
+    const achar = (nome) => {
+      const n = norm(nome);
+      return lores.find((l) => norm(l.nome) === n)
+        || lores.find((l) => n.endsWith(": " + norm(l.nome.split(":").pop())) && l.nome.includes(":"))
+        || lores.find((l) => n.startsWith(norm(l.nome) + " "));
+    };
+    let gravadas = 0;
+    const semLore = [];
+    for (const l of linhas) {
+      const achado = achar(l.nome);
+      if (!achado) { semLore.push(l.nome); continue; }
+      try { await supa.atualizar(tabela, l.id, { lore: achado.texto }); gravadas++; }
+      catch (e) {
+        if (/lore/.test(e.message)) throw new Error("A coluna `lore` não existe — rode supabase/migracoes/002-lore-racas-classes.sql no SQL Editor.");
+        throw e;
+      }
+    }
+    resultado[tabela] = { paginas: lores.length, gravadas, semLore };
+    process.stdout.write(`${tabela}: ${gravadas}/${linhas.length} `);
+    if (semLore.length) process.stdout.write(`(sem página: ${semLore.join(", ")}) `);
+  }
+  console.log("\n  ✔ lore sincronizada");
+  return resultado;
 }
 
 // ---------------------------------------------------------------------------
@@ -515,4 +609,4 @@ if (require.main === module) {
   main().catch((e) => { console.error("\n✖ " + e.message); process.exit(1); });
 }
 
-module.exports = { blocosMd, valorPropriedade, ajustarTipo, norm, comHifen, BASES };
+module.exports = { blocosMd, valorPropriedade, ajustarTipo, norm, comHifen, BASES, sincronizarLore, criarNotion, carregarEnv };
