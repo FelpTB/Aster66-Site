@@ -72,6 +72,10 @@ npm run sync:notion -- --full  # relê tudo (depois de mudar colunas)
 npm run sync:notion -- --dry-run  # só lê o Notion e salva JSON em data/notion-export/
 ```
 
+O mesmo comando exporta o **Sumário › Conceitos** do livro (não é uma base de dados) para `public/js/data-conceitos.js`,
+usado na aba Ferramentas. Quando esse arquivo mudar, faça commit para publicar
+(`npm run sync:notion -- --only=conceitos` atualiza só ele).
+
 Páginas apagadas no Notion também são apagadas no Supabase. Propriedades novas no Notion sem coluna correspondente
 vão para a coluna `extras` (JSON) e aparecem como aviso — para virarem coluna, acrescente-as em
 `supabase/schema-aster.sql` e no mapa `BASES` de `scripts/sync-notion.js`.

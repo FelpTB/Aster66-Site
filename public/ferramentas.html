@@ -17,14 +17,17 @@
     <div class="wrap">
       <span class="eyebrow">Ferramentas</span>
       <h1>Monte seu personagem</h1>
-      <p class="lead">O catálogo completo de cartas e o montador de fichas, direto no navegador.</p>
+      <p class="lead">Montador de fichas, catálogos de raças, classes e cartas e o sumário de conceitos do livro.</p>
     </div>
   </header>
 
   <nav class="subnav" aria-label="Seções">
     <div class="wrap">
       <a href="#montador">Montador de fichas</a>
-      <a href="#cartas">Catálogo de cartas</a>
+      <a href="#racas">Raças</a>
+      <a href="#classes">Classes</a>
+      <a href="#cartas">Cartas</a>
+      <a href="#conceitos">Conceitos</a>
     </div>
   </nav>
 
@@ -47,6 +50,58 @@
           <a class="btn btn-ghost" href="#cartas">Ver as cartas</a>
         </article>
       </div>
+    </div>
+  </section>
+
+  <hr class="rule-ouro">
+
+  <section id="racas" class="anchor">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Catálogo</span>
+        <h2>Raças</h2>
+        <p class="dim">A raça define atributos, vida e energia iniciais, a Habilidade Inata e as primeiras origens. Clique em uma raça para ver a ficha técnica.</p>
+      </div>
+      <div class="filtros" role="search" data-catalogo="raca">
+        <div class="linha">
+          <input class="input" type="search" data-f="busca" placeholder="Buscar raça, origem ou habilidade…" aria-label="Buscar raças" style="flex:1;min-width:220px">
+          <button class="btn btn-ghost btn-small" type="button" data-f="limpar">Limpar filtros</button>
+        </div>
+        <div class="linha" data-f="attrs" role="group" aria-label="Atributo"><span class="rotulo">Atributo</span></div>
+        <div class="linha">
+          <select class="select" data-f="origem" aria-label="Origem"><option value="">Todas as origens</option></select>
+          <select class="select" data-f="vida" aria-label="Vida inicial"><option value="">Qualquer vida inicial</option></select>
+          <select class="select" data-f="energia" aria-label="Energia inicial"><option value="">Qualquer energia inicial</option></select>
+          <select class="select" data-f="ordem" aria-label="Ordenar"><option value="nome">Ordem: nome</option><option value="vida">Ordem: mais vida</option><option value="energia">Ordem: mais energia</option></select>
+        </div>
+      </div>
+      <p class="dim" data-f="contagem" style="font-size:.9rem"></p>
+      <div class="entidades" data-f="lista"><p class="empty">Carregando…</p></div>
+    </div>
+  </section>
+
+  <section id="classes" class="anchor" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Catálogo</span>
+        <h2>Classes</h2>
+        <p class="dim">A classe inicial define atributos, vida e energia; cada classe tem uma Habilidade Característica (de origem Livre) que concede a origem da classe. Clique para ver a ficha técnica.</p>
+      </div>
+      <div class="filtros" role="search" data-catalogo="classe">
+        <div class="linha">
+          <input class="input" type="search" data-f="busca" placeholder="Buscar classe, origem ou habilidade…" aria-label="Buscar classes" style="flex:1;min-width:220px">
+          <button class="btn btn-ghost btn-small" type="button" data-f="limpar">Limpar filtros</button>
+        </div>
+        <div class="linha" data-f="attrs" role="group" aria-label="Atributo"><span class="rotulo">Atributo</span></div>
+        <div class="linha">
+          <select class="select" data-f="origem" aria-label="Origem"><option value="">Todas as origens</option></select>
+          <select class="select" data-f="vida" aria-label="Vida inicial"><option value="">Qualquer vida inicial</option></select>
+          <select class="select" data-f="energia" aria-label="Energia inicial"><option value="">Qualquer energia inicial</option></select>
+          <select class="select" data-f="ordem" aria-label="Ordenar"><option value="nome">Ordem: nome</option><option value="vida">Ordem: mais vida</option><option value="energia">Ordem: mais energia</option></select>
+        </div>
+      </div>
+      <p class="dim" data-f="contagem" style="font-size:.9rem"></p>
+      <div class="entidades" data-f="lista"><p class="empty">Carregando…</p></div>
     </div>
   </section>
 
@@ -80,11 +135,33 @@
       <div style="text-align:center;margin-top:28px"><button class="btn btn-ghost" id="cartas-mais" hidden>Mostrar mais</button></div>
     </div>
   </section>
+
+  <hr class="rule-ouro">
+
+  <section id="conceitos" class="anchor">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Livro de regras</span>
+        <h2>Sumário de conceitos</h2>
+        <p class="dim">Os termos do sistema, como estão no livro. Clique em um conceito para ler a explicação completa.</p>
+      </div>
+      <div class="filtros" role="search">
+        <div class="linha">
+          <input class="input" type="search" id="busca-conceitos" placeholder="Buscar conceito ou termo dentro da explicação…" aria-label="Buscar conceitos" style="flex:1;min-width:220px">
+        </div>
+        <div class="linha" id="grupos-conceitos" role="group" aria-label="Grupo"><span class="rotulo">Grupo</span></div>
+      </div>
+      <div id="conceitos-lista"></div>
+    </div>
+  </section>
 </main>
 <script src="js/config.js"></script>
 <script src="js/db.js"></script>
 <script src="js/common.js"></script>
 <script src="js/auth-ui.js"></script>
+<script src="js/data-personagens.js"></script>
+<script src="js/data-conceitos.js"></script>
+<script src="js/personas.js"></script>
 <script src="js/ferramentas.js"></script>
 </body>
 </html>

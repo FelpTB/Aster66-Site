@@ -16,21 +16,7 @@
       <p class="dim" style="font-size:.95rem">${a.texto}</p></div>
     </article>`).join("");
 
-  const cardEntidade = ({ idx, simbolo, nome, sub, texto, rubro, extra = "" }) => `
-    <button class="entidade${rubro ? " rubro" : ""}" data-idx="${idx}" aria-haspopup="dialog">
-      <span class="simbolo" aria-hidden="true">${simbolo}</span>
-      <h3>${esc(nome)}</h3>
-      ${sub ? `<span class="sub">${esc(sub)}</span>` : ""}
-      <p>${esc(texto)}</p>
-      ${extra}
-      <span class="mais">Ler mais →</span>
-    </button>`;
-
-  const cabecaModal = (simbolo, nome, sub, rubro) => `
-    <div class="modal-cabeca">
-      <span class="simbolo-g${rubro ? " rubro" : ""}" aria-hidden="true">${simbolo}</span>
-      <div>${sub ? `<span class="eyebrow" style="margin-bottom:.3rem">${esc(sub)}</span>` : ""}<h2>${esc(nome)}</h2></div>
-    </div>`;
+  const { cardEntidade, cabecaModal, cardPersona, abrirPersona, casaBusca } = window.AsterUI;
 
   // ---------- Panteão de Édin ----------
   let DEUSES = M.panteao.map((d) => ({ nome: d.nome, titulo: d.titulo, resumo: d.texto, conteudo: `${d.texto}\n\n**Símbolo:** ${d.simbolo}` }));
@@ -80,60 +66,16 @@
 
   // ---------- Povo de Aster: raças e classes ----------
   const ATTRS = ["Corpo", "Mente", "Alma", "Destreza", "Foco", "Conhecimento"];
-  const nomeExibido = (x) => (x.nome.includes(":") ? x.nome.split(":").map((s) => s.trim())[1] : x.nome);
-  const subtitulo = (x) => (x.nome.includes(":") ? x.nome.split(":")[0].trim() + " · " : "") + (x.origens.length ? "Origens: " + x.origens.join(", ") : "");
-
-  const cardPersona = (x, i) => cardEntidade({
-    idx: i, simbolo: window.monograma(nomeExibido(x)), nome: nomeExibido(x), sub: subtitulo(x), texto: x.resumo,
-    rubro: x.tipo === "classe",
-    extra: `<span class="mini-stats"><span class="stat vida">Vida<b>${x.vida}</b></span><span class="stat energia">Energia<b>${x.energia}</b></span></span>`,
-  });
-
-  function fichaTecnica(x) {
-    const attrs = Object.entries(x.atributos).map(([k, v]) => `<span class="attr">+${v} ${k}</span>`);
-    if (x.livres) attrs.push(`<span class="attr">+${x.livres} pontos livres</span>`);
-    const rotuloHab = x.tipo === "raca" ? "Habilidade Inata" : "Habilidade Característica";
-    return `
-      <details class="tecnica">
-        <summary>Ficha técnica</summary>
-        <div class="tecnica-corpo">
-          <div class="stats">
-            <span class="stat vida">Vida inicial<b>${x.vida}</b></span>
-            <span class="stat energia">Energia inicial<b>${x.energia}</b></span>
-          </div>
-          <span class="eyebrow" style="margin:.4rem 0 .4rem">Atributos iniciais</span>
-          <div class="attr-list">${attrs.join("") || '<span class="dim">—</span>'}</div>
-          <span class="eyebrow" style="margin:.4rem 0 .4rem">Origens</span>
-          <div class="attr-list">${x.origens.map((o) => `<a class="origem-link" href="ferramentas.html?origem=${encodeURIComponent(o)}#cartas">${esc(o)}</a>`).join("") || '<span class="dim">—</span>'}</div>
-          ${x.habilidade.nome ? `
-          <div class="skill" style="margin-top:6px">
-            <span class="eyebrow" style="margin:.2rem 0 .3rem;font-size:.66rem">${rotuloHab}</span>
-            <b>${esc(x.habilidade.nome)}</b>
-            <div class="md" style="font-size:.93rem">${md(x.habilidade.conteudo || x.habilidade.texto)}</div>
-          </div>` : ""}
-        </div>
-      </details>`;
-  }
-
-  const match = (x, q) => {
-    if (!q) return true;
-    return norm([x.nome, x.resumo, x.origens.join(" "), x.habilidade.nome, x.habilidade.texto].join(" ")).includes(norm(q));
-  };
-
   let attrFilter = null;
   let RACAS = [], CLASSES = [];
   function render() {
     const qr = $("busca-racas").value.trim();
     const qc = $("busca-classes").value.trim();
-    RACAS = P.filter((x) => x.tipo === "raca" && match(x, qr));
-    CLASSES = P.filter((x) => x.tipo === "classe" && match(x, qc) && (!attrFilter || x.atributos[attrFilter]));
+    RACAS = P.filter((x) => x.tipo === "raca" && casaBusca(x, qr));
+    CLASSES = P.filter((x) => x.tipo === "classe" && casaBusca(x, qc) && (!attrFilter || x.atributos[attrFilter]));
     $("racas-lista").innerHTML = RACAS.map(cardPersona).join("") || `<p class="empty">Nenhuma raça encontrada.</p>`;
     $("classes-lista").innerHTML = CLASSES.map(cardPersona).join("") || `<p class="empty">Nenhuma classe encontrada.</p>`;
   }
-  const abrirPersona = (x) => window.abrirModal(`
-    ${cabecaModal(window.monograma(nomeExibido(x)), nomeExibido(x), x.tipo === "raca" ? "Raça" : "Classe", x.tipo === "classe")}
-    <div class="md">${md(x.conteudo || x.resumo)}</div>
-    ${fichaTecnica(x)}`, { largo: true });
   $("racas-lista").addEventListener("click", (e) => { const b = e.target.closest("[data-idx]"); if (b) abrirPersona(RACAS[+b.dataset.idx]); });
   $("classes-lista").addEventListener("click", (e) => { const b = e.target.closest("[data-idx]"); if (b) abrirPersona(CLASSES[+b.dataset.idx]); });
 

@@ -457,3 +457,16 @@ details.tecnica .stats { margin-top: 0; }
 
 /* Garante que [hidden] sempre esconda, mesmo com display definido no componente */
 [hidden] { display: none !important; }
+
+/* ---------- Sumário de conceitos ---------- */
+.conceito-grupo + .conceito-grupo { margin-top: 32px; }
+.conceito-grupo h3 { font-size: 1.5rem; border-bottom: 1px solid var(--line); padding-bottom: 8px; margin-bottom: 14px; }
+.conceitos { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+.conceito {
+  display: flex; flex-direction: column; gap: 4px; text-align: left; font: inherit; color: inherit; cursor: pointer;
+  background: var(--surface); border: 1px solid var(--line); border-left: 2px solid var(--ouro);
+  border-radius: 0 var(--radius) var(--radius) 0; padding: 14px 16px; transition: border-color .15s, background .15s;
+}
+.conceito:hover { border-color: var(--line-ouro); background: var(--surface-2); }
+.conceito b { font-family: var(--font-display); font-size: 1.25rem; }
+.conceito span { color: var(--text-dim); font-size: .86rem; line-height: 1.45; }

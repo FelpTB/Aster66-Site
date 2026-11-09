@@ -386,8 +386,9 @@ async function main() {
   const dryRun = args.includes("--dry-run");
   const full = args.includes("--full");
   const only = (args.find((a) => a.startsWith("--only=")) || "").slice(7).split(",").filter(Boolean);
-  const tabelas = only.length ? only : Object.keys(BASES);
-  for (const t of tabelas) if (!BASES[t]) throw new Error(`Base desconhecida: ${t}. Opções: ${Object.keys(BASES).join(", ")}`);
+  const tabelas = (only.length ? only : Object.keys(BASES)).filter((t) => t !== "conceitos");
+  const comConceitos = !only.length || only.includes("conceitos");
+  for (const t of tabelas) if (!BASES[t]) throw new Error(`Base desconhecida: ${t}. Opções: ${Object.keys(BASES).join(", ")}, conceitos`);
 
   const tokenNotion = process.env.NOTION_TOKEN;
   if (!tokenNotion) throw new Error("Falta NOTION_TOKEN no .env (token da integração do Notion).");
@@ -475,8 +476,37 @@ async function main() {
     avisos.forEach((a) => console.log("  ⚠ " + a));
   }
 
+  if (comConceitos) resumo.conceitos = await exportarConceitos(notion);
+
   if (supa) await supa.registrar(resumo).catch((e) => console.warn("  (não foi possível registrar a sincronização: " + e.message + ")"));
   console.log(dryRun ? "\nTeste concluído — JSON salvo em data/notion-export/. Nada foi gravado no Supabase." : "\nSincronização concluída.");
+}
+
+// ---------------------------------------------------------------------------
+// Sumário de conceitos (Sumário › Conceitos): não é uma base de dados, e sim uma
+// página com subpáginas agrupadas por títulos. Vira public/js/data-conceitos.js,
+// que o site lê na aba Ferramentas. (Mudou? faça commit do arquivo para publicar.)
+// ---------------------------------------------------------------------------
+const PAGINA_CONCEITOS = "6e5f5867e960823abf71010365d3e4a6";
+const ARQUIVO_CONCEITOS = path.join(ROOT, "public", "js", "data-conceitos.js");
+
+async function exportarConceitos(notion) {
+  process.stdout.write("\n▸ conceitos: lendo o Notion… ");
+  const raiz = await notion.blocos(PAGINA_CONCEITOS);
+  const itens = [];
+  let grupo = "";
+  for (const b of raiz) {
+    if (/^heading_[123]$/.test(b.type)) grupo = textoPuro(b[b.type].rich_text).trim();
+    else if (b.type === "child_page") itens.push({ id: comHifen(b.id), nome: b.child_page.title.trim(), grupo });
+  }
+  await emParalelo(itens, 3, async (it) => { it.conteudo = blocosMd(await notion.blocos(it.id)); });
+  const js = "// Gerado por scripts/sync-notion.js a partir de Notion › Sumário › Conceitos. Não edite à mão.\n" +
+    `window.ASTER_CONCEITOS = ${JSON.stringify(itens, null, 2)};\n`;
+  const antes = fs.existsSync(ARQUIVO_CONCEITOS) ? fs.readFileSync(ARQUIVO_CONCEITOS, "utf8") : "";
+  const mudou = antes !== js;
+  if (mudou) fs.writeFileSync(ARQUIVO_CONCEITOS, js);
+  console.log(`${itens.length} conceitos.\n  ✔ ${mudou ? "public/js/data-conceitos.js atualizado — faça commit para publicar" : "sem mudanças"}`);
+  return { conceitos: itens.length, arquivoAtualizado: mudou };
 }
 
 function mesmoInstante(a, b) { return !!a && !!b && new Date(a).getTime() === new Date(b).getTime(); }
