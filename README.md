@@ -49,6 +49,33 @@ Sem a chave configurada o site continua funcionando com os dados locais (sem car
 
 Moderação de comentários: no Table Editor, marque `oculto = true` na linha do comentário.
 
+### Conteúdo do Notion → Supabase (esquema `aster`)
+
+O Notion é a fonte da verdade. O esquema `aster` tem uma tabela por base de dados do Notion, com os mesmos campos
+(`cartas`, `racas`, `classes`, `itens`, `criaturas`, `personagens`, `organizacoes`, `cenarios`) e o corpo de cada página
+em Markdown na coluna `conteudo`. O site lê raças, classes e cartas daí; se o esquema não estiver disponível, volta
+sozinho para `fichas_jogador`.
+
+Configurar (uma vez):
+1. **SQL:** SQL Editor → cole `supabase/schema-aster.sql` → Run.
+2. **API:** Project Settings → API → *Exposed schemas* → adicione `aster`.
+3. **Integração do Notion:** em notion.so/profile/integrations crie uma integração interna (só leitura de conteúdo),
+   copie o token e, no Notion, abra a página **Databases** → ••• → Conexões → adicione a integração.
+4. **`.env`:** preencha `NOTION_TOKEN` e `SUPABASE_SERVICE_ROLE_KEY` (chave service_role / secret).
+   Essas duas ficam só na sua máquina — o build e o servidor só enviam a `SUPABASE_ANON_KEY` ao navegador.
+
+Sincronizar (sempre que o Notion mudar):
+
+```bash
+npm run sync:notion            # só o que mudou
+npm run sync:notion -- --full  # relê tudo (depois de mudar colunas)
+npm run sync:notion -- --dry-run  # só lê o Notion e salva JSON em data/notion-export/
+```
+
+Páginas apagadas no Notion também são apagadas no Supabase. Propriedades novas no Notion sem coluna correspondente
+vão para a coluna `extras` (JSON) e aparecem como aviso — para virarem coluna, acrescente-as em
+`supabase/schema-aster.sql` e no mapa `BASES` de `scripts/sync-notion.js`.
+
 ## Publicação (GitHub Pages)
 
 Site: https://felptb.github.io/Aster66-Site/

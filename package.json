@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node server.js",
     "ficha": "node scripts/gerar-ficha-pdf.js",
-    "build": "node scripts/build.js"
+    "build": "node scripts/build.js",
+    "sync:notion": "node scripts/sync-notion.js"
   },
   "author": "",
   "license": "ISC",

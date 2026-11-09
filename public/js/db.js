@@ -68,6 +68,26 @@
     return out;
   }
 
+  // Markdown do Notion (coluna `conteudo`) → texto simples para o site.
+  function mdTexto(md) {
+    return String(md || "")
+      .replace(/```[\s\S]*?```/g, "")
+      .replace(/!\[[^\]]*\]\([^)]*\)/g, "")
+      .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
+      .replace(/^#{1,6}\s+/gm, "")
+      .replace(/^>\s?/gm, "")
+      .replace(/^\s*[-*]\s+(\[[ x]\]\s+)?/gm, "• ")
+      .replace(/(\*\*|__|~~|`)/g, "")
+      .replace(/(^|[^*])\*([^*\n]+)\*/g, "$1$2")
+      .replace(/^---$/gm, "")
+      .replace(/\n{3,}/g, "\n\n")
+      .trim();
+  }
+  const juntar = (a, sep = ", ") => (Array.isArray(a) ? a.filter(Boolean).join(sep) : a || "");
+
+  // Esquema `aster` = espelho das bases do Notion (scripts/sync-notion.js).
+  const aster = () => client.schema("aster");
+
   // ---------------- Catálogo ----------------
   let cachePersonagens = null;
   async function catalogoPersonagens() {
@@ -75,6 +95,16 @@
     const local = window.ASTER_PERSONAGENS || [];
     const db = await pronto;
     if (!db) return (cachePersonagens = local);
+    try {
+      const lista = await personagensAster();
+      if (lista.length) {
+        cachePersonagens = lista;
+        cachePersonagens.fonte = "notion";
+        return cachePersonagens;
+      }
+    } catch (e) {
+      console.warn("Esquema aster indisponível, usando fichas_jogador.", e);
+    }
     try {
       const [r, c] = await Promise.all([
         jogador().from("raca").select("nome_raca,atributos_iniciais,vida_inicial,energia_inicial,texto_descricao,hab:carta!raca_habilidade_inata_id_fkey(nome_carta,texto_corpo),raca_origem(origem(nome))").order("nome_raca"),
@@ -103,6 +133,48 @@
     return cachePersonagens;
   }
 
+  async function personagensAster() {
+    const [r, c] = await Promise.all([
+      aster().from("racas").select("nome,atributos_iniciais,vida_inicial,energia_inicial,origens_relacionadas,habilidade_inata,conteudo").order("nome"),
+      aster().from("classes").select("nome,atributos_iniciais,vida_inicial,energia_inicial,origem_relacionada,habilidade_caracteristica,conteudo").order("nome"),
+    ]);
+    falha(r.error); falha(c.error);
+    const ids = [...new Set([...r.data.flatMap((x) => x.habilidade_inata || []), ...c.data.flatMap((x) => x.habilidade_caracteristica || [])])];
+    const habs = new Map();
+    if (ids.length) {
+      const h = await aster().from("cartas").select("id,nome,conteudo").in("id", ids);
+      falha(h.error);
+      h.data.forEach((x) => habs.set(x.id, x));
+    }
+    const map = (x, tipo, origens, relIds) => {
+      const { atributos, livres } = parseAtributos(juntar(x.atributos_iniciais));
+      const hab = (relIds || []).map((id) => habs.get(id)).find(Boolean);
+      return {
+        tipo, nome: ren(x.nome), resumo: mdTexto(x.conteudo), atributos, livres,
+        vida: +x.vida_inicial || 0, energia: +x.energia_inicial || 0,
+        origens: origens.filter(Boolean).map(ren),
+        habilidade: { nome: hab?.nome || "", texto: mdTexto(hab?.conteudo) },
+      };
+    };
+    return [
+      ...r.data.map((x) => map(x, "raca", x.origens_relacionadas || [], x.habilidade_inata)),
+      ...c.data.map((x) => map(x, "classe", [x.origem_relacionada], x.habilidade_caracteristica)),
+    ];
+  }
+
+  async function cartasAster() {
+    const { data, error } = await aster().from("cartas")
+      .select("id,nome,tipo,modo_de_uso,alcance,cooldown,custo_em_energia,custo_extra,raridade,origem,palavra_chave,conteudo")
+      .order("nome").limit(5000);
+    falha(error);
+    return data.map((c) => ({
+      id: c.id, nome: c.nome, tipo: juntar(c.tipo, " / "), modo: juntar(c.modo_de_uso, " / "),
+      alcance: juntar(c.alcance), tempo: juntar(c.cooldown), custo: juntar(c.custo_em_energia, " / "),
+      custoExtra: c.custo_extra || "", raridade: c.raridade || "", palavras: c.palavra_chave || [],
+      texto: mdTexto(c.conteudo), origens: [...new Set((c.origem || []).map(ren))],
+    }));
+  }
+
   const TIPOS = { Tecnica_Inigualavel: "Técnica Inigualável", Musica: "Música", Lingua: "Língua" };
   const MODOS = { Reacao: "Reação", Acao: "Ação" };
   let cacheCartas = null;
@@ -110,6 +182,12 @@
     if (cacheCartas) return cacheCartas;
     const db = await pronto;
     if (!db) return [];
+    try {
+      const lista = await cartasAster();
+      if (lista.length) return (cacheCartas = lista);
+    } catch (e) {
+      console.warn("Esquema aster indisponível, usando fichas_jogador.", e);
+    }
     const { data, error } = await jogador().from("carta")
       .select("id_carta,nome_carta,tipo,modo_uso,alcance,tempo_de_uso,custo_energia,custo_energia_texto,custo_extra,texto_corpo,propriedades_importacao,req:carta_origem_requisito_conjunto(carta_origem_requisito_opcao(origem(nome)))")
       .order("nome_carta").limit(5000);
