@@ -3,6 +3,7 @@
 (() => {
   const esc = window.escapeHTML;
   const md = (s) => window.mdHTML(s);
+  const mdRegras = (s) => window.mdHTML(s, { termos: true }); // texto de regra: termos viram link para o sumário
   const norm = (s) => String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
 
   const cardEntidade = ({ idx, simbolo, nome, sub, texto, rubro, extra = "" }) => `
@@ -52,7 +53,7 @@
           <div class="skill" style="margin-top:6px">
             <span class="eyebrow" style="margin:.2rem 0 .3rem;font-size:.66rem">${rotuloHab}</span>
             <b>${esc(x.habilidade.nome)}</b>
-            <div class="md" style="font-size:.93rem">${md(x.habilidade.conteudo || x.habilidade.texto)}</div>
+            <div class="md" style="font-size:.93rem">${mdRegras(x.habilidade.conteudo || x.habilidade.texto)}</div>
           </div>` : ""}
         </div>
       </details>`;
@@ -60,7 +61,7 @@
 
   const abrirPersona = (x, opcoes) => window.abrirModal(`
     ${cabecaModal(window.monograma(nomeExibido(x)), nomeExibido(x), x.tipo === "raca" ? "Raça" : "Classe", x.tipo === "classe")}
-    <div class="md">${md(x.conteudo || x.resumo)}</div>
+    <div class="md">${mdRegras(x.conteudo || x.resumo)}</div>
     ${fichaTecnica(x, opcoes)}
     ${x.lore ? `<div class="lore"><span class="eyebrow">Do livro · Lore</span><div class="md">${md(x.lore)}</div></div>` : ""}`, { largo: true });
 

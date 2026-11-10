@@ -470,6 +470,12 @@ details.tecnica .stats { margin-top: 0; }
 .conceito:hover { border-color: var(--line-ouro); background: var(--surface-2); }
 .conceito b { font-family: var(--font-display); font-size: 1.25rem; }
 .conceito span { color: var(--text-dim); font-size: .86rem; line-height: 1.45; }
+.conceito-sub { font-family: var(--font-body); font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; color: var(--text-dim); margin: 18px 0 10px; }
+/* Termo técnico linkado ao sumário */
+a.termo { color: inherit; text-decoration: underline dotted var(--ouro, #E5A93C); text-decoration-thickness: 1.5px; text-underline-offset: 3px; cursor: help; }
+a.termo:hover, a.termo:focus-visible { color: var(--ouro, #E5A93C); text-decoration-style: solid; }
+.termo-voltar { margin-bottom: 10px; }
+.link-sumario { font-size: .9rem; }
 
 /* Lore de raças e classes (páginas do livro) */
 .lore { margin-top: 26px; padding-top: 18px; border-top: 1px solid var(--line); }

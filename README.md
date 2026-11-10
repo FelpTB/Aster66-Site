@@ -76,9 +76,16 @@ Também traz a **Lore** de cada raça e classe (páginas em Sumário › Raças 
 `lore` de `racas`/`classes` (`--only=lore` atualiza só ela). Bancos criados antes dessa coluna: rode uma vez
 `supabase/migracoes/002-lore-racas-classes.sql`.
 
-O mesmo comando exporta o **Sumário › Conceitos** do livro (não é uma base de dados) para `public/js/data-conceitos.js`,
-usado na aba Ferramentas. Quando esse arquivo mudar, faça commit para publicar
-(`npm run sync:notion -- --only=conceitos` atualiza só ele).
+O mesmo comando exporta o **Sumário** do site (Conceitos + páginas de regras: combate, entreato, cartas, modos de uso,
+cooldown, alcance, raridade, origens, inventário, itens, condições, tipos de defesa) para `public/js/data-conceitos.js`,
+usado na aba Ferramentas. As páginas e o recorte de cada uma ficam em `scripts/glossario.js`, junto com a lista de
+**termos**: nos textos das cartas, raças e classes, cada termo escrito como nome próprio ("Golpe Crítico",
+"Fila de Cooldown") vira link para a explicação (`ferramentas.html#conceito-<slug>`), que abre numa janela por cima.
+Quando esse arquivo mudar, faça commit para publicar (`npm run sync:notion -- --only=conceitos` atualiza só ele).
+
+Para os termos seguirem o padrão no Notion, `node scripts/padronizar-termos.js` gera `data/padronizacao.md`
+(antes → depois, sem mudar nada); depois de revisar, `--aplicar` grava no Notion (`--sem="Vida,Origens"` deixa
+termos de fora) e então `npm run sync:notion -- --full`.
 
 Páginas apagadas no Notion também são apagadas no Supabase. Propriedades novas no Notion sem coluna correspondente
 vão para a coluna `extras` (JSON) e aparecem como aviso — para virarem coluna, acrescente-as em

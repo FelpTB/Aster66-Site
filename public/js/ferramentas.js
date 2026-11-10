@@ -77,12 +77,12 @@
   $("cartas-lista").addEventListener("click", (e) => {
     const b = e.target.closest("[data-idx]"); if (!b) return;
     const c = LISTA[+b.dataset.idx];
-    const linha = (rotulo, valor) => (valor ? `<dt>${rotulo}</dt><dd>${esc(valor)}</dd>` : "");
+    const linha = (rotulo, valor) => (valor ? `<dt>${rotulo}</dt><dd>${window.linkarTermos(esc(valor))}</dd>` : "");
     window.abrirModal(`
       <div class="carta-detalhe ${classeRaridade(c.raridade)}">
         <span class="eyebrow" style="color:var(--rar);margin-bottom:.3rem">${esc(c.raridade || "Carta")}</span>
         <h2 style="margin:0 0 .3em">${esc(c.nome)}</h2>
-        <div class="md">${window.mdHTML(c.conteudo || c.texto) || '<p class="dim">Sem descrição.</p>'}</div>
+        <div class="md">${window.mdHTML(c.conteudo || c.texto, { termos: true }) || '<p class="dim">Sem descrição.</p>'}</div>
         <dl>
           ${linha("Tipo", c.tipo)}${linha("Modo de uso", c.modo)}${linha("Custo em energia", c.custo)}
           ${linha("Custo extra", c.custoExtra)}${linha("Cooldown", c.tempo)}${linha("Alcance", c.alcance)}
@@ -199,7 +199,9 @@
   window.AsterDB.catalogoPersonagens().then((lista) => { P = lista; atualizar(); });
 })();
 
-// ---------- Sumário de conceitos (Notion › Sumário › Conceitos) ----------
+// ---------- Sumário (glossário de regras) ----------
+// Dados: js/data-conceitos.js, gerado pelo sync a partir das páginas de regras do Notion.
+// Cada entrada tem âncora #conceito-<slug>; os termos citados nas cartas, raças e classes apontam para cá.
 (() => {
   const esc = window.escapeHTML;
   const norm = window.AsterUI.norm;
@@ -207,43 +209,55 @@
   const lista = document.getElementById("conceitos-lista");
   const busca = document.getElementById("busca-conceitos");
   const gruposEl = document.getElementById("grupos-conceitos");
-  const grupos = [...new Set(CONCEITOS.map((c) => c.grupo || "Outros"))];
-  let grupoSel = null;
+  const categorias = [...new Set(CONCEITOS.map((c) => c.categoria || "Outros"))];
+  let catSel = null;
 
-  gruposEl.insertAdjacentHTML("beforeend", grupos.map((g) => `<button class="chip" type="button" aria-pressed="false" data-grupo="${esc(g)}">${esc(g)}</button>`).join(""));
+  gruposEl.insertAdjacentHTML("beforeend", categorias.map((g) => `<button class="chip" type="button" aria-pressed="false" data-grupo="${esc(g)}">${esc(g)}</button>`).join(""));
 
-  const resumo = (c) => window.AsterDB.mdTexto(c.conteudo).replace(/\s+/g, " ").slice(0, 170);
+  const resumo = (c) => window.AsterDB.mdTexto(c.conteudo).replace(/\s+/g, " ").replace(/\{(\p{L}+)\}/gu, "$1").slice(0, 150);
+  const botao = (c) => `
+    <button class="conceito" id="conceito-${c.slug}" data-conceito="${esc(c.slug)}" aria-haspopup="dialog">
+      <b>${esc(c.nome)}</b><span>${esc(resumo(c))}…</span>
+    </button>`;
   function render() {
+    if (!CONCEITOS.length) { lista.innerHTML = `<p class="empty">O sumário ainda não foi gerado.</p>`; return; }
     const q = norm(busca.value.trim());
-    const visiveis = CONCEITOS.filter((c) => (!grupoSel || (c.grupo || "Outros") === grupoSel) && (!q || norm(c.nome + " " + c.conteudo).includes(q)));
-    if (!CONCEITOS.length) { lista.innerHTML = `<p class="empty">O sumário de conceitos ainda não foi gerado.</p>`; return; }
-    lista.innerHTML = grupos.map((g) => {
-      const itens = visiveis.filter((c) => (c.grupo || "Outros") === g);
+    const visiveis = CONCEITOS.filter((c) => (!catSel || (c.categoria || "Outros") === catSel) && (!q || norm(c.nome + " " + c.grupo + " " + c.conteudo).includes(q)));
+    lista.innerHTML = categorias.map((cat) => {
+      const itens = visiveis.filter((c) => (c.categoria || "Outros") === cat);
       if (!itens.length) return "";
+      const grupos = [...new Set(itens.map((c) => c.grupo || ""))];
       return `
         <div class="conceito-grupo">
-          <h3>${esc(g)}</h3>
-          <div class="conceitos">${itens.map((c) => `
-            <button class="conceito" data-conceito="${CONCEITOS.indexOf(c)}" aria-haspopup="dialog">
-              <b>${esc(c.nome)}</b><span>${esc(resumo(c))}…</span>
-            </button>`).join("")}</div>
+          <h3>${esc(cat)}</h3>
+          ${grupos.map((g) => `
+            ${g ? `<h4 class="conceito-sub">${esc(g)}</h4>` : ""}
+            <div class="conceitos">${itens.filter((c) => (c.grupo || "") === g).map(botao).join("")}</div>`).join("")}
         </div>`;
     }).join("") || `<p class="empty">Nenhum conceito encontrado.</p>`;
   }
   busca.addEventListener("input", render);
   gruposEl.addEventListener("click", (e) => {
     const b = e.target.closest("[data-grupo]"); if (!b) return;
-    grupoSel = grupoSel === b.dataset.grupo ? null : b.dataset.grupo;
-    gruposEl.querySelectorAll("[data-grupo]").forEach((c) => c.setAttribute("aria-pressed", String(c.dataset.grupo === grupoSel)));
+    catSel = catSel === b.dataset.grupo ? null : b.dataset.grupo;
+    gruposEl.querySelectorAll("[data-grupo]").forEach((c) => c.setAttribute("aria-pressed", String(c.dataset.grupo === catSel)));
     render();
   });
   lista.addEventListener("click", (e) => {
     const b = e.target.closest("[data-conceito]"); if (!b) return;
-    const c = CONCEITOS[+b.dataset.conceito];
-    window.abrirModal(`
-      <span class="eyebrow" style="margin-bottom:.3rem">${esc(c.grupo || "Conceito")}</span>
-      <h2 style="margin:0 0 .5em">${esc(c.nome)}</h2>
-      <div class="md">${window.mdHTML(c.conteudo)}</div>`, { largo: true });
+    history.replaceState(null, "", "#conceito-" + b.dataset.conceito);
+    window.abrirConceito(b.dataset.conceito);
   });
   render();
+
+  // Link direto (ferramentas.html#conceito-golpe-critico): rola até a entrada e abre a explicação.
+  const abrirDoHash = () => {
+    const m = /^#conceito-(.+)$/.exec(location.hash);
+    if (!m) return;
+    const slug = decodeURIComponent(m[1]);
+    document.getElementById("conceito-" + slug)?.scrollIntoView({ block: "center" });
+    window.abrirConceito(slug);
+  };
+  window.addEventListener("hashchange", abrirDoHash);
+  abrirDoHash();
 })();

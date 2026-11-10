@@ -3,3 +3,4 @@ data/comments.json
 .env
 .claude/
 data/notion-export/
+data/padronizacao*.md

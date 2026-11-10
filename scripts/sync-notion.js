@@ -199,6 +199,7 @@ function criarNotion(token) {
     }
   }
   return {
+    chamar,
     base: (id) => chamar("GET", `/databases/${id}`),
     async paginas(id) {
       const out = [];
@@ -275,6 +276,7 @@ function blocosMd(blocos, nivel = 0) {
       case "heading_1": linhas.push("# " + txt, ""); break;
       case "heading_2": linhas.push("## " + txt, ""); break;
       case "heading_3": linhas.push("### " + txt, ""); break;
+      case "heading_4": linhas.push("#### " + txt, ""); break;
       case "bulleted_list_item": linhas.push(pad + "- " + txt); break;
       case "numbered_list_item": linhas.push(pad + numero + ". " + txt); break;
       case "to_do": linhas.push(pad + (d.checked ? "- [x] " : "- [ ] ") + txt); break;
@@ -497,7 +499,7 @@ async function main() {
   }
 
   if (comLore) resumo.lore = await sincronizarLore(notion, supa);
-  if (comConceitos) resumo.conceitos = await exportarConceitos(notion);
+  if (comConceitos) resumo.conceitos = await exportarGlossario(notion);
 
   if (supa) await supa.registrar(resumo).catch((e) => console.warn("  (não foi possível registrar a sincronização: " + e.message + ")"));
   console.log(dryRun ? "\nTeste concluído — JSON salvo em data/notion-export/. Nada foi gravado no Supabase." : "\nSincronização concluída.");
@@ -594,30 +596,119 @@ async function sincronizarLore(notion, supa) {
 }
 
 // ---------------------------------------------------------------------------
-// Sumário de conceitos (Sumário › Conceitos): não é uma base de dados, e sim uma
-// página com subpáginas agrupadas por títulos. Vira public/js/data-conceitos.js,
-// que o site lê na aba Ferramentas. (Mudou? faça commit do arquivo para publicar.)
+// Sumário do site (glossário): Conceitos + explicações de regras do livro
+// (combate, entreato, cartas, modos de uso, cooldown, alcance, raridade, origens,
+// inventário, itens, condições…). As páginas e o recorte de cada uma estão em
+// scripts/glossario.js. Vira public/js/data-conceitos.js, junto com a lista de
+// termos que o site transforma em link. (Mudou? faça commit do arquivo para publicar.)
 // ---------------------------------------------------------------------------
-const PAGINA_CONCEITOS = "6e5f5867e960823abf71010365d3e4a6";
 const ARQUIVO_CONCEITOS = path.join(ROOT, "public", "js", "data-conceitos.js");
+const { FONTES: FONTES_GLOSSARIO, TERMOS } = require("./glossario.js");
 
-async function exportarConceitos(notion) {
-  process.stdout.write("\n▸ conceitos: lendo o Notion… ");
-  const raiz = await notion.blocos(PAGINA_CONCEITOS);
-  const itens = [];
-  let grupo = "";
-  for (const b of raiz) {
-    if (/^heading_[123]$/.test(b.type)) grupo = textoPuro(b[b.type].rich_text).trim();
-    else if (b.type === "child_page") itens.push({ id: comHifen(b.id), nome: b.child_page.title.trim(), grupo });
+const nivelTitulo = (b) => { const m = /^heading_(\d)$/.exec(b.type); return m ? +m[1] : 0; };
+const tituloDe = (b) => textoPuro(b[b.type]?.rich_text).replace(/\*/g, "").trim();
+const slugDe = (nome) => norm(nome).replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+const limparMd = (md) => md.replace(/^\[[^\]]*\]\(notion:[^)]*\)\s*$/gm, "").replace(/\n{3,}/g, "\n\n").trim();
+const RE_LISTA = /^\s*([^:\n]{2,40}):\s*([\s\S]+)$/;
+
+async function entradasDaFonte(notion, fonte) {
+  const blocos = await notion.blocos(fonte.id);
+  const saida = [];
+  const add = (nome, md, grupo) => { const conteudo = limparMd(md); if (nome && conteudo) saida.push({ nome: nome.trim(), conteudo, grupo: grupo || fonte.grupo || "" }); };
+  for (const spec of fonte.entradas) {
+    if (spec.tipo === "pagina") {
+      add(spec.nome, blocosMd(blocos.filter((b) => b.type !== "child_page" && b.type !== "child_database")));
+    } else if (spec.tipo === "intro") {
+      const i = blocos.findIndex((b) => nivelTitulo(b));
+      add(spec.nome, blocosMd(i < 0 ? blocos : blocos.slice(0, i)));
+    } else if (spec.tipo === "subpaginas") {
+      let grupo = "";
+      const subs = [];
+      for (const b of blocos) {
+        if (nivelTitulo(b)) grupo = tituloDe(b);
+        else if (b.type === "child_page") subs.push({ id: b.id, nome: b.child_page.title.trim(), grupo });
+      }
+      await emParalelo(subs, 3, async (s) => { s.md = blocosMd(await notion.blocos(s.id)); });
+      subs.forEach((s) => add(s.nome, s.md, s.grupo));
+    } else if (spec.tipo === "secoes") {
+      // Recorte: só dentro do título `dentroDe` (até o próximo título de nível igual ou maior).
+      let lista = blocos;
+      if (spec.dentroDe) {
+        const i = blocos.findIndex((b) => nivelTitulo(b) && norm(tituloDe(b)) === norm(spec.dentroDe));
+        if (i < 0) { console.log(`\n  ⚠ título "${spec.dentroDe}" não encontrado`); continue; }
+        const n = nivelTitulo(blocos[i]);
+        const fim = blocos.findIndex((b, k) => k > i && nivelTitulo(b) && nivelTitulo(b) <= n);
+        lista = blocos.slice(i + 1, fim < 0 ? undefined : fim);
+      }
+      for (let i = 0; i < lista.length; i++) {
+        const n = nivelTitulo(lista[i]);
+        if (!spec.niveis.includes(n)) continue;
+        const nome = tituloDe(lista[i]);
+        if (spec.apenas && !spec.apenas.some((a) => norm(a) === norm(nome))) continue;
+        // soIntro: só o texto até o próximo título de qualquer nível.
+        const fim = lista.findIndex((b, k) => k > i && nivelTitulo(b) && (spec.soIntro || nivelTitulo(b) <= n));
+        const corpo = lista.slice(i + 1, fim < 0 ? undefined : fim);
+        if (spec.soIntro) { add(spec.nome || nome, blocosMd(corpo)); continue; }
+        // Subpáginas dentro da seção entram com o próprio texto.
+        const partes = [blocosMd(corpo.filter((b) => b.type !== "child_page"))];
+        for (const b of corpo.filter((x) => x.type === "child_page")) partes.push(`#### ${b.child_page.title.trim()}\n\n` + blocosMd(await notion.blocos(b.id)));
+        add(nome, partes.join("\n\n"));
+      }
+    } else if (spec.tipo === "lista") {
+      for (const b of blocos) {
+        if (!["paragraph", "bulleted_list_item", "numbered_list_item"].includes(b.type)) continue;
+        const m = RE_LISTA.exec(textoPuro(b[b.type].rich_text));
+        if (!m) continue;
+        const nome = m[1].replace(/\*/g, "").trim();
+        const extra = b.filhos ? "\n\n" + blocosMd(b.filhos) : "";
+        add(nome, m[2].trim() + extra);
+      }
+    }
   }
-  await emParalelo(itens, 3, async (it) => { it.conteudo = blocosMd(await notion.blocos(it.id)); });
-  const js = "// Gerado por scripts/sync-notion.js a partir de Notion › Sumário › Conceitos. Não edite à mão.\n" +
-    `window.ASTER_CONCEITOS = ${JSON.stringify(itens, null, 2)};\n`;
+  return saida;
+}
+
+async function exportarGlossario(notion) {
+  process.stdout.write("\n▸ sumário: lendo o Notion… ");
+  const entradas = [];
+  for (const fonte of FONTES_GLOSSARIO) {
+    try {
+      const lidas = await entradasDaFonte(notion, fonte);
+      lidas.forEach((e) => entradas.push({ ...e, categoria: fonte.categoria, fonte: comHifen(fonte.id) }));
+      process.stdout.write(`${fonte.categoria}${fonte.grupo ? "/" + fonte.grupo : ""} ${lidas.length} · `);
+    } catch (e) {
+      console.log(`\n  ⚠ página ${fonte.id} (${fonte.categoria}): ${e.message}`);
+    }
+  }
+  // Nomes repetidos (ex.: "Bloqueio Perene" em Conceitos e em Tipos de Defesa) ganham a categoria.
+  const contagem = {};
+  entradas.forEach((e) => { contagem[norm(e.nome)] = (contagem[norm(e.nome)] || 0) + 1; });
+  const vistos = new Set();
+  for (const e of entradas) {
+    if (contagem[norm(e.nome)] > 1 && vistos.has(norm(e.nome))) e.nome = `${e.nome} (${e.categoria})`;
+    vistos.add(norm(e.nome.replace(/ \([^)]*\)$/, "")));
+    e.slug = slugDe(e.nome);
+  }
+  // Termos → slug da entrada (ou da alternativa, ex.: condição sem página própria → "Condições").
+  const porNome = new Map(entradas.map((e) => [norm(e.nome), e]));
+  const termos = [];
+  const semEntrada = [];
+  for (const t of TERMOS) {
+    const e = porNome.get(norm(t.entrada)) || (t.alternativa && porNome.get(norm(t.alternativa)));
+    if (!e) { semEntrada.push(t.entrada); continue; }
+    for (const forma of t.formas) termos.push({ forma, slug: e.slug, ...(t.contexto ? { contexto: true } : {}) });
+  }
+  const unicos = [...new Map(termos.map((t) => [t.forma, t])).values()].sort((a, b) => b.forma.length - a.forma.length);
+  const lista = entradas.map(({ slug, nome, categoria, grupo, conteudo, fonte }) => ({ slug, nome, categoria, grupo, conteudo, fonte }));
+  const js = "// Gerado por scripts/sync-notion.js a partir das páginas de regras do Notion (ver scripts/glossario.js). Não edite à mão.\n" +
+    `window.ASTER_CONCEITOS = ${JSON.stringify(lista, null, 2)};\n` +
+    `window.ASTER_TERMOS = ${JSON.stringify(unicos)};\n`;
   const antes = fs.existsSync(ARQUIVO_CONCEITOS) ? fs.readFileSync(ARQUIVO_CONCEITOS, "utf8") : "";
   const mudou = antes !== js;
   if (mudou) fs.writeFileSync(ARQUIVO_CONCEITOS, js);
-  console.log(`${itens.length} conceitos.\n  ✔ ${mudou ? "public/js/data-conceitos.js atualizado — faça commit para publicar" : "sem mudanças"}`);
-  return { conceitos: itens.length, arquivoAtualizado: mudou };
+  console.log(`\n  ✔ ${lista.length} entradas, ${unicos.length} formas de termo. ${mudou ? "public/js/data-conceitos.js atualizado — faça commit para publicar" : "sem mudanças"}`);
+  if (semEntrada.length) console.log("  ⚠ termos sem entrada: " + [...new Set(semEntrada)].join(", "));
+  return { entradas: lista.length, termos: unicos.length, semEntrada, arquivoAtualizado: mudou };
 }
 
 function mesmoInstante(a, b) { return !!a && !!b && new Date(a).getTime() === new Date(b).getTime(); }
@@ -626,4 +717,4 @@ if (require.main === module) {
   main().catch((e) => { console.error("\n✖ " + e.message); process.exit(1); });
 }
 
-module.exports = { blocosMd, valorPropriedade, ajustarTipo, norm, comHifen, BASES, sincronizarLore, criarNotion, carregarEnv };
+module.exports = { emParalelo, exportarGlossario, textoMd, blocosMd, valorPropriedade, ajustarTipo, norm, comHifen, BASES, sincronizarLore, criarNotion, carregarEnv };

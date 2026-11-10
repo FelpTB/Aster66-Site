@@ -89,11 +89,47 @@ window.marcarRitmos = (htmlEscapado) => String(htmlEscapado).replace(RE_RITMO, (
   `<span class="ritmo" style="--ritmo:${window.RITMOS[nome]}" title="Marcador de ritmo: ${nome}">${nome}</span>`);
 window.ritmosDoTexto = (texto) => [...new Set([...String(texto || "").matchAll(RE_RITMO)].map((m) => m[1]))];
 
+// Termos técnicos → link para a explicação no sumário (Ferramentas › Sumário).
+// A lista vem de js/data-conceitos.js (window.ASTER_TERMOS), gerada pelo sync a partir do Notion.
+// Só formas com maiúscula viram link (os termos são nomes próprios: "Golpe Crítico", "Fila de Cooldown").
+// Atributos ("Corpo", "Mente"…) só em contexto de regra: "Teste de Corpo", "+1 de Mente".
+// (Calculado na 1ª utilização: data-conceitos.js pode carregar depois deste arquivo.)
+let RE_TERMOS, SLUG_DO_TERMO;
+function prepararTermos() {
+  if (RE_TERMOS !== undefined) return RE_TERMOS;
+  const termos = window.ASTER_TERMOS || [];
+  if (!termos.length) return null; // ainda não carregou: tenta de novo na próxima chamada
+  SLUG_DO_TERMO = new Map(termos.map((t) => [t.forma, t.slug]));
+  const re = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const livres = termos.filter((t) => !t.contexto).map((t) => re(t.forma));
+  const ctx = termos.filter((t) => t.contexto).map((t) => re(t.forma));
+  const L = "[\\p{L}\\p{N}]";
+  const contexto = "(?<=(?:[Tt]estes? de |[Aa]tributos? (?:de )?|[Mm]odificador(?:es)? de |\\d (?:pontos? )?(?:de )?|\\d de ))";
+  const partes = [`(${livres.join("|")})`];
+  if (ctx.length) partes.push(`${contexto}(${ctx.join("|")})`);
+  return (RE_TERMOS = new RegExp(`(?<!${L})(?:${partes.join("|")})(?!${L})`, "gu"));
+}
+// Recebe texto JÁ escapado. `vistos` (Set de slugs) faz só a 1ª menção de cada termo virar link.
+window.linkarTermos = (htmlEscapado, { exceto = "", vistos = new Set() } = {}) => {
+  const re = prepararTermos();
+  if (!re) return htmlEscapado;
+  return String(htmlEscapado).replace(re, (m, livre, ctx) => {
+    const forma = livre || ctx;
+    const slug = SLUG_DO_TERMO.get(forma);
+    if (!slug || slug === exceto || vistos.has(slug)) return m;
+    vistos.add(slug);
+    return `<a class="termo" href="ferramentas.html#conceito-${slug}" data-termo="${slug}">${m}</a>`;
+  });
+};
+
 // Markdown do Notion (coluna `conteudo` do Supabase) → HTML seguro.
 // Suporta títulos, parágrafos, listas, citações, tabelas simples, negrito, itálico e código.
-window.mdHTML = (md, { semLinkOriginal = true } = {}) => {
+// `termos: true` liga os termos técnicos ao sumário (`termoAtual` = slug que não vira link).
+window.mdHTML = (md, { semLinkOriginal = true, termos = false, termoAtual = "" } = {}) => {
   const esc = window.escapeHTML;
-  const inline = (s) => window.marcarRitmos(esc(s))
+  const vistos = new Set();
+  const comTermos = (s) => termos ? window.linkarTermos(s, { exceto: termoAtual, vistos }) : s;
+  const inline = (s) => window.marcarRitmos(comTermos(esc(s)))
     .replace(/`([^`]+)`/g, "<code>$1</code>")
     .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
     .replace(/(^|[^*])\*([^*\n]+)\*/g, "$1<em>$2</em>")
@@ -155,6 +191,51 @@ window.abrirModal = (() => {
     return dlg;
   };
 })();
+
+// Explicação de um termo do sumário numa segunda janela, por cima da que estiver aberta
+// (ex.: a carta continua aberta embaixo). Links dentro dela trocam o conteúdo, com "voltar".
+window.abrirConceito = (() => {
+  let dlg, historico = [];
+  const porSlug = () => new Map((window.ASTER_CONCEITOS || []).map((c) => [c.slug, c]));
+  const mostrar = (slug) => {
+    const c = porSlug().get(slug);
+    if (!c) return false;
+    const esc = window.escapeHTML;
+    const local = [c.categoria, c.grupo].filter(Boolean).join(" › ");
+    dlg.querySelector(".modal-body").innerHTML = `
+      ${historico.length > 1 ? '<button class="btn btn-ghost btn-small termo-voltar" type="button" data-voltar>← Voltar</button>' : ""}
+      <span class="eyebrow" style="margin-bottom:.3rem">Sumário · ${esc(local)}</span>
+      <h2 style="margin:0 0 .5em">${esc(c.nome)}</h2>
+      <div class="md">${window.mdHTML(c.conteudo, { termos: true, termoAtual: c.slug })}</div>
+      <p style="margin-top:1.2em"><a class="link-sumario" href="ferramentas.html#conceito-${c.slug}">Ver no sumário completo →</a></p>`;
+    dlg.querySelector(".modal-body").scrollTop = 0;
+    return true;
+  };
+  return (slug) => {
+    if (!(window.ASTER_CONCEITOS || []).some((c) => c.slug === slug)) return false;
+    if (!dlg) {
+      dlg = document.createElement("dialog");
+      dlg.className = "modal modal-termo";
+      dlg.innerHTML = `<button class="modal-close" aria-label="Fechar" data-close>×</button><div class="modal-body"></div>`;
+      dlg.addEventListener("click", (e) => {
+        if (e.target === dlg || e.target.closest("[data-close]")) { dlg.close(); return; }
+        if (e.target.closest("[data-voltar]")) { historico.pop(); mostrar(historico[historico.length - 1]); }
+      });
+      dlg.addEventListener("close", () => { historico = []; });
+      document.body.append(dlg);
+    }
+    historico.push(slug);
+    mostrar(slug);
+    if (!dlg.open) dlg.showModal();
+    return true;
+  };
+})();
+// Clique em qualquer termo linkado: abre a explicação sem sair da página (se o sumário estiver carregado).
+document.addEventListener("click", (e) => {
+  const a = e.target.closest("a[data-termo]");
+  if (!a || e.ctrlKey || e.metaKey || e.shiftKey) return;
+  if (window.abrirConceito(a.dataset.termo)) e.preventDefault();
+});
 
 // Monograma (símbolo provisório) para cards sem arte própria.
 window.monograma = (nome) => {
