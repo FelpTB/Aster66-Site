@@ -228,11 +228,28 @@ function criarNotion(token) {
 }
 
 // Texto rico do Notion → Markdown
-function textoMd(rich = []) {
+// Marcadores de ritmo (cartas do Bardo e de Ritmo): no Notion são letras "o" coloridas.
+// A cor vira o nome do marcador entre chaves — ex.: "o" roxo → "{Arrepiante}".
+// Os nomes da legenda escritos na própria cor (ex.: "Vivaz" em amarelo) também viram marcador.
+const RITMO_POR_COR = { yellow: "Vivaz", red: "Furioso", blue: "Melancólico", green: "Suave", purple: "Arrepiante", gray: "Potente" };
+function marcadoresDeRitmo(texto, cor) {
+  const nome = RITMO_POR_COR[cor];
+  if (!nome) return null;
+  const m = texto.match(/^(\s*)([oO]+)(\s*)$/);
+  if (m) return m[1] + [...m[2]].map(() => `{${nome}}`).join("") + m[3];
+  const n = texto.match(/^(\s*)(\S.*?)(\s*)$/);
+  if (n && norm(n[2]) === norm(nome)) return `${n[1]}{${nome}}${n[3]}`;
+  return null;
+}
+
+function textoMd(rich = [], corDoBloco = "") {
   return rich.map((t) => {
     let s = t.plain_text || "";
     if (!s) return "";
     const a = t.annotations || {};
+    const cor = a.color && a.color !== "default" ? a.color : corDoBloco;
+    const ritmo = marcadoresDeRitmo(s, cor);
+    if (ritmo) return ritmo;
     if (a.code) s = "`" + s + "`";
     if (a.bold) s = `**${s}**`;
     if (a.italic) s = `*${s}*`;
@@ -250,7 +267,7 @@ function blocosMd(blocos, nivel = 0) {
   let numero = 0;
   for (const b of blocos) {
     const d = b[b.type] || {};
-    const txt = textoMd(d.rich_text);
+    const txt = textoMd(d.rich_text, d.color && d.color !== "default" ? d.color : "");
     const filhos = b.filhos ? blocosMd(b.filhos, nivel + 1) : "";
     numero = b.type === "numbered_list_item" ? numero + 1 : 0;
     switch (b.type) {

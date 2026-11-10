@@ -78,11 +78,22 @@ window.escapeHTML = (s) =>
 window.formatDate = (iso) =>
   new Date(iso.length === 10 ? iso + "T12:00:00" : iso).toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" });
 
+// Marcadores de ritmo: no banco aparecem como {Vivaz}, {Furioso}… (no Notion eram "o" coloridos).
+window.RITMOS = {
+  "Vivaz": "#f2c94c", "Furioso": "#e5484d", "Melancólico": "#4f8fe8",
+  "Suave": "#4cbf7a", "Arrepiante": "#a970e8", "Potente": "#a3a3b2",
+};
+const RE_RITMO = new RegExp("\\{(" + Object.keys(window.RITMOS).join("|") + ")\\}", "g");
+// Recebe texto JÁ escapado e troca {Marcador} por uma etiqueta colorida.
+window.marcarRitmos = (htmlEscapado) => String(htmlEscapado).replace(RE_RITMO, (_, nome) =>
+  `<span class="ritmo" style="--ritmo:${window.RITMOS[nome]}" title="Marcador de ritmo: ${nome}">${nome}</span>`);
+window.ritmosDoTexto = (texto) => [...new Set([...String(texto || "").matchAll(RE_RITMO)].map((m) => m[1]))];
+
 // Markdown do Notion (coluna `conteudo` do Supabase) → HTML seguro.
 // Suporta títulos, parágrafos, listas, citações, tabelas simples, negrito, itálico e código.
 window.mdHTML = (md, { semLinkOriginal = true } = {}) => {
   const esc = window.escapeHTML;
-  const inline = (s) => esc(s)
+  const inline = (s) => window.marcarRitmos(esc(s))
     .replace(/`([^`]+)`/g, "<code>$1</code>")
     .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
     .replace(/(^|[^*])\*([^*\n]+)\*/g, "$1<em>$2</em>")

@@ -24,7 +24,7 @@
   let limite = 30;
   let custoSel = null;
 
-  const filtros = ["filtro-origem", "filtro-tipo", "filtro-raridade", "filtro-modo", "filtro-palavra"];
+  const filtros = ["filtro-origem", "filtro-tipo", "filtro-raridade", "filtro-modo", "filtro-palavra", "filtro-ritmo"];
   const fill = (id, valores) => $(id).insertAdjacentHTML("beforeend", valores.map((v) => `<option>${esc(v)}</option>`).join(""));
 
   $("filtro-custo").insertAdjacentHTML("beforeend", FAIXAS.map(([k, label]) =>
@@ -37,7 +37,7 @@
         ${c.custo ? `<span class="cg-custo" title="Custo em energia">${esc(c.custos.length > 1 ? c.custos[0] + "…" : c.custo).slice(0, 12)}</span>` : ""}
       </div>
       <span class="cg-tipo">${esc(c.tipo)}${c.modo ? " · " + esc(c.modo) : ""}</span>
-      <p class="cg-texto">${esc(c.texto) || "Sem descrição."}</p>
+      <p class="cg-texto">${window.marcarRitmos(esc(c.texto)) || "Sem descrição."}</p>
       <div class="cg-rodape">
         <span class="cg-rar">${esc(c.raridade || "")}</span>
         <span>${esc(c.origens.slice(0, 2).join(", "))}${c.origens.length > 2 ? "…" : ""}</span>
@@ -47,10 +47,10 @@
   let LISTA = [];
   function render() {
     const q = norm($("busca-cartas").value.trim());
-    const [o, t, r, m, p] = filtros.map((id) => $(id).value);
+    const [o, t, r, m, p, ri] = filtros.map((id) => $(id).value);
     LISTA = CARTAS.filter((c) =>
       (!o || c.origens.includes(o)) && (!t || c.tipos.includes(t)) && (!r || c.raridade === r) &&
-      (!m || c.modos.includes(m)) && (!p || c.palavras.includes(p)) &&
+      (!m || c.modos.includes(m)) && (!p || c.palavras.includes(p)) && (!ri || c.ritmos.includes(ri)) &&
       (!custoSel || faixasDaCarta(c).includes(custoSel)) &&
       (!q || norm(c.nome + " " + c.texto + " " + c.palavras.join(" ")).includes(q)));
     $("cartas-contagem").textContent = `${LISTA.length} carta${LISTA.length === 1 ? "" : "s"}`;
@@ -104,7 +104,7 @@
   });
 
   window.AsterDB.cartas().then((lista) => {
-    CARTAS = lista;
+    CARTAS = lista.map((c) => ({ ...c, ritmos: window.ritmosDoTexto(c.conteudo || c.texto) }));
     if (!lista.length) {
       $("cartas-lista").innerHTML = `<p class="empty">O catálogo de cartas vem do Supabase e não está disponível agora.</p>`;
       return;
@@ -115,6 +115,7 @@
     fill("filtro-raridade", uniq((c) => [c.raridade]).sort((a, b) => ORDEM_RARIDADE.indexOf(a) - ORDEM_RARIDADE.indexOf(b)));
     fill("filtro-modo", uniq((c) => c.modos));
     fill("filtro-palavra", uniq((c) => c.palavras));
+    fill("filtro-ritmo", Object.keys(window.RITMOS).filter((r) => CARTAS.some((c) => c.ritmos.includes(r))));
     const origemURL = new URLSearchParams(location.search).get("origem");
     if (origemURL) $("filtro-origem").value = origemURL;
     render();

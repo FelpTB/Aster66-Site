@@ -475,3 +475,13 @@ details.tecnica .stats { margin-top: 0; }
 .lore { margin-top: 26px; padding-top: 18px; border-top: 1px solid var(--line); }
 .lore .md h5 { font-size: 1.35rem; }
 .lore .md h6 { font-size: 1.1rem; }
+
+/* Marcadores de ritmo (cartas do Bardo / Ritmo) */
+.ritmo {
+  display: inline-flex; align-items: center; gap: 4px; vertical-align: 1px;
+  padding: 0 7px 0 5px; margin: 0 1px; border-radius: 999px; line-height: 1.5;
+  font-size: .72em; font-weight: 700; letter-spacing: .04em; white-space: nowrap;
+  color: var(--ritmo); background: color-mix(in srgb, var(--ritmo) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--ritmo) 45%, transparent);
+}
+.ritmo::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--ritmo); flex: none; }
