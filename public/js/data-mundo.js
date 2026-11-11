@@ -79,6 +79,35 @@ window.ASTER_MUNDO = {
       economia: ["Comércio", "Agricultura", "Metalurgia", "Têxteis", "Magia"] }
   ],
 
+  // Linha do tempo (rascunho): eras e eventos em ordem aproximada, sem datas. Fonte: páginas do Notion.
+  linhaDoTempo: [
+    { era: "Era de É-Dingirra", eventos: [
+      { titulo: "O povo Ediniano", texto: "Uma pequena tribo domina a magia e se espalha por todo o continente, batizado em homenagem à exploradora que primeiro o desbravou." },
+      { titulo: "O Rei e seus eleitos", texto: "O Rei de É-Dingirra eleva seguidores à divindade e divide o reino em distritos: militar, de magia, do trabalho, da natureza." },
+      { titulo: "O meteoro de Tokkara", texto: "Cai um meteoro de cristais negros capazes de afetar os deuses. A cratera é selada e Hief ergue montanhas sobre ela." },
+      { titulo: "A conspiração de Ah-Rimã", texto: "Contra a visão comunitária de Mattiya, Ah-Rimã absorve o poder dos cristais com a ajuda de Amon e cria os Infernais." },
+    ] },
+    { era: "A Queda", eventos: [
+      { titulo: "O primeiro deicídio", texto: "Amon e Ah-Rimã matam Rekh, o Deus das Memórias. Seus seguidores guardam a mente do deus e fundam o Culto das Memórias." },
+      { titulo: "A queda de Édin", texto: "Ah-Rimã é morto e Mattiya anuncia, em Kin-Me-Gir, que levará o reino para outro mundo. O centro do reino é arrancado do continente e vira o Arquipélago de É-Dingirra, inabitável." },
+    ] },
+    { era: "Era dos Reinos", eventos: [
+      { titulo: "As cidades-Estado de Kin-Me-Gir", texto: "Dividido entre várias fés, Kin-Me-Gir é o primeiro território a se reorganizar." },
+      { titulo: "Niod funda Kalasar", texto: "O conselheiro do rei conquista as tribos do norte gelado e une os clãs Aesir, Alfar, Dvergar e Jotunar." },
+      { titulo: "A Revolução da Alvorada", texto: "Com a magia de luz de Isaac Endlitch, os humanos de Tangênia matam Amon e fundam Supra Lux." },
+      { titulo: "A Távola dos Eleitos", texto: "Após anos de invasões, as famílias do antigo centro do império se unem. Arthur e seus cavaleiros voltam de É-Dingirra com o Cálice de Mattiya." },
+      { titulo: "Wildcoast se fecha", texto: "Os elfos isolam os Dokk e, pelo Tratado das Anulatras, exilam não elfos e mestiços para a colônia de Anulatra." },
+    ] },
+    { era: "Era Moderna", eventos: [
+      { titulo: "O império de Tuhan", texto: "Magnus III unifica cinco dos sete reinos; os generais depõem Magnus IV e instauram a ditadura do Magnum General." },
+      { titulo: "As Farlands independentes", texto: "A filosofia de Tifoéu une os escravizados das Farlands, que resistem aos impérios e acabam isoladas atrás de muralhas." },
+      { titulo: "A Erupção de Flammus", texto: "Os orcs escravizados por Tuhan se libertam e ocupam a superfície vulcânica de Tokkara." },
+      { titulo: "Gaius, imperador", texto: "O bastardo da antiga linhagem vence os irmãos em combate e encerra a expansão de Zew Phater." },
+      { titulo: "A Guerra do Cerco a Hakemênida", texto: "Uma coalizão de quase todo o continente arrasa o império mágico; mil anos de magia se perdem." },
+      { titulo: "A independência de Andosea", texto: "Uma guerra civil depõe o Arcebispo Giordanno Nassaul e liberta o arquipélago da Elesidônia." },
+      { titulo: "A fundação de Orixu", texto: "Reconhecidos como raça Ediniana, os goblins são deportados para as ilhas do sul, sob a proteção da Guilda dos Aventureiros." },
+    ] },
+  ],
   noticias: [
     { data: "2026-11-09", titulo: "Site reorganizado",
       texto: "Nova aba Ferramentas com o catálogo de cartas e o montador de fichas; Explorar agora conta a história da magia, do céu de Aster, do Panteão e dos países, com fichas técnicas de raças e classes." },

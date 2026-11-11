@@ -346,5 +346,17 @@
     },
   };
 
-  window.AsterDB = { ativo: !!cfg, pronto, catalogoPersonagens, cartas, panteao, paises, auth, fichas, comentarios, traduzErro, mdTexto };
+  // Leitura genérica de uma tabela do esquema `aster` (catálogos simples: personagens, itens, criaturas, cenários).
+  const cacheTabelas = {};
+  async function tabela(nome, colunas = "*") {
+    const chave = nome + "|" + colunas;
+    if (cacheTabelas[chave]) return cacheTabelas[chave];
+    const db = await pronto;
+    if (!db) return [];
+    const { data, error } = await aster().from(nome).select(colunas).order("nome").limit(3000);
+    falha(error);
+    return (cacheTabelas[chave] = data);
+  }
+
+  window.AsterDB = { ativo: !!cfg, pronto, catalogoPersonagens, cartas, panteao, paises, tabela, auth, fichas, comentarios, traduzErro, mdTexto };
 })();

@@ -1,7 +1,18 @@
 # Aster66 — site (versão local)
 
-Site do RPG Aster66 com quatro áreas: **Início**, **Explorar** (mundo, Maresia, panteão, países, raças e classes),
-**Documentos** (ficha editável em PDF + ficha online) e **Comunidade** (comentários + contato).
+Site do RPG Aster66. O menu (montado em `public/js/common.js`, constante `NAV`) tem dropdowns:
+
+| Área | Páginas |
+|---|---|
+| Início | `index.html` — introdução ao sistema |
+| Mundo de Aster | `mundo.html` (mapa — em construção —, linha do tempo, panteão, países e locais, raças e classes) · `ceu.html` (magia, planeta, geologia — em construção — e astros) · `personagens.html` (catálogo) |
+| Ferramentas | `ferramentas.html` (visão geral) · `ficha.html` (montador) · `catalogos.html` (raças, classes, cartas, bestiário, itens, locais) · `sumario.html` (regras, termos e condições) |
+| Documentos | `documentos.html` (lista) · `documento.html?id=…` (uma página por documento; lista em `ASTER_DOCUMENTOS`, `common.js`) |
+| Comunidade | `comunidade.html` (comentários e contato) · `apoie.html` (formulário que abre o e-mail) · `criacoes.html` (só com conta; em construção) |
+
+`noticias.html` fica no rodapé. Links antigos continuam funcionando: `explorar.html#…` e `ferramentas.html#…`
+redirecionam para as páginas novas. Bestiário, itens, locais e personagens usam o catálogo genérico
+`public/js/catalogo-simples.js` (busca, filtros e janela de detalhes sobre uma tabela do esquema `aster`).
 
 ## Rodar
 
@@ -86,7 +97,7 @@ O mesmo comando exporta o **Sumário** do site (Conceitos + páginas de regras: 
 cooldown, alcance, raridade, origens, inventário, itens, condições, tipos de defesa) para `public/js/data-conceitos.js`,
 usado na aba Ferramentas. As páginas e o recorte de cada uma ficam em `scripts/glossario.js`, junto com a lista de
 **termos**: nos textos das cartas, raças e classes, cada termo escrito como nome próprio ("Golpe Crítico",
-"Fila de Cooldown") vira link para a explicação (`ferramentas.html#conceito-<slug>`), que abre numa janela por cima.
+"Fila de Cooldown") vira link para a explicação (`sumario.html#conceito-<slug>`), que abre numa janela por cima.
 Quando esse arquivo mudar, faça commit para publicar (`npm run sync:notion -- --only=conceitos` atualiza só ele).
 
 Para os termos seguirem o padrão no Notion, `node scripts/padronizar-termos.js` gera `data/padronizacao.md`

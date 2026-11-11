@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Catálogos — Aster66</title>
+  <meta name="description" content="Catálogos de raças, classes, cartas, bestiário, itens e locais do Aster66.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<main id="conteudo">
+  <header class="page-head">
+    <div class="wrap">
+      <span class="eyebrow"><a href="ferramentas.html">Ferramentas</a> / Catálogos</span>
+      <h1>Catálogos</h1>
+      <p class="lead">Raças, classes, cartas, criaturas, itens e locais do sistema, com busca e filtros.</p>
+    </div>
+  </header>
+
+  <nav class="subnav" aria-label="Seções">
+    <div class="wrap">
+      <a href="#racas">Raças</a>
+      <a href="#classes">Classes</a>
+      <a href="#cartas">Cartas</a>
+      <a href="#bestiario">Bestiário</a>
+      <a href="#itens">Itens</a>
+      <a href="#locais">Locais</a>
+    </div>
+  </nav>
+
+  <section id="racas" class="anchor">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Catálogo</span>
+        <h2>Raças</h2>
+        <p class="dim">A raça define atributos, vida e energia iniciais, a Habilidade Inata e as primeiras origens. Clique em uma raça para ver a ficha técnica.</p>
+      </div>
+      <div class="filtros" role="search" data-catalogo="raca">
+        <div class="linha">
+          <input class="input" type="search" data-f="busca" placeholder="Buscar raça, origem ou habilidade…" aria-label="Buscar raças" style="flex:1;min-width:220px">
+          <button class="btn btn-ghost btn-small" type="button" data-f="limpar">Limpar filtros</button>
+        </div>
+        <div class="linha" data-f="attrs" role="group" aria-label="Atributo"><span class="rotulo">Atributo</span></div>
+        <div class="linha">
+          <select class="select" data-f="origem" aria-label="Origem"><option value="">Todas as origens</option></select>
+          <select class="select" data-f="vida" aria-label="Vida inicial"><option value="">Qualquer vida inicial</option></select>
+          <select class="select" data-f="energia" aria-label="Energia inicial"><option value="">Qualquer energia inicial</option></select>
+          <select class="select" data-f="ordem" aria-label="Ordenar"><option value="nome">Ordem: nome</option><option value="vida">Ordem: mais vida</option><option value="energia">Ordem: mais energia</option></select>
+        </div>
+      </div>
+      <p class="dim" data-f="contagem" style="font-size:.9rem"></p>
+      <div class="entidades" data-f="lista"><p class="empty">Carregando…</p></div>
+    </div>
+  </section>
+
+  <section id="classes" class="anchor" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Catálogo</span>
+        <h2>Classes</h2>
+        <p class="dim">A classe inicial define atributos, vida e energia; cada classe tem uma Habilidade Característica (de origem Livre) que concede a origem da classe. Clique para ver a ficha técnica.</p>
+      </div>
+      <div class="filtros" role="search" data-catalogo="classe">
+        <div class="linha">
+          <input class="input" type="search" data-f="busca" placeholder="Buscar classe, origem ou habilidade…" aria-label="Buscar classes" style="flex:1;min-width:220px">
+          <button class="btn btn-ghost btn-small" type="button" data-f="limpar">Limpar filtros</button>
+        </div>
+        <div class="linha" data-f="attrs" role="group" aria-label="Atributo"><span class="rotulo">Atributo</span></div>
+        <div class="linha">
+          <select class="select" data-f="origem" aria-label="Origem"><option value="">Todas as origens</option></select>
+          <select class="select" data-f="vida" aria-label="Vida inicial"><option value="">Qualquer vida inicial</option></select>
+          <select class="select" data-f="energia" aria-label="Energia inicial"><option value="">Qualquer energia inicial</option></select>
+          <select class="select" data-f="ordem" aria-label="Ordenar"><option value="nome">Ordem: nome</option><option value="vida">Ordem: mais vida</option><option value="energia">Ordem: mais energia</option></select>
+        </div>
+      </div>
+      <p class="dim" data-f="contagem" style="font-size:.9rem"></p>
+      <div class="entidades" data-f="lista"><p class="empty">Carregando…</p></div>
+    </div>
+  </section>
+  <hr class="rule-ouro">
+
+  <section id="cartas" class="anchor">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Baralho</span>
+        <h2>Catálogo de cartas</h2>
+        <p class="dim">Todas as cartas do sistema. Clique em uma carta para ver todos os detalhes.</p>
+      </div>
+
+      <div class="filtros" role="search">
+        <div class="linha">
+          <input class="input" type="search" id="busca-cartas" placeholder="Buscar por nome, efeito ou palavra-chave…" aria-label="Buscar cartas" style="flex:1;min-width:220px">
+          <button class="btn btn-ghost btn-small" id="limpar-filtros" type="button">Limpar filtros</button>
+        </div>
+        <div class="linha" id="filtro-custo" role="group" aria-label="Custo em energia"><span class="rotulo">Energia</span></div>
+        <div class="linha">
+          <select class="select" id="filtro-origem" aria-label="Origem"><option value="">Todas as origens</option></select>
+          <select class="select" id="filtro-tipo" aria-label="Tipo"><option value="">Todos os tipos</option></select>
+          <select class="select" id="filtro-raridade" aria-label="Raridade"><option value="">Todas as raridades</option></select>
+          <select class="select" id="filtro-modo" aria-label="Modo de uso"><option value="">Qualquer modo de uso</option></select>
+          <select class="select" id="filtro-palavra" aria-label="Palavra-chave"><option value="">Qualquer palavra-chave</option></select>
+          <select class="select" id="filtro-ritmo" aria-label="Marcador de ritmo"><option value="">Qualquer marcador de ritmo</option></select>
+        </div>
+      </div>
+
+      <p class="dim" id="cartas-contagem" style="font-size:.9rem"></p>
+      <div class="galeria" id="cartas-lista"><p class="empty">Carregando cartas…</p></div>
+      <div style="text-align:center;margin-top:28px"><button class="btn btn-ghost" id="cartas-mais" hidden>Mostrar mais</button></div>
+    </div>
+  </section>
+  <hr class="rule-ouro">
+
+  <section id="bestiario" class="anchor">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Catálogo</span>
+        <h2>Bestiário</h2>
+        <p class="dim">Criaturas de Aster com vida, ações, reações, defesa e ataques. Clique para ver a ficha.</p>
+      </div>
+      <div id="cat-bestiario"></div>
+    </div>
+  </section>
+
+  <hr class="rule-ouro">
+
+  <section id="itens" class="anchor">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Catálogo</span>
+        <h2>Itens</h2>
+        <p class="dim">Armas, proteções, ferramentas, consumíveis e artefatos, com efeito, preço e espaço no inventário.</p>
+      </div>
+      <div id="cat-itens"></div>
+    </div>
+  </section>
+
+  <hr class="rule-ouro">
+
+  <section id="locais" class="anchor">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Catálogo</span>
+        <h2>Locais</h2>
+        <p class="dim">Países, cidades, regiões e edifícios de Aster. Para ver os países no contexto do continente, abra o <a href="mundo.html#paises">Mundo de Aster</a>.</p>
+      </div>
+      <div id="cat-locais"></div>
+    </div>
+  </section>
+</main>
+<script src="js/config.js"></script>
+<script src="js/db.js"></script>
+<script src="js/common.js"></script>
+<script src="js/auth-ui.js"></script>
+<script src="js/data-personagens.js"></script>
+<script src="js/data-conceitos.js"></script>
+<script src="js/personas.js"></script>
+<script src="js/catalogo-simples.js"></script>
+<script src="js/catalogos.js"></script>
+</body>
+</html>

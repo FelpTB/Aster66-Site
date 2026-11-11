@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mundo de Aster — Aster66</title>
+  <meta name="description" content="Mapa, linha do tempo, panteão, países, raças e classes do mundo de Aster.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<main id="conteudo">
+  <header class="page-head">
+    <div class="wrap">
+      <span class="eyebrow"><a href="mundo.html">Mundo de Aster</a></span>
+      <h1>Linha do tempo e mapa</h1>
+      <p class="lead">O continente de Maresia, sua história e os povos, deuses e países que nasceram da queda de Édin.</p>
+    </div>
+  </header>
+
+  <nav class="subnav" aria-label="Seções">
+    <div class="wrap">
+      <a href="#mapa">Mapa</a>
+      <a href="#linha">Linha do tempo</a>
+      <a href="#panteao">Panteão</a>
+      <a href="#paises">Países e locais</a>
+      <a href="#racas">Raças</a>
+      <a href="#classes">Classes</a>
+    </div>
+  </nav>
+
+  <section id="mapa" class="anchor">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Continente de Maresia</span>
+        <h2>Maresia e o Reino de É-Dingirra</h2>
+        <p class="dim">Em Maresia, o povo Ediniano foi um dos primeiros a dominar a magia. A pequena tribo tornou-se uma
+          sociedade que se estendeu por todo o continente — batizado em homenagem à exploradora que primeiro o desbravou.</p>
+<p class="dim">Seu líder se dizia eleito pela vontade do universo para criar em Aster um reino eterno e perfeito.
+          Como Rei de É-Dingirra, ele podia elevar seguidores à divindade. O reino dominou o continente por milênios; após
+          sua queda, religiões, culturas, tecnologias e políticas de todos os países que surgiram ainda carregam seus resquícios.</p>
+      </div>
+      <div class="mapa-moldura card card-frame">
+        <div class="mapa-area" aria-hidden="true">
+          <svg viewBox="0 0 120 120"><g fill="none" stroke="currentColor" stroke-width="1"><circle cx="60" cy="60" r="44" stroke-opacity=".4"/><circle cx="60" cy="60" r="30" stroke-dasharray="2 4"/><path d="M60 8 66 54 60 60 54 54Z" fill="currentColor" fill-opacity=".55"/><path d="M60 112 54 66 60 60 66 66Z"/><path d="M8 60 54 54 60 60 54 66ZM112 60 66 66 60 60 66 54Z" stroke-opacity=".6"/></g></svg>
+          <div><span class="tag">Em construção</span><h3>Mapa interativo</h3>
+          <p class="dim">Em breve: o mapa de Maresia com fronteiras, cidades e locais clicáveis. Por enquanto, escolha um país abaixo.</p></div>
+        </div>
+        <div class="chip-group" id="mapa-paises" aria-label="Países de Maresia"></div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule-ouro">
+
+  <section id="linha" class="anchor">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">História</span>
+        <h2>Linha do tempo</h2>
+        <p class="dim">Das origens de É-Dingirra à era moderna. <span class="tag">Rascunho</span> A ordem é aproximada e as datas ainda vão ser definidas.</p>
+      </div>
+      <ol class="linha-tempo" id="linha-do-tempo"></ol>
+    </div>
+  </section>
+
+  <hr class="rule-ouro">
+
+  <section id="panteao" class="anchor">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Os eleitos do Rei</span>
+        <h2>O Panteão de Édin</h2>
+        <p class="dim">Clique em uma divindade para ler sua história.</p>
+      </div>
+      <div class="entidades" id="panteao-lista"></div>
+    </div>
+  </section>
+
+  <hr class="rule-ouro">
+
+  <section id="paises" class="anchor">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Geografia política</span>
+        <h2>Países de Maresia</h2>
+        <p class="dim">Clique em um país para ler sua história, política e economia — e conhecer seus locais.</p>
+      </div>
+      <div class="entidades" id="paises-lista"></div>
+    </div>
+  </section>
+
+  <hr class="rule-ouro">
+
+  <section id="racas" class="anchor">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Povos de Aster</span>
+        <h2>Raças</h2>
+        <p class="dim">A raça define atributos, vida e energia iniciais, além de cartas e origens únicas — e como seu
+          personagem se encaixa no cenário. Um personagem pode ser híbrido de duas raças.</p>
+      </div>
+      <div class="toolbar">
+        <input class="input" type="search" id="busca-racas" placeholder="Buscar raça, origem ou habilidade…" aria-label="Buscar raças">
+      </div>
+      <div class="entidades" id="racas-lista"></div>
+    </div>
+  </section>
+
+  <section id="classes" class="anchor" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Classes</h2>
+        <p class="dim">A classe inicial define atributos e ajuda a construir a imagem do personagem — ofício, classe social e
+          até crença. Novas classes concedem novas origens e cartas, mas não novos atributos iniciais.</p>
+      </div>
+      <div class="toolbar">
+        <input class="input" type="search" id="busca-classes" placeholder="Buscar classe, origem ou habilidade…" aria-label="Buscar classes">
+        <div class="chip-group" id="filtro-attr" role="group" aria-label="Filtrar por atributo"></div>
+      </div>
+      <div class="entidades" id="classes-lista"></div>
+      <p class="dim" style="margin-top:32px">Quer filtrar por origem, vida ou energia? Use os <a href="catalogos.html#racas">catálogos de raças e classes</a>. As cartas estão no <a href="catalogos.html#cartas">catálogo de cartas</a>.</p>
+    </div>
+  </section>
+</main>
+<script src="js/config.js"></script>
+<script src="js/db.js"></script>
+<script src="js/common.js"></script>
+<script src="js/auth-ui.js"></script>
+<script src="js/simbolos.js"></script>
+<script src="js/data-conceitos.js"></script>
+<script src="js/personas.js"></script>
+<script src="js/data-mundo.js"></script>
+<script src="js/data-personagens.js"></script>
+<script src="js/mundo.js"></script>
+</body>
+</html>

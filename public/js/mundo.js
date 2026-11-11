@@ -1,3 +1,4 @@
+// Página Mundo de Aster: mapa (em construção), linha do tempo, panteão, países e locais, raças e classes.
 (() => {
   const M = window.ASTER_MUNDO;
   const DB = window.AsterDB;
@@ -7,16 +8,15 @@
   const md = window.mdHTML;
   const norm = (s) => String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
 
-  // ---------- Céu de Aster ----------
-  $("astros").innerHTML = M.astros.map((a) => `
-    <article class="card astro">
-      ${window.ASTRO_SVG[a.id]}
-      <div><h3 style="margin:0">${a.nome}</h3>
-      <span class="eyebrow" style="margin:.2rem 0 .6rem">${a.tipo}</span>
-      <p class="dim" style="font-size:.95rem">${a.texto}</p></div>
-    </article>`).join("");
-
   const { cardEntidade, cabecaModal, cardPersona, abrirPersona, casaBusca } = window.AsterUI;
+
+  // ---------- Linha do tempo ----------
+  const linha = $("linha-do-tempo");
+  if (linha) linha.innerHTML = (M.linhaDoTempo || []).map((era) => `
+    <li class="era">
+      <span class="era-nome">${esc(era.era)}</span>
+      <ol>${era.eventos.map((ev) => `<li><b>${esc(ev.titulo)}</b><p class="dim">${esc(ev.texto)}</p></li>`).join("")}</ol>
+    </li>`).join("");
 
   // ---------- Panteão de Édin ----------
   let DEUSES = M.panteao.map((d) => ({ nome: d.nome, titulo: d.titulo, resumo: d.texto, conteudo: `${d.texto}\n\n**Símbolo:** ${d.simbolo}` }));
@@ -58,10 +58,17 @@
     window.abrirModal(`${cabecaModal(window.monograma(p.nome), p.nome, p.tag)}<div class="md">${md(p.conteudo)}</div>${locais}`, { largo: true });
   });
   renderPaises();
+  // Mapa (provisório): cada país vira um marcador que abre a mesma janela do card.
+  const mapa = $("mapa-paises");
+  function renderMapa() {
+    if (mapa) mapa.innerHTML = PAISES.map((p, i) => `<button class="chip" type="button" data-idx="${i}">${esc(p.nome)}</button>`).join("");
+  }
+  mapa?.addEventListener("click", (e) => { const b = e.target.closest("[data-idx]"); if (b) $("paises-lista").querySelector(`[data-idx="${b.dataset.idx}"]`)?.click(); });
+  renderMapa();
   DB.paises().then((lista) => {
     if (!lista.length) return;
     PAISES = lista.map((p) => ({ ...p, tag: localPorNome.get(norm(p.nome))?.tag || "" }));
-    renderPaises();
+    renderPaises(); renderMapa();
   }).catch((e) => console.warn("Países do Supabase indisponíveis.", e));
 
   // ---------- Povo de Aster: raças e classes ----------
@@ -92,12 +99,4 @@
   render();
   DB.catalogoPersonagens().then((lista) => { P = lista; render(); });
 
-  // ---------- Sub-navegação ----------
-  const links = [...document.querySelectorAll(".subnav a")];
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach((en) => {
-      if (en.isIntersecting) links.forEach((l) => l.classList.toggle("active", l.hash === "#" + en.target.id));
-    });
-  }, { rootMargin: "-40% 0px -55% 0px" });
-  document.querySelectorAll("section.anchor").forEach((s) => obs.observe(s));
 })();

@@ -12,19 +12,79 @@ const LOGO_SVG = `
   <path d="M33 6 l1.2 3.3 3.3 1.2 -3.3 1.2 -1.2 3.3 -1.2 -3.3 -3.3 -1.2 3.3 -1.2z" fill="#C91D2E"/>
 </svg>`;
 
+// Documentos publicados (cada um tem a própria página: documento.html?id=…).
+window.ASTER_DOCUMENTOS = [
+  { id: "ficha", titulo: "Ficha editável", tipo: "PDF", status: "disponivel", arquivo: "docs/ficha-aster66.pdf",
+    resumo: "Modelo atual da ficha de personagem, frente e verso, preenchível em qualquer leitor de PDF.",
+    descricao: "A ficha reúne tudo o que um personagem precisa na mesa. O montador de fichas do site exporta para este mesmo PDF, então dá para começar no navegador e terminar no papel.",
+    conteudo: ["Atributos, Vida, Energia e Cicatrizes", "Defesas, Deslocamento, Ações e Reações", "Dados do personagem", "Inventário por tipo de espaço", "Origens e cartas"],
+    links: [["ficha.html", "Abrir o montador de fichas"]] },
+  { id: "livro", titulo: "Livro de regras", tipo: "PDF", status: "em-breve",
+    resumo: "O livro completo do sistema: conceitos, criação de personagem, combate, entreato, condições e listas.",
+    descricao: "Enquanto o livro não sai, todas as regras já publicadas estão no Sumário do site, com busca e links entre os termos.",
+    conteudo: ["Conceitos e termos básicos", "Criação de personagem", "Combate e Entreato", "Cartas, Modos de Uso e Cooldown", "Inventário, Itens e Condições"],
+    links: [["sumario.html", "Abrir o Sumário"]] },
+  { id: "cartas", titulo: "Catálogo de cartas", tipo: "WEB · PDF", status: "parcial",
+    resumo: "Todas as cartas do sistema, com custo, efeito, origens e raridade.",
+    descricao: "A versão web, com busca e filtros, já está disponível nos Catálogos. A versão em PDF para consulta na mesa está a caminho.",
+    conteudo: ["Custo em Energia, Tipo, Modo de Uso, Cooldown e Alcance", "Origens e Raridade", "Palavras-chave e marcadores de ritmo"],
+    links: [["catalogos.html#cartas", "Abrir o catálogo de cartas"]] },
+  { id: "guia", titulo: "Guia de criação de personagem", tipo: "PDF", status: "em-breve",
+    resumo: "Passo a passo para preencher cada seção da ficha, do conceito até as primeiras cartas.",
+    descricao: "Um roteiro para quem está começando: escolher raça e classe, distribuir atributos, entender as origens e montar o primeiro baralho.",
+    conteudo: ["Conceito do personagem", "Raça, classe e atributos", "Origens e primeiras cartas", "Inventário inicial"],
+    links: [["ficha.html", "Experimentar no montador"]] },
+];
+
+// Menu principal. Grupos com `itens` viram dropdown; `paginas` diz quais páginas acendem o grupo.
 const NAV = [
-  ["index.html", "Início"],
-  ["explorar.html", "Explorar"],
-  ["ferramentas.html", "Ferramentas"],
-  ["documentos.html", "Documentos"],
-  ["noticias.html", "Notícias"],
-  ["comunidade.html", "Comunidade"],
+  { rotulo: "Início", href: "index.html" },
+  { rotulo: "Mundo de Aster", paginas: ["mundo.html", "ceu.html", "personagens.html", "explorar.html"], itens: [
+    ["mundo.html", "Linha do tempo e mapa", "Maresia, panteão, países, raças e classes"],
+    ["ceu.html", "Geologia e o Céu de Aster", "A magia, o planeta e os astros"],
+    ["personagens.html", "Personagens", "Catálogo das figuras de Aster"],
+  ] },
+  { rotulo: "Ferramentas", paginas: ["ferramentas.html", "ficha.html", "catalogos.html", "sumario.html"], itens: [
+    ["ficha.html", "Montador de fichas", "Monte a ficha e exporte para PDF"],
+    ["catalogos.html", "Catálogos", "Raças, classes, cartas, bestiário, itens e locais"],
+    ["sumario.html", "Sumário", "Regras, termos e condições"],
+  ] },
+  { rotulo: "Documentos", paginas: ["documentos.html", "documento.html"], itens: [
+    ["documentos.html", "Todos os documentos", "Materiais para jogar"],
+    ...window.ASTER_DOCUMENTOS.map((d) => [`documento.html?id=${d.id}`, d.titulo, d.status === "em-breve" ? "Em breve" : d.tipo]),
+  ] },
+  { rotulo: "Comunidade", paginas: ["comunidade.html", "apoie.html", "criacoes.html"], itens: [
+    ["comunidade.html", "Comentários e contato", "Fale com a equipe e com outros jogadores"],
+    ["apoie.html", "Apoie o projeto", "Ajude o Aster66 a crescer"],
+    ["criacoes.html", "Criações da comunidade", "Fichas, cartas e campanhas dos jogadores"],
+  ] },
 ];
 
 (function mountChrome() {
   const here = location.pathname.split("/").pop() || "index.html";
   const page = here.includes(".") ? here : here + ".html";
-  const current = page === "ficha.html" ? "ferramentas.html" : page;
+  const docAtual = new URLSearchParams(location.search).get("id");
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const ehAtual = (href) => {
+    const arq = href.split(/[?#]/)[0];
+    if (arq !== page) return false;
+    return page !== "documento.html" || href.endsWith("id=" + docAtual);
+  };
+
+  const grupo = (g, i) => {
+    if (!g.itens) return `<a class="nav-top" href="${g.href}"${g.href === page ? ' aria-current="page"' : ""}>${g.rotulo}</a>`;
+    const ativo = g.paginas.includes(page);
+    return `
+      <div class="nav-grupo${ativo ? " ativo" : ""}">
+        <button class="nav-top" type="button" aria-expanded="false" aria-controls="menu-${i}">
+          ${g.rotulo}<svg class="seta" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+        </button>
+        <div class="nav-menu" id="menu-${i}">
+          ${g.itens.map(([href, rotulo, sub]) => `
+            <a href="${href}"${ehAtual(href) ? ' aria-current="page"' : ""}><b>${esc(rotulo)}</b>${sub ? `<span>${esc(sub)}</span>` : ""}</a>`).join("")}
+        </div>
+      </div>`;
+  };
 
   const header = document.createElement("header");
   header.className = "site-header";
@@ -35,7 +95,7 @@ const NAV = [
         <a class="brand" href="index.html" aria-label="Aster66 — início">${LOGO_SVG}<span class="brand-name">Aster<b>66</b></span></a>
         <button class="nav-toggle" aria-expanded="false" aria-controls="nav-principal">Menu</button>
         <nav class="nav" id="nav-principal" aria-label="Principal">
-          ${NAV.map(([href, label]) => `<a href="${href}"${href === current ? ' aria-current="page"' : ""}>${label}</a>`).join("")}
+          ${NAV.map(grupo).join("")}
         </nav>
         <div class="nav-end">
           <div class="nav-auth" id="nav-auth"></div>
@@ -44,6 +104,25 @@ const NAV = [
       </div>
     </div>`;
   document.body.prepend(header);
+
+  // Dropdowns: o clique abre e fecha (no computador também abrem ao passar o mouse, pelo CSS).
+  const grupos = [...header.querySelectorAll(".nav-grupo")];
+  const fechar = (exceto) => grupos.forEach((g) => {
+    if (g === exceto) return;
+    g.classList.remove("aberto");
+    g.querySelector(".nav-top").setAttribute("aria-expanded", "false");
+  });
+  grupos.forEach((g) => {
+    const btn = g.querySelector(".nav-top");
+    btn.addEventListener("click", () => {
+      const abrir = !g.classList.contains("aberto");
+      fechar(g);
+      g.classList.toggle("aberto", abrir);
+      btn.setAttribute("aria-expanded", String(abrir));
+    });
+  });
+  document.addEventListener("click", (e) => { if (!e.target.closest(".nav-grupo")) fechar(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") fechar(); });
 
   const toggle = header.querySelector(".nav-toggle");
   const nav = header.querySelector(".nav");
@@ -61,6 +140,7 @@ const NAV = [
     <div class="site-footer">
       <div class="wrap">
         <span>Aster66 — RPG de cartas no mundo de Aster.</span>
+        <nav class="footer-links" aria-label="Rodapé"><a href="noticias.html">Notícias</a><a href="documentos.html">Documentos</a><a href="comunidade.html">Contato</a><a href="apoie.html">Apoie</a></nav>
         <span><a href="mailto:${window.ASTER_CONFIG.email}">${window.ASTER_CONFIG.email}</a></span>
       </div>
     </div>`;
@@ -119,7 +199,7 @@ window.linkarTermos = (htmlEscapado, { exceto = "", vistos = new Set() } = {}) =
     const slug = SLUG_DO_TERMO.get(forma);
     if (!slug || slug === exceto || vistos.has(slug)) return m;
     vistos.add(slug);
-    return `<a class="termo" href="ferramentas.html#conceito-${slug}" data-termo="${slug}">${m}</a>`;
+    return `<a class="termo" href="sumario.html#conceito-${slug}" data-termo="${slug}">${m}</a>`;
   });
 };
 
@@ -219,7 +299,7 @@ window.abrirConceito = (() => {
       <h2 style="margin:0 0 .5em">${cond && cond.icone ? `<span class="cond-icone" aria-hidden="true">${esc(cond.icone)}</span> ` : ""}${esc(c.nome)}</h2>
       ${cond ? window.fichaCondicao(cond) : ""}
       <div class="md">${window.mdHTML(c.conteudo, { termos: true, termoAtual: c.slug })}</div>
-      <p style="margin-top:1.2em"><a class="link-sumario" href="ferramentas.html#conceito-${c.slug}">${cond ? "Ver no catálogo de condições →" : "Ver no sumário completo →"}</a></p>`;
+      <p style="margin-top:1.2em"><a class="link-sumario" href="sumario.html#conceito-${c.slug}">${cond ? "Ver no catálogo de condições →" : "Ver no sumário completo →"}</a></p>`;
     dlg.querySelector(".modal-body").scrollTop = 0;
     return true;
   };
@@ -254,3 +334,15 @@ window.monograma = (nome) => {
   const limpo = String(nome || "?").replace(/^(Aventureiro:\s*)/i, "").trim();
   return window.escapeHTML(limpo[0] || "?");
 };
+
+// Sub-navegação das páginas longas: destaca a seção visível.
+(() => {
+  const links = [...document.querySelectorAll(".subnav a")];
+  if (!links.length || !("IntersectionObserver" in window)) return;
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((en) => {
+      if (en.isIntersecting) links.forEach((l) => l.classList.toggle("active", l.hash === "#" + en.target.id));
+    });
+  }, { rootMargin: "-40% 0px -55% 0px" });
+  document.querySelectorAll("section.anchor").forEach((s) => obs.observe(s));
+})();
