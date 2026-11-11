@@ -318,7 +318,7 @@ function blocosMd(blocos, nivel = 0) {
     }
     if (filhos && b.type !== "table") linhas.push(filhos);
   }
-  return linhas.join("\n").replace(/\n{3,}/g, "\n\n").trim();
+  return linhas.join("\n").replace(/\n{3,}/g, "\n\n").replace(/^\n+/, "").replace(/\s+$/, "");
 }
 
 // Valor de uma propriedade do Notion → valor do Supabase
@@ -740,10 +740,11 @@ async function exportarGlossario(notion) {
 // Entradas do sumário → conteúdo de public/js/data-conceitos.js (sem acessar o Notion).
 function montarConceitos(entradas) {
   // Nomes repetidos (ex.: "Bloqueio Perene" em Conceitos e em Tipos de Defesa) ganham a categoria.
+  // As condições têm prioridade: "Morrendo" é a condição; o modo de uso vira "Morrendo (Cartas)".
   const contagem = {};
   entradas.forEach((e) => { contagem[norm(e.nome)] = (contagem[norm(e.nome)] || 0) + 1; });
   const vistos = new Set();
-  for (const e of entradas) {
+  for (const e of [...entradas].sort((a, b) => (b.condicao ? 1 : 0) - (a.condicao ? 1 : 0))) {
     if (contagem[norm(e.nome)] > 1 && vistos.has(norm(e.nome))) e.nome = `${e.nome} (${e.categoria})`;
     vistos.add(norm(e.nome.replace(/ \([^)]*\)$/, "")));
     e.slug = slugDe(e.nome);

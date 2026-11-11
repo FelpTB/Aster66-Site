@@ -21,7 +21,7 @@ window.ASTER_CONCEITOS = [
     "nome": "Reação",
     "categoria": "Conceitos",
     "grupo": "Termos Básicos",
-    "conteudo": "( Ações e reações são usadas para balancear o tempo de jogo durante uma cena de combate ou tensão, durante cenas livre de interação, exploração ou descanso, os jogadores podem agir livremente.)\n\nAo contrário das Ações, que só podem ser realizadas durante o turno próprio do personagem, as Reações podem ser realizadas a qualquer momento durante uma cena, já que o personagem pode escolher reagir a qualquer acontecimento. O número base de reações de um personagem é 1 mas esse valor varia conforme o atributo de Destreza, além de cartas ou itens que podem aumentar também esse valor.\n\n| Valor de Destreza | Número de Reações |\n|---|---|\n| 0 | 2 |\n| 1 | 3 |\n| 2 | 3 |\n| 3 | 4 |\n| 4 | 4 |\n| 5 | 5 |\n\nDurante uma reação o personagem pode realizar qualquer um dos feitos abaixo (Um feito por reação):\n\n- Reação de Defesa: O personagem reage a um ataque que ele receberia, aplicando um bloqueio ou uma esquiva.\nBloquear: O personagem reduz o dano recebido com base no valor de seu atributo de Bloqueio.\n\n  Esquivar: O personagem força o atacante a realizar um teste de acerto, valores inferiores a seu atributo de Esquiva fazem o dano e/ou efeitos do ataque serem anulados. (No caso de um ataque em área o personagem deve se movimentar para fora da área de efeito como reação de esquiva, a esquiva falha caso o deslocamento seja insuficiente.)\n- Se mover: O personagem gasta sua reação para se mover por até a distância de seu deslocamento.\n- Usar uma Carta: O personagem gasta sua reação para utilizar qualquer carta cujo modo de uso seja igual ou inferior à uma Reação.\n- Usar um Item: O personagem gasta sua Reação para utilizar qualquer item cujo modo de uso seja uma reação ou inferior.\n- Realizar Feito Simples: O personagem descreve um feito simples, em alguns casos o feito descrito pode levar a um teste. O que pode ser realizado durante uma reação é subjetivo, mas vale ao jogador o bom senso de que o tempo é ainda menor que de uma ação, impossibilitando qualquer feito que não seja rápido e/ou fácil.\n### Ordem das Reações:\n\nPara que a cena não perca o controle, as reações são ordenadas da seguinte maneira.\n\n- Reações sempre ocorrem após a ação ou evento reagido.\n- Reações de defesa ocorrem unicamente no momento que o dano seria aplicado.\n- Caso mais de uma reação seja declarada ao mesmo tempo a ordem de acontecimentos prioriza personagens com maior Destreza (Em caso de empate, decide no d6.)\n- Caso uma reação invalide por qualquer motivo uma reação subsequente, a reação invalidada é perdida.\n( Um bom exercício é pedir para os jogadores manifestarem um sinal assim que forem declarar uma reação.)\n\nExemplo: Um jogador foi atacado por uma criatura e decidiu reagir se movimentando para fora do alcance. Nesse caso o ataque (evento reagido) ocorre primeiro, logo, o jogador recebe o dano e se move após isso.",
+    "conteudo": "( Ações e reações são usadas para balancear o tempo de jogo durante uma cena de combate ou tensão, durante cenas livre de interação, exploração ou descanso, os jogadores podem agir livremente.)\n\nAo contrário das Ações, que só podem ser realizadas durante o turno próprio do personagem, as Reações podem ser realizadas a qualquer momento durante uma cena, já que o personagem pode escolher reagir a qualquer acontecimento. O número base de reações de um personagem é 1 mas esse valor varia conforme o atributo de Destreza, além de cartas ou itens que podem aumentar também esse valor.\n\n| Valor de Destreza | Número de Reações |\n|---|---|\n| 0 | 2 |\n| 1 | 3 |\n| 2 | 3 |\n| 3 | 4 |\n| 4 | 4 |\n| 5 | 5 |\n\nDurante uma reação o personagem pode realizar qualquer um dos feitos abaixo (Um feito por reação):\n\n- Reação de Defesa: O personagem reage a um ataque que ele receberia, aplicando um bloqueio ou uma esquiva.\n  Bloquear: O personagem reduz o dano recebido com base no valor de seu atributo de Bloqueio.\n\n  Esquivar: O personagem força o atacante a realizar um teste de acerto, valores inferiores a seu atributo de Esquiva fazem o dano e/ou efeitos do ataque serem anulados. (No caso de um ataque em área o personagem deve se movimentar para fora da área de efeito como reação de esquiva, a esquiva falha caso o deslocamento seja insuficiente.)\n- Se mover: O personagem gasta sua reação para se mover por até a distância de seu deslocamento.\n- Usar uma Carta: O personagem gasta sua reação para utilizar qualquer carta cujo modo de uso seja igual ou inferior à uma Reação.\n- Usar um Item: O personagem gasta sua Reação para utilizar qualquer item cujo modo de uso seja uma reação ou inferior.\n- Realizar Feito Simples: O personagem descreve um feito simples, em alguns casos o feito descrito pode levar a um teste. O que pode ser realizado durante uma reação é subjetivo, mas vale ao jogador o bom senso de que o tempo é ainda menor que de uma ação, impossibilitando qualquer feito que não seja rápido e/ou fácil.\n### Ordem das Reações:\n\nPara que a cena não perca o controle, as reações são ordenadas da seguinte maneira.\n\n- Reações sempre ocorrem após a ação ou evento reagido.\n- Reações de defesa ocorrem unicamente no momento que o dano seria aplicado.\n- Caso mais de uma reação seja declarada ao mesmo tempo a ordem de acontecimentos prioriza personagens com maior Destreza (Em caso de empate, decide no d6.)\n- Caso uma reação invalide por qualquer motivo uma reação subsequente, a reação invalidada é perdida.\n( Um bom exercício é pedir para os jogadores manifestarem um sinal assim que forem declarar uma reação.)\n\nExemplo: Um jogador foi atacado por uma criatura e decidiu reagir se movimentando para fora do alcance. Nesse caso o ataque (evento reagido) ocorre primeiro, logo, o jogador recebe o dano e se move após isso.",
     "fonte": "6e5f5867-e960-823a-bf71-010365d3e4a6"
   },
   {
@@ -345,8 +345,8 @@ window.ASTER_CONCEITOS = [
     "fonte": "22ef5867-e960-82c3-bba5-8189fb065aeb"
   },
   {
-    "slug": "morrendo",
-    "nome": "Morrendo",
+    "slug": "morrendo-cartas",
+    "nome": "Morrendo (Cartas)",
     "categoria": "Cartas",
     "grupo": "Modos de Uso",
     "conteudo": "Pode ser usado assim que o personagem entrar na condição Morrendo.",
@@ -913,83 +913,35 @@ window.ASTER_CONCEITOS = [
     "fonte": "d57f5867-e960-83a1-9f8b-814f1b00b0b8"
   },
   {
-    "slug": "sangramento",
-    "nome": "Sangramento",
+    "slug": "agarrado",
+    "nome": "Agarrado",
     "categoria": "Condições",
-    "grupo": "Normais",
-    "conteudo": "## Efeito\n\n**Fim do turno:** o alvo sofre **1 de dano verdadeiro** para cada acúmulo de Sangramento.",
+    "grupo": "Complexas",
+    "conteudo": "## Efeito\n\nO alvo fica **preso** a quem o está agarrando e não pode se mover para longe dele.\n\n- **Se o alvo tentar se mover:** quem agarrou pode fazer um **teste de Corpo** como ação livre para tentar impedir.\n- **Se quem agarrou se mover:** o alvo pode gastar uma **reação** para fazer um teste de Corpo e resistir ao movimento. Se resistir, a distância do movimento cai **pela metade**.\n## Agarrar\n\nQualquer um pode usar uma **ação** para agarrar um alvo. O alvo deve reagir a essa ação ou recebe esta condição. Ele pode reagir com qualquer ação de defesa:\n\n| Defesa | Para o alvo ser agarrado… |\n|---|---|\n| 🍃 Esquivar | O teste de Corpo de quem agarra deve **superar a Esquiva** do alvo. |\n| 🛡️ Bloquear | O teste deve **superar o Bloqueio** do alvo. |\n| ⚔️ Aparar | O alvo faz um teste para aparar, com base no **teste de Corpo** de quem tentou agarrar. |\n\n## Remoção\n\n> 🔓 A qualquer momento, o alvo pode gastar uma **reação** para tentar se soltar. Duas coisas podem acontecer:\n\n  - **Quem agarrou gasta uma reação para impedir:** os dois fazem um conflito de testes de Corpo, e vence o maior resultado. O alvo se solta se vencer.\n  - **Quem agarrou não gasta reação:** o alvo se solta.\n## Situações especiais\n\nAlgumas criaturas ou NPCs podem ter um **valor de agarrão fixo**, sem fazer teste na hora de agarrar. Também podem existir situações em que quem está agarrando não gasta reações para impedir o alvo de se soltar.",
     "fonte": "381ba432-3d84-4fe1-9ffa-45c7a91d596c",
     "condicao": {
-      "nivel": "Normal",
-      "descricao": "No fim do turno, o alvo sofre 1 de dano verdadeiro para cada acúmulo de Sangramento.",
-      "remocao": "",
+      "nivel": "Complexa",
+      "descricao": "Preso a quem o agarrou: não pode se afastar dele, e os movimentos de quem agarrou podem arrastá-lo.",
+      "remocao": "Gastar uma reação para tentar se soltar. Se quem agarrou gastar uma reação para impedir, vence o maior resultado num conflito de testes de Corpo.",
       "maximo": null,
       "subtipo": "",
-      "icone": "🩸"
+      "icone": "🤼"
     }
   },
   {
-    "slug": "imobilizado",
-    "nome": "Imobilizado",
+    "slug": "amputado",
+    "nome": "Amputado",
     "categoria": "Condições",
-    "grupo": "Normais",
-    "conteudo": "## Efeito\n\n- Não pode **se mover**.\n- Não pode **reagir**.",
+    "grupo": "Complexas",
+    "conteudo": "## Efeito\n\nO efeito depende do **membro amputado**:\n\n| Membro | Efeito |\n|---|---|\n| 🦵 Pernas | **−1 reação** e seu **movimento cai pela metade**. |\n| 💪 Braços | **−1 reação** e seu número de **espaços para itens equipados diminui em 1**. |\n\nAlém disso, sua **vida máxima é reduzida em 1d6**.",
     "fonte": "381ba432-3d84-4fe1-9ffa-45c7a91d596c",
     "condicao": {
-      "nivel": "Normal",
-      "descricao": "Não pode se mover nem reagir.",
+      "nivel": "Complexa",
+      "descricao": "−1 reação e vida máxima reduzida em 1d6. Pernas: movimento pela metade. Braços: −1 espaço de item equipado.",
       "remocao": "",
       "maximo": null,
       "subtipo": "",
-      "icone": "⛓️"
-    }
-  },
-  {
-    "slug": "queimando",
-    "nome": "Queimando",
-    "categoria": "Condições",
-    "grupo": "Normais",
-    "conteudo": "## Efeito\n\n- **Fim do turno:** o alvo sofre **1 de dano de fogo** para cada acúmulo de Queimando.\n- Curas recebidas têm seu valor **reduzido pela metade**.",
-    "fonte": "381ba432-3d84-4fe1-9ffa-45c7a91d596c",
-    "condicao": {
-      "nivel": "Normal",
-      "descricao": "No fim do turno, sofre 1 de dano de fogo para cada acúmulo. Curas recebidas são reduzidas pela metade.",
-      "remocao": "",
-      "maximo": null,
-      "subtipo": "",
-      "icone": "🔥"
-    }
-  },
-  {
-    "slug": "paralisia",
-    "nome": "Paralisia",
-    "categoria": "Condições",
-    "grupo": "Normais",
-    "conteudo": "## Efeito\n\n- O atributo **Destreza** se torna igual a **0**.\n- Não pode realizar **ações de movimento**.",
-    "fonte": "381ba432-3d84-4fe1-9ffa-45c7a91d596c",
-    "condicao": {
-      "nivel": "Normal",
-      "descricao": "Destreza se torna 0. Não pode realizar ações de movimento.",
-      "remocao": "",
-      "maximo": null,
-      "subtipo": "",
-      "icone": "🪨"
-    }
-  },
-  {
-    "slug": "tontura",
-    "nome": "Tontura",
-    "categoria": "Condições",
-    "grupo": "Normais",
-    "conteudo": "## Efeito\n\nImpede o uso de **reações**.",
-    "fonte": "381ba432-3d84-4fe1-9ffa-45c7a91d596c",
-    "condicao": {
-      "nivel": "Normal",
-      "descricao": "Não pode usar reações.",
-      "remocao": "",
-      "maximo": null,
-      "subtipo": "",
-      "icone": "💫"
+      "icone": "🦾"
     }
   },
   {
@@ -1009,19 +961,19 @@ window.ASTER_CONCEITOS = [
     }
   },
   {
-    "slug": "molhado",
-    "nome": "Molhado",
+    "slug": "carga",
+    "nome": "Carga",
     "categoria": "Condições",
-    "grupo": "Normais",
-    "conteudo": "## Efeito\n\n- ⚡ **Ataques elétricos:** o dano recebido **aumenta em 1d6**.\n- 🔥 **Ataques de fogo:** o dano recebido **diminui em 1d6**.\n- ❄️ **Resfriado:** se receber a condição Resfriado, recebe o efeito de **congelamento**.",
+    "grupo": "Complexas",
+    "conteudo": "## Efeito\n\nPara cada acúmulo de Carga, diminua em **2** o custo da sua **próxima magia elétrica**. Os acúmulos usados na redução são perdidos.\n\n## Interações\n\n| Situação | O que acontece |\n|---|---|\n| 🗡️ Receber um **ataque físico** (apenas corpo a corpo) | Cause **1d6 de dano elétrico ao atacante** por acúmulo. Você perde todos os acúmulos. |\n| ✨ Receber **dano não físico** | Você sofre **2d6 de dano elétrico** e perde todos os acúmulos. |",
     "fonte": "381ba432-3d84-4fe1-9ffa-45c7a91d596c",
     "condicao": {
-      "nivel": "Normal",
-      "descricao": "Sofre +1d6 de dano de ataques elétricos e −1d6 de dano de ataques de fogo. Fica Congelado se receber Resfriado.",
-      "remocao": "",
+      "nivel": "Complexa",
+      "descricao": "Cada acúmulo reduz em 2 o custo da próxima magia elétrica. Ataques físicos corpo a corpo e danos não físicos descarregam todos os acúmulos.",
+      "remocao": "Os acúmulos são perdidos ao serem usados numa magia elétrica, ao receber um ataque físico corpo a corpo ou ao receber dano não físico.",
       "maximo": null,
       "subtipo": "",
-      "icone": "💧"
+      "icone": "⚡"
     }
   },
   {
@@ -1038,6 +990,102 @@ window.ASTER_CONCEITOS = [
       "maximo": null,
       "subtipo": "",
       "icone": "🙈"
+    }
+  },
+  {
+    "slug": "chamas-sombrias",
+    "nome": "Chamas Sombrias",
+    "categoria": "Condições",
+    "grupo": "Complexas",
+    "conteudo": "> 🔥 Conta como **Queimando**.\n\n## Efeito\n\n**Início do turno:** o afetado sofre **1 de dano** por acúmulo e **perde energia** na mesma quantidade.\n\n## Remoção\n\n> 🚫 Como os acúmulos são removidos:\n\n  - **Não** pode ser removida com água.\n  - No fim do turno, **remove-se 1 acúmulo** caso o afetado tenha **menos de 10 de energia atual**.",
+    "fonte": "381ba432-3d84-4fe1-9ffa-45c7a91d596c",
+    "condicao": {
+      "nivel": "Complexa",
+      "descricao": "Conta como Queimando. No início do turno, sofre 1 de dano e perde 1 de energia para cada acúmulo.",
+      "remocao": "Não pode ser removida com água. Perde 1 acúmulo no fim do turno se o afetado tiver menos de 10 de energia atual.",
+      "maximo": null,
+      "subtipo": "Queimando",
+      "icone": "🌑"
+    }
+  },
+  {
+    "slug": "conectado",
+    "nome": "Conectado",
+    "categoria": "Condições",
+    "grupo": "Complexas",
+    "conteudo": "## Efeito\n\nSua **mente está conectada** à de todos os outros que tenham a condição **Conectado** em cena.",
+    "fonte": "381ba432-3d84-4fe1-9ffa-45c7a91d596c",
+    "condicao": {
+      "nivel": "Complexa",
+      "descricao": "Sua mente está conectada à de todos os outros em cena que também estejam Conectados.",
+      "remocao": "",
+      "maximo": null,
+      "subtipo": "",
+      "icone": "🔗"
+    }
+  },
+  {
+    "slug": "congelado",
+    "nome": "Congelado",
+    "categoria": "Condições",
+    "grupo": "Complexas",
+    "conteudo": "## Efeito\n\nNão pode **agir** nem **reagir**.\n\n## Remoção\n\n> 🔓 É removido de duas formas:\n\n  - Ao receber **qualquer dano**, exceto dano de congelamento.\n  - Com um **teste de Corpo** no início do turno (ação livre). **Dificuldade: 8.**",
+    "fonte": "381ba432-3d84-4fe1-9ffa-45c7a91d596c",
+    "condicao": {
+      "nivel": "Complexa",
+      "descricao": "Não pode agir nem reagir.",
+      "remocao": "Removido ao receber qualquer dano que não seja de congelamento, ou com um teste de Corpo (dificuldade 8) no início do turno, como ação livre.",
+      "maximo": null,
+      "subtipo": "",
+      "icone": "🧊"
+    }
+  },
+  {
+    "slug": "corrente-de-vento",
+    "nome": "Corrente de Vento",
+    "categoria": "Condições",
+    "grupo": "Complexas",
+    "conteudo": "## Efeito\n\n**Início do turno:** realize um **teste de Corpo**.\n\n> 🎯 **Dificuldade: 5 + X**, em que **X** é o número de acúmulos de Corrente de Vento.\n\n| Resultado | Consequência |\n|---|---|\n| ✅ Sucesso | Corrente de Vento **+1**. |\n| ❌ Fracasso | Fica **Atordoado** e perde **todos os acúmulos** de Corrente de Vento. |",
+    "fonte": "381ba432-3d84-4fe1-9ffa-45c7a91d596c",
+    "condicao": {
+      "nivel": "Complexa",
+      "descricao": "No início do turno, faz um teste de Corpo (5 + acúmulos). Sucesso: +1 acúmulo. Fracasso: fica Atordoado e perde todos os acúmulos.",
+      "remocao": "Falhar no teste do início do turno: perde todos os acúmulos (e fica Atordoado).",
+      "maximo": null,
+      "subtipo": "",
+      "icone": "🌪️"
+    }
+  },
+  {
+    "slug": "cristal-de-mana",
+    "nome": "Cristal de Mana",
+    "categoria": "Condições",
+    "grupo": "Complexas",
+    "conteudo": "## Efeito\n\nCada acúmulo de Cristal de Mana pode ser usado como **1 de energia** ao usar uma habilidade.\n\nAcúmulos usados dessa maneira são **consumidos**.",
+    "fonte": "381ba432-3d84-4fe1-9ffa-45c7a91d596c",
+    "condicao": {
+      "nivel": "Complexa",
+      "descricao": "Cada acúmulo pode ser usado como 1 de energia ao usar uma habilidade.",
+      "remocao": "Os acúmulos são consumidos ao serem usados.",
+      "maximo": null,
+      "subtipo": "",
+      "icone": "💎"
+    }
+  },
+  {
+    "slug": "derrubado",
+    "nome": "Derrubado",
+    "categoria": "Condições",
+    "grupo": "Complexas",
+    "conteudo": "## Efeito\n\nVocê fica derrubado no chão:\n\n- Não pode **se mover**.\n- Tem **desvantagem** em testes físicos.\n## Remoção\n\n> 🧍 Gastar uma **reação** para se levantar.",
+    "fonte": "381ba432-3d84-4fe1-9ffa-45c7a91d596c",
+    "condicao": {
+      "nivel": "Complexa",
+      "descricao": "Caído no chão: não pode se mover e tem desvantagem em testes físicos.",
+      "remocao": "Gastar uma reação para se levantar.",
+      "maximo": null,
+      "subtipo": "",
+      "icone": "🤕"
     }
   },
   {
@@ -1073,19 +1121,19 @@ window.ASTER_CONCEITOS = [
     }
   },
   {
-    "slug": "congelado",
-    "nome": "Congelado",
+    "slug": "exaustao-avancada",
+    "nome": "Exaustão Avançada",
     "categoria": "Condições",
     "grupo": "Complexas",
-    "conteudo": "## Efeito\n\nNão pode **agir** nem **reagir**.\n\n## Remoção\n\n> 🔓 É removido de duas formas:\n\n  - Ao receber **qualquer dano**, exceto dano de congelamento.\n  - Com um **teste de Corpo** no início do turno (ação livre). **Dificuldade: 8.**",
+    "conteudo": "## Efeito\n\nVocê **falha automaticamente** em qualquer teste.\n\n## Remoção\n\n> 🛏️ Passar por um descanso de **pelo menos 12 horas**.",
     "fonte": "381ba432-3d84-4fe1-9ffa-45c7a91d596c",
     "condicao": {
       "nivel": "Complexa",
-      "descricao": "Não pode agir nem reagir.",
-      "remocao": "Removido ao receber qualquer dano que não seja de congelamento, ou com um teste de Corpo (dificuldade 8) no início do turno, como ação livre.",
+      "descricao": "Falha automaticamente em qualquer teste.",
+      "remocao": "Passar por um descanso de pelo menos 12 horas.",
       "maximo": null,
       "subtipo": "",
-      "icone": "🧊"
+      "icone": "😴"
     }
   },
   {
@@ -1093,7 +1141,7 @@ window.ASTER_CONCEITOS = [
     "nome": "Ferimento Grave",
     "categoria": "Condições",
     "grupo": "Complexas",
-    "conteudo": "## Efeito\n\n- O alvo sofre **5 de dano verdadeiro** por rodada.\n- Ao ser removido, causa **1 cicatriz**.\n\n## Remoção\n\n> 🩹 Curar **pelo menos 6 de vida**.",
+    "conteudo": "## Efeito\n\n- O alvo sofre **5 de dano verdadeiro** por rodada.\n- Ao ser removido, causa **1 cicatriz**.\n## Remoção\n\n> 🩹 Curar **pelo menos 6 de vida**.",
     "fonte": "381ba432-3d84-4fe1-9ffa-45c7a91d596c",
     "condicao": {
       "nivel": "Complexa",
@@ -1105,75 +1153,11 @@ window.ASTER_CONCEITOS = [
     }
   },
   {
-    "slug": "agarrado",
-    "nome": "Agarrado",
-    "categoria": "Condições",
-    "grupo": "Complexas",
-    "conteudo": "## Efeito\n\nO alvo fica **preso** a quem o está agarrando e não pode se mover para longe dele.\n\n- **Se o alvo tentar se mover:** quem agarrou pode fazer um **teste de Corpo** como ação livre para tentar impedir.\n- **Se quem agarrou se mover:** o alvo pode gastar uma **reação** para fazer um teste de Corpo e resistir ao movimento. Se resistir, a distância do movimento cai **pela metade**.\n\n## Agarrar\n\nQualquer um pode usar uma **ação** para agarrar um alvo. O alvo deve reagir a essa ação ou recebe esta condição. Ele pode reagir com qualquer ação de defesa:\n\n| Defesa | Para o alvo ser agarrado… |\n|---|---|\n| 🍃 Esquivar | O teste de Corpo de quem agarra deve **superar a Esquiva** do alvo. |\n| 🛡️ Bloquear | O teste deve **superar o Bloqueio** do alvo. |\n| ⚔️ Aparar | O alvo faz um teste para aparar, com base no **teste de Corpo** de quem tentou agarrar. |\n\n## Remoção\n\n> 🔓 A qualquer momento, o alvo pode gastar uma **reação** para tentar se soltar. Duas coisas podem acontecer:\n\n  - **Quem agarrou gasta uma reação para impedir:** os dois fazem um conflito de testes de Corpo, e vence o maior resultado. O alvo se solta se vencer.\n  - **Quem agarrou não gasta reação:** o alvo se solta.\n\n## Situações especiais\n\nAlgumas criaturas ou NPCs podem ter um **valor de agarrão fixo**, sem fazer teste na hora de agarrar. Também podem existir situações em que quem está agarrando não gasta reações para impedir o alvo de se soltar.",
-    "fonte": "381ba432-3d84-4fe1-9ffa-45c7a91d596c",
-    "condicao": {
-      "nivel": "Complexa",
-      "descricao": "Preso a quem o agarrou: não pode se afastar dele, e os movimentos de quem agarrou podem arrastá-lo.",
-      "remocao": "Gastar uma reação para tentar se soltar. Se quem agarrou gastar uma reação para impedir, vence o maior resultado num conflito de testes de Corpo.",
-      "maximo": null,
-      "subtipo": "",
-      "icone": "🤼"
-    }
-  },
-  {
-    "slug": "morrendo-condicoes",
-    "nome": "Morrendo (Condições)",
-    "categoria": "Condições",
-    "grupo": "Complexas",
-    "conteudo": "Esta condição é acionada **automaticamente** quando se chega a **0 de vida**.\n\n## Efeito\n\n- Ao entrar neste estado, **marque uma cicatriz**.\n- Todo dano recebido é **anulado**. No lugar do dano, marque **1 cicatriz** (ou **2** no caso de um acerto crítico).\n- Você é **incapaz de agir ou reagir** normalmente neste estado.\n\n> ⚔️ **Regra opcional:** enquanto você estiver neste estado, qualquer um pode gastar uma **ação** para abatê-lo instantaneamente.\n\n## Remoção\n\n> ❤️ Finalizar o turno com **vida maior que 0**.",
-    "fonte": "381ba432-3d84-4fe1-9ffa-45c7a91d596c",
-    "condicao": {
-      "nivel": "Complexa",
-      "descricao": "Acionada ao chegar a 0 de vida. Danos recebidos viram cicatrizes e o personagem não age nem reage normalmente.",
-      "remocao": "Terminar o turno com vida maior que 0.",
-      "maximo": null,
-      "subtipo": "",
-      "icone": "💀"
-    }
-  },
-  {
-    "slug": "derrubado",
-    "nome": "Derrubado",
-    "categoria": "Condições",
-    "grupo": "Complexas",
-    "conteudo": "## Efeito\n\nVocê fica derrubado no chão:\n\n- Não pode **se mover**.\n- Tem **desvantagem** em testes físicos.\n\n## Remoção\n\n> 🧍 Gastar uma **reação** para se levantar.",
-    "fonte": "381ba432-3d84-4fe1-9ffa-45c7a91d596c",
-    "condicao": {
-      "nivel": "Complexa",
-      "descricao": "Caído no chão: não pode se mover e tem desvantagem em testes físicos.",
-      "remocao": "Gastar uma reação para se levantar.",
-      "maximo": null,
-      "subtipo": "",
-      "icone": "🤕"
-    }
-  },
-  {
-    "slug": "voando",
-    "nome": "Voando",
-    "categoria": "Condições",
-    "grupo": "Complexas",
-    "conteudo": "## Efeito\n\n- Não pode ser alvo de ataques e habilidades de alcance **corpo a corpo** de criaturas que não estejam **Voando**.\n- Fica **imune a qualquer efeito aplicado ao solo**, incluindo desvantagens, armadilhas e habilidades.\n\n## Remoção\n\n> 🛬 **Pousar** ou **ser derrubado**. Receber controles como Atordoamento ou Congelado pode derrubar você.",
-    "fonte": "381ba432-3d84-4fe1-9ffa-45c7a91d596c",
-    "condicao": {
-      "nivel": "Complexa",
-      "descricao": "Só pode ser alvo de ataques corpo a corpo de quem também estiver Voando. Imune a efeitos aplicados ao solo.",
-      "remocao": "Pousar ou ser derrubado. Controles como Atordoamento ou Congelado podem derrubar você.",
-      "maximo": null,
-      "subtipo": "",
-      "icone": "🕊️"
-    }
-  },
-  {
     "slug": "furtivo",
     "nome": "Furtivo",
     "categoria": "Condições",
     "grupo": "Complexas",
-    "conteudo": "## Efeito\n\nVocê **não é percebido de maneira alguma** por aqueles para quem está furtivo.\n\n## Remoção\n\n> 👁️ Como deixar de estar furtivo:\n\n  - Você é **revelado** ao utilizar uma carta ou realizar um ataque.\n  - Uma criatura que tentar identificar você precisa **passar em um teste** para isso.",
+    "conteudo": "## Efeito\n\nVocê **não é percebido de maneira alguma** por aqueles para quem está furtivo.\n\n## Remoção\n\n> 👁️ Você deixa de estar furtivo assim:\n\n  - Você é **revelado** ao utilizar uma carta ou realizar um ataque.\n  - Uma criatura que tentar identificar você precisa **passar em um teste** para isso.",
     "fonte": "381ba432-3d84-4fe1-9ffa-45c7a91d596c",
     "condicao": {
       "nivel": "Complexa",
@@ -1182,6 +1166,70 @@ window.ASTER_CONCEITOS = [
       "maximo": null,
       "subtipo": "",
       "icone": "🥷"
+    }
+  },
+  {
+    "slug": "imobilizado",
+    "nome": "Imobilizado",
+    "categoria": "Condições",
+    "grupo": "Normais",
+    "conteudo": "## Efeito\n\n- Não pode **se mover**.\n- Não pode **reagir**.",
+    "fonte": "381ba432-3d84-4fe1-9ffa-45c7a91d596c",
+    "condicao": {
+      "nivel": "Normal",
+      "descricao": "Não pode se mover nem reagir.",
+      "remocao": "",
+      "maximo": null,
+      "subtipo": "",
+      "icone": "⛓️"
+    }
+  },
+  {
+    "slug": "maldicao-de-morte",
+    "nome": "Maldição de Morte",
+    "categoria": "Condições",
+    "grupo": "Complexas",
+    "conteudo": "> 🕯️ É considerada uma **Maldição**.\n\n## Efeito\n\nNão pode receber **nenhum tipo de cura ou purificação**.\n\n## Remoção\n\n> ⚰️ É removida **ao morrer**.",
+    "fonte": "381ba432-3d84-4fe1-9ffa-45c7a91d596c",
+    "condicao": {
+      "nivel": "Complexa",
+      "descricao": "Não pode receber nenhum tipo de cura ou purificação.",
+      "remocao": "Removida ao morrer.",
+      "maximo": null,
+      "subtipo": "Maldição",
+      "icone": "☠️"
+    }
+  },
+  {
+    "slug": "molhado",
+    "nome": "Molhado",
+    "categoria": "Condições",
+    "grupo": "Normais",
+    "conteudo": "## Efeito\n\n- ⚡ **Ataques elétricos:** o dano recebido **aumenta em 1d6**.\n- 🔥 **Ataques de fogo:** o dano recebido **diminui em 1d6**.\n- ❄️ **Resfriado:** se receber a condição Resfriado, recebe o efeito de **congelamento**.",
+    "fonte": "381ba432-3d84-4fe1-9ffa-45c7a91d596c",
+    "condicao": {
+      "nivel": "Normal",
+      "descricao": "Sofre +1d6 de dano de ataques elétricos e −1d6 de dano de ataques de fogo. Fica Congelado se receber Resfriado.",
+      "remocao": "",
+      "maximo": null,
+      "subtipo": "",
+      "icone": "💧"
+    }
+  },
+  {
+    "slug": "morrendo",
+    "nome": "Morrendo",
+    "categoria": "Condições",
+    "grupo": "Complexas",
+    "conteudo": "Esta condição é acionada **automaticamente** quando se chega a **0 de vida**.\n\n## Efeito\n\n- Ao entrar neste estado, **marque uma cicatriz**.\n- Todo dano recebido é **anulado**. No lugar do dano, marque **1 cicatriz** (ou **2** no caso de um acerto crítico).\n- Você é **incapaz de agir ou reagir** normalmente neste estado.\n> ⚔️ **Regra opcional:** enquanto você estiver neste estado, qualquer um pode gastar uma **ação** para abatê-lo instantaneamente.\n\n## Remoção\n\n> ❤️ Finalizar o turno com **vida maior que 0**.",
+    "fonte": "381ba432-3d84-4fe1-9ffa-45c7a91d596c",
+    "condicao": {
+      "nivel": "Complexa",
+      "descricao": "Acionada ao chegar a 0 de vida. Danos recebidos viram cicatrizes e o personagem não age nem reage normalmente.",
+      "remocao": "Terminar o turno com vida maior que 0.",
+      "maximo": null,
+      "subtipo": "",
+      "icone": "💀"
     }
   },
   {
@@ -1201,67 +1249,83 @@ window.ASTER_CONCEITOS = [
     }
   },
   {
-    "slug": "amputado",
-    "nome": "Amputado",
+    "slug": "paralisia",
+    "nome": "Paralisia",
     "categoria": "Condições",
-    "grupo": "Complexas",
-    "conteudo": "## Efeito\n\nO efeito depende do **membro amputado**:\n\n| Membro | Efeito |\n|---|---|\n| 🦵 Pernas | **−1 reação** e seu **movimento cai pela metade**. |\n| 💪 Braços | **−1 reação** e seu número de **espaços para itens equipados diminui em 1**. |\n\nAlém disso, sua **vida máxima é reduzida em 1d6**.",
+    "grupo": "Normais",
+    "conteudo": "## Efeito\n\n- O atributo **Destreza** se torna igual a **0**.\n- Não pode realizar **ações de movimento**.",
     "fonte": "381ba432-3d84-4fe1-9ffa-45c7a91d596c",
     "condicao": {
-      "nivel": "Complexa",
-      "descricao": "−1 reação e vida máxima reduzida em 1d6. Pernas: movimento pela metade. Braços: −1 espaço de item equipado.",
+      "nivel": "Normal",
+      "descricao": "Destreza se torna 0. Não pode realizar ações de movimento.",
       "remocao": "",
       "maximo": null,
       "subtipo": "",
-      "icone": "🦾"
+      "icone": "🪨"
     }
   },
   {
-    "slug": "exaustao-avancada",
-    "nome": "Exaustão Avançada",
+    "slug": "queimando",
+    "nome": "Queimando",
     "categoria": "Condições",
-    "grupo": "Complexas",
-    "conteudo": "## Efeito\n\nVocê **falha automaticamente** em qualquer teste.\n\n## Remoção\n\n> 🛏️ Passar por um descanso de **pelo menos 12 horas**.",
+    "grupo": "Normais",
+    "conteudo": "## Efeito\n\n- **Fim do turno:** o alvo sofre **1 de dano de fogo** para cada acúmulo de Queimando.\n- Curas recebidas têm seu valor **reduzido pela metade**.",
     "fonte": "381ba432-3d84-4fe1-9ffa-45c7a91d596c",
     "condicao": {
-      "nivel": "Complexa",
-      "descricao": "Falha automaticamente em qualquer teste.",
-      "remocao": "Passar por um descanso de pelo menos 12 horas.",
+      "nivel": "Normal",
+      "descricao": "No fim do turno, sofre 1 de dano de fogo para cada acúmulo. Curas recebidas são reduzidas pela metade.",
+      "remocao": "",
       "maximo": null,
       "subtipo": "",
-      "icone": "😴"
+      "icone": "🔥"
     }
   },
   {
-    "slug": "chamas-sombrias",
-    "nome": "Chamas Sombrias",
+    "slug": "resfriamento-resfriado",
+    "nome": "Resfriamento / Resfriado",
     "categoria": "Condições",
     "grupo": "Complexas",
-    "conteudo": "> 🔥 Conta como **Queimando**.\n\n## Efeito\n\n**Início do turno:** o afetado sofre **1 de dano** por acúmulo e **perde energia** na mesma quantidade.\n\n## Remoção\n\n> 🚫 Como perder acúmulos:\n\n  - **Não** pode ser removida com água.\n  - No fim do turno, **remove-se 1 acúmulo** caso o afetado tenha **menos de 10 de energia atual**.",
+    "conteudo": "## Efeito\n\n- Perde **1 reação**.\n- ❄️ **Dano causado:** para cada acúmulo de Resfriamento, seu dano de gelo aumenta em **+2**.\n> 🧊 Se você estiver **Molhado** ou a condição Resfriado alcançar **3 acúmulos**, você adquire a condição **Congelado**.\n\n## Interações\n\n| Situação | O que acontece |\n|---|---|\n| 🔥 Receber **dano de queimadura** | Diminua o dano recebido em **3 para cada acúmulo**. Os acúmulos usados na redução são perdidos. |\n| ⚖️ Ter **Superaquecer** | Acúmulos de Resfriamento e Superaquecer **se cancelam**. |",
     "fonte": "381ba432-3d84-4fe1-9ffa-45c7a91d596c",
     "condicao": {
       "nivel": "Complexa",
-      "descricao": "Conta como Queimando. No início do turno, sofre 1 de dano e perde 1 de energia para cada acúmulo.",
-      "remocao": "Não pode ser removida com água. Perde 1 acúmulo no fim do turno se o afetado tiver menos de 10 de energia atual.",
-      "maximo": null,
-      "subtipo": "Queimando",
-      "icone": "🌑"
-    }
-  },
-  {
-    "slug": "corrente-de-vento",
-    "nome": "Corrente de Vento",
-    "categoria": "Condições",
-    "grupo": "Complexas",
-    "conteudo": "## Efeito\n\n**Início do turno:** realize um **teste de Corpo**.\n\n> 🎯 **Dificuldade: 5 + X**, em que **X** é o número de acúmulos de Corrente de Vento.\n\n| Resultado | Consequência |\n|---|---|\n| ✅ Sucesso | Corrente de Vento **+1**. |\n| ❌ Fracasso | Fica **Atordoado** e perde **todos os acúmulos** de Corrente de Vento. |",
-    "fonte": "381ba432-3d84-4fe1-9ffa-45c7a91d596c",
-    "condicao": {
-      "nivel": "Complexa",
-      "descricao": "No início do turno, faz um teste de Corpo (5 + acúmulos). Sucesso: +1 acúmulo. Fracasso: fica Atordoado e perde todos os acúmulos.",
-      "remocao": "Falhar no teste do início do turno: perde todos os acúmulos (e fica Atordoado).",
+      "descricao": "Perde 1 reação. +2 de dano de gelo causado por acúmulo. Fica Congelado se estiver Molhado ou chegar a 3 acúmulos.",
+      "remocao": "Dano de queimadura consome acúmulos. Acúmulos de Superaquecer cancelam os de Resfriamento.",
       "maximo": null,
       "subtipo": "",
-      "icone": "🌪️"
+      "icone": "❄️"
+    }
+  },
+  {
+    "slug": "sangramento",
+    "nome": "Sangramento",
+    "categoria": "Condições",
+    "grupo": "Normais",
+    "conteudo": "## Efeito\n\n**Fim do turno:** o alvo sofre **1 de dano verdadeiro** para cada acúmulo de Sangramento.",
+    "fonte": "381ba432-3d84-4fe1-9ffa-45c7a91d596c",
+    "condicao": {
+      "nivel": "Normal",
+      "descricao": "No fim do turno, o alvo sofre 1 de dano verdadeiro para cada acúmulo de Sangramento.",
+      "remocao": "",
+      "maximo": null,
+      "subtipo": "",
+      "icone": "🩸"
+    }
+  },
+  {
+    "slug": "submerso",
+    "nome": "Submerso",
+    "categoria": "Condições",
+    "grupo": "Complexas",
+    "conteudo": "## Efeito\n\n- Você só pode **ver, ser visto e interagir** com criaturas submersas.\n- Sua **movimentação cai pela metade**.\n- **Fim do turno:** se ainda estiver submerso, **Sufocando +1**.\n## Remoção\n\n> 🏊 Gastar uma **ação** para emergir. Emergir é considerado uma **ação de movimento**.",
+    "fonte": "381ba432-3d84-4fe1-9ffa-45c7a91d596c",
+    "condicao": {
+      "nivel": "Complexa",
+      "descricao": "Só vê, é visto e interage com criaturas submersas. Movimento pela metade. No fim do turno, Sufocando +1.",
+      "remocao": "Gastar uma ação para emergir (conta como ação de movimento).",
+      "maximo": null,
+      "subtipo": "",
+      "icone": "🌊"
     }
   },
   {
@@ -1281,43 +1345,11 @@ window.ASTER_CONCEITOS = [
     }
   },
   {
-    "slug": "conectado",
-    "nome": "Conectado",
-    "categoria": "Condições",
-    "grupo": "Complexas",
-    "conteudo": "## Efeito\n\nSua **mente está conectada** à de todos os outros que tenham a condição **Conectado** em cena.",
-    "fonte": "381ba432-3d84-4fe1-9ffa-45c7a91d596c",
-    "condicao": {
-      "nivel": "Complexa",
-      "descricao": "Sua mente está conectada à de todos os outros em cena que também estejam Conectados.",
-      "remocao": "",
-      "maximo": null,
-      "subtipo": "",
-      "icone": "🔗"
-    }
-  },
-  {
-    "slug": "submerso",
-    "nome": "Submerso",
-    "categoria": "Condições",
-    "grupo": "Complexas",
-    "conteudo": "## Efeito\n\n- Você só pode **ver, ser visto e interagir** com criaturas submersas.\n- Sua **movimentação cai pela metade**.\n- **Fim do turno:** se ainda estiver submerso, **Sufocando +1**.\n\n## Remoção\n\n> 🏊 Gastar uma **ação** para emergir. Emergir é considerado uma **ação de movimento**.",
-    "fonte": "381ba432-3d84-4fe1-9ffa-45c7a91d596c",
-    "condicao": {
-      "nivel": "Complexa",
-      "descricao": "Só vê, é visto e interage com criaturas submersas. Movimento pela metade. No fim do turno, Sufocando +1.",
-      "remocao": "Gastar uma ação para emergir (conta como ação de movimento).",
-      "maximo": null,
-      "subtipo": "",
-      "icone": "🌊"
-    }
-  },
-  {
     "slug": "superaquecer",
     "nome": "Superaquecer",
     "categoria": "Condições",
     "grupo": "Complexas",
-    "conteudo": "## Efeito\n\n- 🔥 **Dano causado:** para cada acúmulo, seu dano de fogo aumenta em **+2**.\n- ⏳ **Fim do turno:** sofre **1d6 de dano de Queimadura** para cada acúmulo de Superaquecer.\n\n## Interações\n\n| Situação | O que acontece |\n|---|---|\n| 💧 Adquirir a condição **Molhado** | Remova **1 acúmulo** de Superaquecer e remova o Molhado. |\n| ❄️ Receber **dano de gelo** | Reduza o dano recebido em **3 para cada acúmulo**. Os acúmulos usados na redução são perdidos. |\n| ⚖️ Ter **Resfriamento** | Acúmulos de Superaquecer e Resfriamento **se cancelam**. |",
+    "conteudo": "## Efeito\n\n- 🔥 **Dano causado:** para cada acúmulo, seu dano de fogo aumenta em **+2**.\n- ⏳ **Fim do turno:** sofre **1d6 de dano de Queimadura** para cada acúmulo de Superaquecer.\n## Interações\n\n| Situação | O que acontece |\n|---|---|\n| 💧 Adquirir a condição **Molhado** | Remova **1 acúmulo** de Superaquecer e remova o Molhado. |\n| ❄️ Receber **dano de gelo** | Reduza o dano recebido em **3 para cada acúmulo**. Os acúmulos usados na redução são perdidos. |\n| ⚖️ Ter **Resfriamento** | Acúmulos de Superaquecer e Resfriamento **se cancelam**. |",
     "fonte": "381ba432-3d84-4fe1-9ffa-45c7a91d596c",
     "condicao": {
       "nivel": "Complexa",
@@ -1329,67 +1361,35 @@ window.ASTER_CONCEITOS = [
     }
   },
   {
-    "slug": "resfriamento-resfriado",
-    "nome": "Resfriamento / Resfriado",
+    "slug": "tontura",
+    "nome": "Tontura",
     "categoria": "Condições",
-    "grupo": "Complexas",
-    "conteudo": "## Efeito\n\n- Perde **1 reação**.\n- ❄️ **Dano causado:** para cada acúmulo de Resfriamento, seu dano de gelo aumenta em **+2**.\n\n> 🧊 Se você estiver **Molhado** ou a condição Resfriado alcançar **3 acúmulos**, você adquire a condição **Congelado**.\n\n## Interações\n\n| Situação | O que acontece |\n|---|---|\n| 🔥 Receber **dano de queimadura** | Diminua o dano recebido em **3 para cada acúmulo**. Os acúmulos usados na redução são perdidos. |\n| ⚖️ Ter **Superaquecer** | Acúmulos de Resfriamento e Superaquecer **se cancelam**. |",
+    "grupo": "Normais",
+    "conteudo": "## Efeito\n\nImpede o uso de **reações**.",
     "fonte": "381ba432-3d84-4fe1-9ffa-45c7a91d596c",
     "condicao": {
-      "nivel": "Complexa",
-      "descricao": "Perde 1 reação. +2 de dano de gelo causado por acúmulo. Fica Congelado se estiver Molhado ou chegar a 3 acúmulos.",
-      "remocao": "Dano de queimadura consome acúmulos. Acúmulos de Superaquecer cancelam os de Resfriamento.",
+      "nivel": "Normal",
+      "descricao": "Não pode usar reações.",
+      "remocao": "",
       "maximo": null,
       "subtipo": "",
-      "icone": "❄️"
+      "icone": "💫"
     }
   },
   {
-    "slug": "carga",
-    "nome": "Carga",
+    "slug": "voando",
+    "nome": "Voando",
     "categoria": "Condições",
     "grupo": "Complexas",
-    "conteudo": "## Efeito\n\nPara cada acúmulo de Carga, diminua em **2** o custo da sua **próxima magia elétrica**. Os acúmulos usados na redução são perdidos.\n\n## Interações\n\n| Situação | O que acontece |\n|---|---|\n| 🗡️ Receber um **ataque físico** (apenas corpo a corpo) | Cause **1d6 de dano elétrico ao atacante** por acúmulo. Você perde todos os acúmulos. |\n| ✨ Receber **dano não físico** | Você sofre **2d6 de dano elétrico** e perde todos os acúmulos. |",
+    "conteudo": "## Efeito\n\n- Não pode ser alvo de ataques e habilidades de alcance **corpo a corpo** de criaturas que não estejam **Voando**.\n- Fica **imune a qualquer efeito aplicado ao solo**, incluindo desvantagens, armadilhas e habilidades.\n## Remoção\n\n> 🛬 **Pousar** ou **ser derrubado**. Receber controles como Atordoamento ou Congelado pode derrubar você.",
     "fonte": "381ba432-3d84-4fe1-9ffa-45c7a91d596c",
     "condicao": {
       "nivel": "Complexa",
-      "descricao": "Cada acúmulo reduz em 2 o custo da próxima magia elétrica. Ataques físicos corpo a corpo e danos não físicos descarregam todos os acúmulos.",
-      "remocao": "Os acúmulos são perdidos ao serem usados numa magia elétrica, ao receber um ataque físico corpo a corpo ou ao receber dano não físico.",
+      "descricao": "Só pode ser alvo de ataques corpo a corpo de quem também estiver Voando. Imune a efeitos aplicados ao solo.",
+      "remocao": "Pousar ou ser derrubado. Controles como Atordoamento ou Congelado podem derrubar você.",
       "maximo": null,
       "subtipo": "",
-      "icone": "⚡"
-    }
-  },
-  {
-    "slug": "cristal-de-mana",
-    "nome": "Cristal de Mana",
-    "categoria": "Condições",
-    "grupo": "Complexas",
-    "conteudo": "## Efeito\n\nCada acúmulo de Cristal de Mana pode ser usado como **1 de energia** ao usar uma habilidade.\n\nAcúmulos usados dessa maneira são **consumidos**.",
-    "fonte": "381ba432-3d84-4fe1-9ffa-45c7a91d596c",
-    "condicao": {
-      "nivel": "Complexa",
-      "descricao": "Cada acúmulo pode ser usado como 1 de energia ao usar uma habilidade.",
-      "remocao": "Os acúmulos são consumidos ao serem usados.",
-      "maximo": null,
-      "subtipo": "",
-      "icone": "💎"
-    }
-  },
-  {
-    "slug": "maldicao-de-morte",
-    "nome": "Maldição de Morte",
-    "categoria": "Condições",
-    "grupo": "Complexas",
-    "conteudo": "> 🕯️ É considerada uma **Maldição**.\n\n## Efeito\n\nNão pode receber **nenhum tipo de cura ou purificação**.\n\n## Remoção\n\n> ⚰️ É removida **ao morrer**.",
-    "fonte": "381ba432-3d84-4fe1-9ffa-45c7a91d596c",
-    "condicao": {
-      "nivel": "Complexa",
-      "descricao": "Não pode receber nenhum tipo de cura ou purificação.",
-      "remocao": "Removida ao morrer.",
-      "maximo": null,
-      "subtipo": "Maldição",
-      "icone": "☠️"
+      "icone": "🕊️"
     }
   }
 ];
