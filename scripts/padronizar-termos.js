@@ -6,7 +6,7 @@
 //   node scripts/padronizar-termos.js                 → só gera o relatório data/padronizacao.md (não muda nada)
 //   node scripts/padronizar-termos.js --aplicar       → aplica as trocas no Notion
 //   --sem="Vida,Energia"                              → deixa esses termos de fora (nome da entrada)
-//   --only=cartas | racas | classes                   → só uma base
+//   --only=cartas | racas | classes | condicoes | regras → só uma parte (regras = páginas do Sumário, scripts/glossario.js)
 //   --restrito="Ligação=Cultista|Pacto*"              → esse termo só nas cartas com essa Origem (| = ou, * = começa com)
 //
 // Preserva negrito/itálico/cores/links: só o texto de cada trecho muda. Trechos de código,
@@ -15,7 +15,7 @@
 const fs = require("fs");
 const path = require("path");
 const { criarNotion, carregarEnv, BASES, emParalelo, valorPropriedade, norm } = require("./sync-notion.js");
-const { TERMOS, nomeProprio } = require("./glossario.js");
+const { TERMOS, nomeProprio, FONTES } = require("./glossario.js");
 
 const ROOT = path.join(__dirname, "..");
 const args = process.argv.slice(2);
@@ -25,7 +25,7 @@ const SEM = new Set((opcao("sem") || "").split(",").map((s) => s.trim()).filter(
 const SO = opcao("only");
 // Termo → origem exigida (só cartas com essa Origem).
 const RESTRITO = new Map((opcao("restrito") || "").split(",").filter(Boolean).map((x) => x.split("=").map((y) => y.trim())));
-const TABELAS = ["cartas", "racas", "classes"].filter((t) => !SO || t === SO);
+const TABELAS = ["cartas", "racas", "classes", "condicoes", "regras"].filter((t) => !SO || t === SO);
 
 // \b do JavaScript não entende acentos ("área", "única"): troca por limites Unicode.
 const L = "[\\p{L}\\p{N}_]";
@@ -89,6 +89,25 @@ const trecho = (antes, depois) => {
   return [corta(antes, fa), corta(depois, fd)];
 };
 
+// Páginas de regras do Sumário: as páginas listadas em glossario.js e as subpáginas delas
+// (menos nas fontes do tipo "pagina", como Origens e Raças e Classes, cujas subpáginas são raças, classes e cartas).
+async function paginasDeRegras(notion) {
+  const vistos = new Set(), saida = [];
+  async function visitar(id, profundidade, comFilhas) {
+    const chave = id.replace(/-/g, "");
+    if (vistos.has(chave)) return;
+    vistos.add(chave);
+    const pagina = await notion.chamar("GET", `/pages/${id}`);
+    saida.push(pagina);
+    if (!comFilhas || profundidade >= 2) return;
+    for (const b of percorrer(await notion.blocos(id))) {
+      if (b.type === "child_page") await visitar(b.id, profundidade + 1, true);
+    }
+  }
+  for (const f of FONTES) await visitar(f.id, 0, !f.entradas.every((e) => e.tipo === "pagina"));
+  return saida;
+}
+
 async function main() {
   carregarEnv();
   if (!process.env.NOTION_TOKEN) throw new Error("Falta NOTION_TOKEN no .env.");
@@ -101,12 +120,12 @@ async function main() {
 
   for (const tabela of TABELAS) {
     process.stdout.write(`▸ ${tabela}: `);
-    const paginas = await notion.paginas(BASES[tabela].database);
+    const paginas = tabela === "regras" ? await paginasDeRegras(notion) : await notion.paginas(BASES[tabela].database);
     if (tabela === "cartas") paginas.forEach((p) => titulos.set(p.id.replace(/-/g, ""), textoPuro(Object.values(p.properties).find((x) => x.type === "title")?.title || [])));
     process.stdout.write(`${paginas.length} páginas… `);
     let feitas = 0;
     await emParalelo(paginas, 3, async (p) => {
-      const titulo = textoPuro(Object.values(p.properties).find((x) => x.type === "title")?.title || []) || "(sem nome)";
+      const titulo = textoPuro(Object.values(p.properties || {}).find((x) => x.type === "title")?.title || []) || "(sem nome)";
       const blocos = await notion.blocos(p.id);
       if (++feitas % 50 === 0) process.stdout.write(`${feitas}… `);
       // Regras desta página: termos restritos só valem nas cartas da origem indicada.
@@ -116,6 +135,18 @@ async function main() {
       const regras = REGRAS.filter((r) => !RESTRITO.has(r.termo) || casa(RESTRITO.get(r.termo)));
       const mudancas = [];
       for (const b of percorrer(blocos)) {
+        // Linhas de tabela: cada célula é um rich_text próprio.
+        if (b.type === "table_row") {
+          const celulas = b.table_row.cells.map((c) => padronizarRich(c, regras));
+          if (!celulas.some((c) => c.mudou)) continue;
+          const novo = celulas.map((c, i) => (c.mudou ? c.novo : padronizarRich(b.table_row.cells[i], []).novo || b.table_row.cells[i]));
+          const antes = b.table_row.cells.map(textoPuro).join(" | ");
+          const depois = novo.map((c) => c.map((t) => t.text?.content ?? t.plain_text ?? "").join("")).join(" | ");
+          const trocas = celulas.flatMap((c) => c.trocas);
+          mudancas.push({ bloco: b.id, tipo: "table_row", trecho: trecho(antes, depois), trocas, novo: null, celulas: novo });
+          trocas.forEach((t) => { const k = `${t.termo}: "${t.de}" → "${t.para}"`; contagem[k] = (contagem[k] || 0) + 1; });
+          continue;
+        }
         if (!COM_TEXTO.includes(b.type)) continue;
         const rich = b[b.type]?.rich_text || [];
         const r = padronizarRich(rich, regras);
@@ -132,7 +163,8 @@ async function main() {
       blocosAlterados += mudancas.length;
       if (APLICAR) {
         for (const m of mudancas) {
-          try { await notion.chamar("PATCH", `/blocks/${m.bloco}`, { [m.tipo]: { rich_text: m.novo } }); aplicados++; }
+          const corpo = m.tipo === "table_row" ? { table_row: { cells: m.celulas } } : { [m.tipo]: { rich_text: m.novo } };
+          try { await notion.chamar("PATCH", `/blocks/${m.bloco}`, corpo); aplicados++; }
           catch (e) { falhas.push(`${titulo}: ${e.message}`); }
         }
       }
@@ -161,7 +193,7 @@ async function main() {
   ];
   let tabelaAtual = "";
   for (const r of relatorio) {
-    if (r.tabela !== tabelaAtual) { tabelaAtual = r.tabela; linhas.push(`### ${{ cartas: "Cartas", racas: "Raças", classes: "Classes" }[r.tabela]}`, ""); }
+    if (r.tabela !== tabelaAtual) { tabelaAtual = r.tabela; linhas.push(`### ${{ cartas: "Cartas", racas: "Raças", classes: "Classes", condicoes: "Condições", regras: "Páginas de regras (Sumário)" }[r.tabela]}`, ""); }
     linhas.push(`**[${r.titulo}](${r.url})**`, "");
     for (const m of r.mudancas) linhas.push(`- antes: ${m.trecho[0]}`, `  depois: ${m.trecho[1]}`);
     linhas.push("");
