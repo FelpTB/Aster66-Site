@@ -1,4 +1,4 @@
-// Página Mundo de Aster: mapa (em construção), linha do tempo, panteão, países e locais, raças e classes.
+// Página Mundo de Aster: panteão, países e locais, raças e classes. O mapa com a linha do tempo fica em mapa.js.
 (() => {
   const M = window.ASTER_MUNDO;
   const DB = window.AsterDB;
@@ -9,14 +9,6 @@
   const norm = (s) => String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
 
   const { cardEntidade, cabecaModal, cardPersona, abrirPersona, casaBusca } = window.AsterUI;
-
-  // ---------- Linha do tempo ----------
-  const linha = $("linha-do-tempo");
-  if (linha) linha.innerHTML = (M.linhaDoTempo || []).map((era) => `
-    <li class="era">
-      <span class="era-nome">${esc(era.era)}</span>
-      <ol>${era.eventos.map((ev) => `<li><b>${esc(ev.titulo)}</b><p class="dim">${esc(ev.texto)}</p></li>`).join("")}</ol>
-    </li>`).join("");
 
   // ---------- Panteão de Édin ----------
   let DEUSES = M.panteao.map((d) => ({ nome: d.nome, titulo: d.titulo, resumo: d.texto, conteudo: `${d.texto}\n\n**Símbolo:** ${d.simbolo}` }));
@@ -58,17 +50,19 @@
     window.abrirModal(`${cabecaModal(window.monograma(p.nome), p.nome, p.tag)}<div class="md">${md(p.conteudo)}</div>${locais}`, { largo: true });
   });
   renderPaises();
-  // Mapa (provisório): cada país vira um marcador que abre a mesma janela do card.
-  const mapa = $("mapa-paises");
-  function renderMapa() {
-    if (mapa) mapa.innerHTML = PAISES.map((p, i) => `<button class="chip" type="button" data-idx="${i}">${esc(p.nome)}</button>`).join("");
-  }
-  mapa?.addEventListener("click", (e) => { const b = e.target.closest("[data-idx]"); if (b) $("paises-lista").querySelector(`[data-idx="${b.dataset.idx}"]`)?.click(); });
-  renderMapa();
+  // O mapa interativo (mapa.js) abre a mesma janela do card: window.abrirPaisMundo("Tuhan").
+  window.abrirPaisMundo = (nome) => {
+    const n = norm(nome);
+    const i = PAISES.findIndex((p) => norm(p.nome) === n);
+    const j = i >= 0 ? i : PAISES.findIndex((p) => norm(p.nome).startsWith(n));
+    if (j < 0) return false;
+    $("paises-lista").querySelector(`[data-idx="${j}"]`)?.click();
+    return true;
+  };
   DB.paises().then((lista) => {
     if (!lista.length) return;
     PAISES = lista.map((p) => ({ ...p, tag: localPorNome.get(norm(p.nome))?.tag || "" }));
-    renderPaises(); renderMapa();
+    renderPaises();
   }).catch((e) => console.warn("Países do Supabase indisponíveis.", e));
 
   // ---------- Povo de Aster: raças e classes ----------

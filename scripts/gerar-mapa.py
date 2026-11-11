@@ -289,15 +289,16 @@ add('''  <g id="capitais">
 add('  <g id="rotulos">')
 add('    <text class="rotulo fora" x="330" y="30">Terras do norte</text>')
 add('    <text class="rotulo fora" x="1180" y="430">Huang-Xing</text>')
-add('    <text class="rotulo vermelho" x="580" y="748">Arquipélago de É-Dingirra</text>')
-add('    <text class="rotulo nota" x="580" y="766">inabitável · corrupção mágica · reino perdido dos deuses</text>')
-def rot(nome, cls="", tam=None, desloc=(0, 0), texto=None):
+add('    <text class="rotulo vermelho" data-edingirra="" x="580" y="748">Arquipélago de É-Dingirra</text>')
+add('    <text class="rotulo nota" data-edingirra="" x="580" y="766">inabitável · corrupção mágica · reino perdido dos deuses</text>')
+def rot(nome, cls="", tam=None, desloc=(0, 0), texto=None, attr=""):
     pol = POL[nome]
     t = texto or nome.replace("reino:", "")
     tam = tam or 13
     p = centro(pol, len(t) * tam * .62)
     if not p: p = centro(pol)
-    add(f'    <text class="rotulo {cls}" x="{p[0] + desloc[0]:.0f}" y="{p[1] + desloc[1]:.0f}" style="font-size:{tam}px">{t}</text>')
+    attr = attr or f' data-pais="{t}"'
+    add(f'    <text class="rotulo {cls}"{attr} x="{p[0] + desloc[0]:.0f}" y="{p[1] + desloc[1]:.0f}" style="font-size:{tam}px">{t}</text>')
 TAM = {"Tuhan": 16, "Kin-Me-Gir": 15, "Farlands": 13, "Saa-Bahc": 13, "Zew Phater": 12, "Hakemênida": 11, "Kalasar": 10,
        "Tokkara": 10, "Crimmor": 10, "Hief": 10, "Supra Lux": 11, "Anulatra": 9.5, "Wildcoast": 10, "Andosea": 10, "Orixu": 10}
 DESL = {"Wildcoast": (0, 70), "Andosea": (0, 58), "Orixu": (0, 0), "Kalasar": (0, -6), "Saa-Bahc": (0, 0)}
@@ -306,15 +307,15 @@ for nome, tam in TAM.items():
     if nome in ("Wildcoast", "Andosea", "Orixu"):
         continue
     if nome in FIXO:
-        add(f'    <text class="rotulo" x="{FIXO[nome][0]}" y="{FIXO[nome][1]}" style="font-size:{tam}px">{nome}</text>')
+        add(f'    <text class="rotulo" data-pais="{nome}" x="{FIXO[nome][0]}" y="{FIXO[nome][1]}" style="font-size:{tam}px">{nome}</text>')
         continue
     rot(nome, tam=tam, desloc=DESL.get(nome, (0, 0)))
-add('    <text class="rotulo" x="136" y="522" style="font-size:10px">Wildcoast</text>')
-add('    <text class="rotulo" x="880" y="416" style="font-size:10px">Andosea</text>')
-add('    <text class="rotulo" x="296" y="690" style="font-size:10px">Orixu</text>')
+add('    <text class="rotulo" data-pais="Wildcoast" x="136" y="522" style="font-size:10px">Wildcoast</text>')
+add('    <text class="rotulo" data-pais="Andosea" x="880" y="416" style="font-size:10px">Andosea</text>')
+add('    <text class="rotulo" data-pais="Orixu" x="296" y="690" style="font-size:10px">Orixu</text>')
 for nome, _ in REINOS:
-    rot("reino:" + nome, "reino", tam=8.5, texto=nome)
-add('    <text class="rotulo uniao" x="462" y="442" style="font-size:15px">Elesidônia</text>')
+    rot("reino:" + nome, "reino", tam=8.5, texto=nome, attr=f' data-pais="Elesidônia" data-reino="{nome}"')
+add('    <text class="rotulo uniao" data-pais="Elesidônia" x="462" y="442" style="font-size:15px">Elesidônia</text>')
 add('    <text class="rotulo relevo" x="462" y="166">Cord. de Jotunar</text>')
 add('    <text class="rotulo relevo" x="560" y="432">Tah-Nebu</text>')
 add('    <text class="rotulo relevo" x="608" y="566">Rio Iteru</text>')

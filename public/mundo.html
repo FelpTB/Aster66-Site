@@ -23,8 +23,7 @@
 
   <nav class="subnav" aria-label="Seções">
     <div class="wrap">
-      <a href="#mapa">Mapa</a>
-      <a href="#linha">Linha do tempo</a>
+      <a href="#mapa">Mapa e linha do tempo</a>
       <a href="#panteao">Panteão</a>
       <a href="#paises">Países e locais</a>
       <a href="#racas">Raças</a>
@@ -37,33 +36,23 @@
       <div class="section-head">
         <span class="eyebrow">Continente de Maresia</span>
         <h2>Maresia e o Reino de É-Dingirra</h2>
-        <p class="dim">Em Maresia, o povo Ediniano foi um dos primeiros a dominar a magia. A pequena tribo tornou-se uma
-          sociedade que se estendeu por todo o continente — batizado em homenagem à exploradora que primeiro o desbravou.</p>
-<p class="dim">Seu líder se dizia eleito pela vontade do universo para criar em Aster um reino eterno e perfeito.
-          Como Rei de É-Dingirra, ele podia elevar seguidores à divindade. O reino dominou o continente por milênios; após
-          sua queda, religiões, culturas, tecnologias e políticas de todos os países que surgiram ainda carregam seus resquícios.</p>
+        <p class="dim">Mova a linha do tempo para ver como o continente mudou. Clique nos marcadores para ler cada evento e nos países para conhecer sua história.</p>
+        <p class="dim">Em Maresia, o povo Ediniano foi um dos primeiros a dominar a magia e criou o Reino de É-Dingirra, cujo rei elevava
+          seguidores à divindade. O reino dominou o continente por milênios; os países que nasceram da sua queda ainda carregam seus resquícios.</p>
       </div>
-      <div class="mapa-moldura card card-frame">
-        <div class="mapa-area" aria-hidden="true">
-          <svg viewBox="0 0 120 120"><g fill="none" stroke="currentColor" stroke-width="1"><circle cx="60" cy="60" r="44" stroke-opacity=".4"/><circle cx="60" cy="60" r="30" stroke-dasharray="2 4"/><path d="M60 8 66 54 60 60 54 54Z" fill="currentColor" fill-opacity=".55"/><path d="M60 112 54 66 60 60 66 66Z"/><path d="M8 60 54 54 60 60 54 66ZM112 60 66 66 60 60 66 54Z" stroke-opacity=".6"/></g></svg>
-          <div><span class="tag">Em construção</span><h3>Mapa interativo</h3>
-          <p class="dim">Em breve: o mapa de Maresia com fronteiras, cidades e locais clicáveis. Por enquanto, escolha um país abaixo.</p></div>
+      <div class="mapa-interativo" id="mapa-interativo">
+        <div class="mapa-eras" role="group" aria-label="Linha do tempo">
+          <div class="mapa-eras-trilho">
+            <input type="range" id="mapa-era" min="0" max="3" step="1" value="3" aria-label="Época" aria-valuetext="">
+            <ol class="mapa-eras-marcas" id="mapa-eras-marcas"></ol>
+          </div>
         </div>
-        <div class="chip-group" id="mapa-paises" aria-label="Países de Maresia"></div>
+        <div class="mapa-corpo">
+          <div class="mapa-tela" id="mapa-tela"><p class="empty">Carregando o mapa…</p></div>
+          <aside class="mapa-painel" id="mapa-painel" aria-live="polite"></aside>
+        </div>
+        <div class="mapa-legenda" id="mapa-legenda"></div>
       </div>
-    </div>
-  </section>
-
-  <hr class="rule-ouro">
-
-  <section id="linha" class="anchor">
-    <div class="wrap">
-      <div class="section-head">
-        <span class="eyebrow">História</span>
-        <h2>Linha do tempo</h2>
-        <p class="dim">Das origens de É-Dingirra à era moderna. <span class="tag">Rascunho</span> A ordem é aproximada e as datas ainda vão ser definidas.</p>
-      </div>
-      <ol class="linha-tempo" id="linha-do-tempo"></ol>
     </div>
   </section>
 
@@ -136,5 +125,7 @@
 <script src="js/data-mundo.js"></script>
 <script src="js/data-personagens.js"></script>
 <script src="js/mundo.js"></script>
+<script src="js/data-mapa.js"></script>
+<script src="js/mapa.js"></script>
 </body>
 </html>

@@ -556,35 +556,6 @@ a.termo:hover, a.termo:focus-visible { color: var(--ouro, #E5A93C); text-decorat
 .hub-links a { font-weight: 600; text-decoration: none; }
 .hub-links a::before { content: "→ "; color: var(--text-faint); }
 
-.mapa-moldura { padding: 0; overflow: hidden; }
-.mapa-area {
-  display: flex; gap: 24px; align-items: center; padding: clamp(24px, 5vw, 56px);
-  min-height: 280px; border-bottom: 1px solid var(--line);
-  background: radial-gradient(ellipse at 30% 40%, rgba(229, 169, 60, .08), transparent 60%),
-    repeating-linear-gradient(0deg, transparent 0 39px, rgba(255, 255, 255, .03) 39px 40px),
-    repeating-linear-gradient(90deg, transparent 0 39px, rgba(255, 255, 255, .03) 39px 40px), var(--surface);
-}
-.mapa-area svg { width: 120px; height: 120px; flex: none; color: var(--ouro); }
-.mapa-area h3 { margin: 8px 0 .3em; }
-.mapa-area p { margin: 0; max-width: 52ch; }
-.mapa-moldura .chip-group { padding: 16px 20px; }
-@media (max-width: 600px) { .mapa-area { flex-direction: column; text-align: center; } }
-
-.linha-tempo { list-style: none; padding: 0; margin: 0; }
-.linha-tempo .era { position: relative; padding: 0 0 8px 28px; border-left: 1px solid var(--line-ouro); }
-.linha-tempo .era + .era { padding-top: 12px; }
-.linha-tempo .era-nome {
-  display: block; font-family: var(--font-display); font-size: 1.6rem; font-weight: 600; color: var(--ouro); margin-bottom: 8px; position: relative;
-}
-.linha-tempo .era-nome::before {
-  content: ""; position: absolute; left: -35px; top: .55em; width: 13px; height: 13px; transform: rotate(45deg);
-  background: var(--nigredo); border: 1px solid var(--ouro);
-}
-.linha-tempo ol { list-style: none; padding: 0; margin: 0 0 16px; display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
-.linha-tempo ol li { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; }
-.linha-tempo ol li b { font-family: var(--font-display); font-size: 1.2rem; font-weight: 600; }
-.linha-tempo ol li p { margin: 4px 0 0; font-size: .92rem; line-height: 1.5; }
-
 .ficha-simples { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; font-size: .92rem; margin: 0 0 18px; }
 .ficha-simples dt { color: var(--text-faint); font-weight: 600; }
 .ficha-simples dd { margin: 0; }
@@ -602,3 +573,94 @@ a.termo:hover, a.termo:focus-visible { color: var(--ouro, #E5A93C); text-decorat
 
 .criacoes-bloqueio { max-width: 640px; }
 .apoio-formas .card h3 { font-size: 1.3rem; }
+
+/* ---------- Mapa interativo (Mundo de Aster) ---------- */
+.mapa-interativo { border: 1px solid var(--line-ouro); background: var(--surface); }
+.mapa-eras { padding: 18px 22px 10px; border-bottom: 1px solid var(--line); }
+.mapa-eras-trilho { position: relative; }
+.mapa-eras input[type="range"] {
+  -webkit-appearance: none; appearance: none; width: 100%; height: 26px; background: transparent; margin: 0; cursor: pointer;
+  --pct: 100%;
+}
+.mapa-eras input[type="range"]::-webkit-slider-runnable-track {
+  height: 3px; background: linear-gradient(90deg, var(--ouro) var(--pct), var(--line) var(--pct));
+}
+.mapa-eras input[type="range"]::-moz-range-track { height: 3px; background: var(--line); }
+.mapa-eras input[type="range"]::-moz-range-progress { height: 3px; background: var(--ouro); }
+.mapa-eras input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 18px; height: 18px; margin-top: -7.5px; transform: rotate(45deg);
+  background: var(--rubedo); border: 2px solid var(--ouro);
+}
+.mapa-eras input[type="range"]::-moz-range-thumb { width: 14px; height: 14px; transform: rotate(45deg); background: var(--rubedo); border: 2px solid var(--ouro); border-radius: 0; }
+.mapa-eras-marcas { list-style: none; padding: 0; margin: 4px 0 0; display: flex; justify-content: space-between; }
+.mapa-eras-marcas li { flex: 1; text-align: center; }
+.mapa-eras-marcas li:first-child { text-align: left; }
+.mapa-eras-marcas li:last-child { text-align: right; }
+.mapa-eras-marcas button {
+  background: none; border: 0; cursor: pointer; color: var(--text-dim); padding: 4px 2px;
+  font-family: var(--font-display); font-size: 1.12rem; font-weight: 600;
+}
+.mapa-eras-marcas button:hover { color: var(--text); }
+.mapa-eras-marcas button[aria-current="true"] { color: var(--ouro); }
+.mapa-era-curto { display: none; }
+@media (max-width: 700px) { .mapa-era-nome { display: none; } .mapa-era-curto { display: inline; } .mapa-eras-marcas button { font-size: 1rem; } }
+
+.mapa-corpo { display: grid; grid-template-columns: minmax(0, 1fr) 320px; }
+.mapa-tela { position: relative; background: #0d1418; min-height: 300px; }
+.mapa-painel { padding: 20px 22px; border-left: 1px solid var(--line); max-height: 640px; overflow-y: auto; }
+.mapa-painel h3 { margin: 0 0 .35em; font-size: 1.7rem; }
+.mapa-painel > p { font-size: .94rem; line-height: 1.5; }
+.mapa-eventos { list-style: none; padding: 0; margin: 14px 0 0; display: grid; gap: 4px; }
+.mapa-eventos button {
+  width: 100%; display: flex; gap: 10px; align-items: flex-start; text-align: left; background: none; border: 1px solid transparent;
+  color: var(--text); font: inherit; padding: 7px 8px; cursor: pointer; border-radius: var(--radius);
+}
+.mapa-eventos button:hover, .mapa-eventos button:focus-visible { background: var(--surface-2); border-color: var(--line); }
+.mapa-eventos .num {
+  flex: none; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--cor); color: #08080a; font-size: .75rem; font-weight: 700; margin-top: 1px;
+}
+.mapa-eventos b { display: block; font-size: .92rem; line-height: 1.3; }
+.mapa-eventos small { color: var(--text-faint); font-size: .78rem; }
+@media (max-width: 900px) {
+  .mapa-corpo { grid-template-columns: minmax(0, 1fr); }
+  .mapa-painel { border-left: 0; border-top: 1px solid var(--line); max-height: none; }
+}
+.mapa-legenda { display: flex; flex-wrap: wrap; gap: 6px 18px; padding: 10px 22px; border-top: 1px solid var(--line); font-size: .8rem; color: var(--text-dim); }
+.mapa-legenda span { display: inline-flex; align-items: center; gap: 6px; }
+.mapa-legenda i { width: 11px; height: 11px; border-radius: 50%; background: var(--cor); display: inline-block; }
+.mapa-legenda i.leg-sem-estado { border-radius: 2px; background: repeating-linear-gradient(45deg, #16161b 0 3px, rgba(229, 169, 60, .4) 3px 5px); }
+.mapa-legenda i.leg-edingirra { border-radius: 2px; background: #1d1018; border: 1px dashed #c91d2e; }
+
+/* SVG embutido: estados por época */
+.mapa-svg { width: 100%; height: auto; display: block; }
+.mapa-svg .pais, .mapa-svg .reino, .mapa-svg text, .mapa-svg .capital, .mapa-svg .edingirra { transition: fill .4s, stroke-opacity .4s, opacity .4s; }
+.mapa-svg .pais.sem-estado { fill: url(#hachura-mapa); }
+.mapa-svg #rotulos .sem-estado { opacity: .45; }
+.mapa-svg #capitais .sem-estado { opacity: 0; pointer-events: none; }
+.mapa-svg.unificado .pais, .mapa-svg.unificado .reino-unido .reino { fill: #231d15; stroke-opacity: .07; }
+.mapa-svg.unificado .contorno-uniao, .mapa-svg.unificado #capitais, .mapa-svg.unificado #rotulos [data-pais] { opacity: 0; }
+.mapa-svg.unificado #capitais { pointer-events: none; }
+.mapa-svg[data-edingirra="terra"] .edingirra { fill: #231d15; stroke: #e5a93c; stroke-opacity: .5; stroke-dasharray: none; }
+.mapa-svg[data-edingirra="terra"] [data-edingirra] { opacity: 0; }
+.mapa-svg .edingirra-ponte { fill: #231d15; opacity: 0; pointer-events: none; transition: opacity .4s; }
+.mapa-svg[data-edingirra="terra"] .edingirra-ponte { opacity: 1; }
+.mapa-svg[data-edingirra="terra"] .edingirra { stroke-opacity: 0; }
+.mapa-svg .rotulo-era {
+  font-family: "Cormorant Garamond", Georgia, serif; font-weight: 700; font-size: 30px; letter-spacing: .14em; text-transform: uppercase;
+  fill: #e5a93c; fill-opacity: .9; paint-order: stroke; stroke: #08080a; stroke-width: 4px; pointer-events: none;
+}
+.mapa-svg .rota { fill: none; stroke-width: 2.4; stroke-dasharray: 6 5; opacity: .8; pointer-events: none; }
+.mapa-svg .evento { cursor: pointer; outline: none; animation: evento-entra .35s both; animation-delay: var(--atraso); }
+.mapa-svg .evento-ponto { fill: var(--cor); stroke: #08080a; stroke-width: 2; }
+.mapa-svg .evento-halo { fill: var(--cor); opacity: .22; transition: r .2s, opacity .2s; }
+.mapa-svg .evento-num { fill: #08080a; font: 700 10px "Source Sans 3", sans-serif; pointer-events: none; }
+.mapa-svg .evento:hover .evento-halo, .mapa-svg .evento:focus-visible .evento-halo, .mapa-svg .evento.destaque .evento-halo { r: 21px; opacity: .4; }
+.mapa-svg .evento:focus-visible .evento-ponto { stroke: #fff; }
+@keyframes evento-entra { from { opacity: 0; } }
+@media (max-width: 700px) {
+  .mapa-svg .evento-ponto { r: 15px; }
+  .mapa-svg .evento-halo { r: 22px; }
+  .mapa-svg .evento-num { font-size: 15px; }
+  .mapa-svg #rotulos .rotulo.reino, .mapa-svg #rotulos .relevo { opacity: 0; }
+}
