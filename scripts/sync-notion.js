@@ -125,6 +125,17 @@ const BASES = {
       "Inspirações": "inspiracoes",
     },
   },
+  condicoes: {
+    database: "381ba4323d844fe19ffa45c7a91d596c", // Databases › Condições › Lista de Condições
+    props: {
+      "Nome": "nome",
+      "Nível": "nivel",
+      "Descrição": "descricao",
+      "Remoção": "remocao",
+      "Máximo de acúmulos": "maximo_de_acumulos",
+      "Subtipo": "subtipo",
+    },
+  },
 };
 
 // Colunas de array no Supabase (para converter select ↔ multi_select sem quebrar).
@@ -133,7 +144,7 @@ const COLUNAS_ARRAY = new Set([
   "atributos_iniciais", "origens_relacionadas", "atributos", "locais_relacionados", "organizacoes_relacionadas",
   "carta_relacionada", "habilidade_inata", "habilidade_caracteristica", "cartas", "cenarios_relacionados",
 ]);
-const COLUNAS_NUMERO = new Set(["qtd_por_espaco", "vida", "acoes", "reacoes", "movimento"]);
+const COLUNAS_NUMERO = new Set(["qtd_por_espaco", "vida", "acoes", "reacoes", "movimento", "maximo_de_acumulos"]);
 
 // ---------------------------------------------------------------------------
 // Utilidades
@@ -668,6 +679,36 @@ async function entradasDaFonte(notion, fonte) {
   return saida;
 }
 
+// Lista de Condições (base do Notion): cada condição vira uma entrada do sumário, com os dados
+// da ficha dela em `condicao` (nível, descrição, remoção, máximo de acúmulos, subtipo, ícone).
+// O site usa isso no catálogo de condições e nos links das cartas ("Atordoado" → Atordoamento).
+async function entradasDeCondicoes(notion) {
+  const paginas = await notion.paginas(BASES.condicoes.database);
+  const prop = (p, nome) => {
+    const k = Object.keys(p.properties).find((n) => norm(n) === norm(nome));
+    const v = k ? valorPropriedade(p.properties[k]) : null;
+    return Array.isArray(v) ? v.join(", ") || null : v;
+  };
+  const out = [];
+  await emParalelo(paginas, 3, async (p) => {
+    const nome = String(prop(p, "Nome") || "").trim();
+    if (!nome) return;
+    const nivel = prop(p, "Nível") || "";
+    const descricao = prop(p, "Descrição") || "";
+    out.push({
+      nome,
+      conteudo: limparMd(blocosMd(await notion.blocos(p.id))) || descricao,
+      grupo: nivel === "Normal" ? "Normais" : nivel === "Complexa" ? "Complexas" : "",
+      condicao: {
+        nivel, descricao, remocao: prop(p, "Remoção") || "",
+        maximo: prop(p, "Máximo de acúmulos"), subtipo: prop(p, "Subtipo") || "",
+        icone: p.icon?.emoji || null,
+      },
+    });
+  });
+  return out.sort((a, b) => a.nome.localeCompare(b.nome, "pt"));
+}
+
 async function exportarGlossario(notion) {
   process.stdout.write("\n▸ sumário: lendo o Notion… ");
   const entradas = [];
@@ -680,6 +721,24 @@ async function exportarGlossario(notion) {
       console.log(`\n  ⚠ página ${fonte.id} (${fonte.categoria}): ${e.message}`);
     }
   }
+  try {
+    const condicoes = await entradasDeCondicoes(notion);
+    condicoes.forEach((e) => entradas.push({ ...e, categoria: "Condições", fonte: comHifen(BASES.condicoes.database) }));
+    process.stdout.write(`Lista de Condições ${condicoes.length} · `);
+  } catch (e) {
+    console.log(`\n  ⚠ Lista de Condições: ${e.message}`);
+  }
+  const r = montarConceitos(entradas);
+  const antes = fs.existsSync(ARQUIVO_CONCEITOS) ? fs.readFileSync(ARQUIVO_CONCEITOS, "utf8") : "";
+  const mudou = antes !== r.js;
+  if (mudou) fs.writeFileSync(ARQUIVO_CONCEITOS, r.js);
+  console.log(`\n  ✔ ${r.lista.length} entradas, ${r.termos} formas de termo. ${mudou ? "public/js/data-conceitos.js atualizado — faça commit para publicar" : "sem mudanças"}`);
+  if (r.semEntrada.length) console.log("  ⚠ termos sem entrada: " + r.semEntrada.join(", "));
+  return { entradas: r.lista.length, termos: r.termos, semEntrada: r.semEntrada, arquivoAtualizado: mudou };
+}
+
+// Entradas do sumário → conteúdo de public/js/data-conceitos.js (sem acessar o Notion).
+function montarConceitos(entradas) {
   // Nomes repetidos (ex.: "Bloqueio Perene" em Conceitos e em Tipos de Defesa) ganham a categoria.
   const contagem = {};
   entradas.forEach((e) => { contagem[norm(e.nome)] = (contagem[norm(e.nome)] || 0) + 1; });
@@ -696,19 +755,15 @@ async function exportarGlossario(notion) {
   for (const t of TERMOS) {
     const e = porNome.get(norm(t.entrada)) || (t.alternativa && porNome.get(norm(t.alternativa)));
     if (!e) { semEntrada.push(t.entrada); continue; }
-    for (const forma of t.formas) termos.push({ forma, slug: e.slug, ...(t.contexto ? { contexto: true } : {}) });
+    for (const forma of t.formas) termos.push({ forma, slug: e.slug, ...(t.contexto ? { contexto: true } : {}), ...(t.evitar ? { evitar: t.evitar } : {}) });
   }
   const unicos = [...new Map(termos.map((t) => [t.forma, t])).values()].sort((a, b) => b.forma.length - a.forma.length);
-  const lista = entradas.map(({ slug, nome, categoria, grupo, conteudo, fonte }) => ({ slug, nome, categoria, grupo, conteudo, fonte }));
+  const lista = entradas.map(({ slug, nome, categoria, grupo, conteudo, fonte, condicao }) =>
+    ({ slug, nome, categoria, grupo, conteudo, fonte, ...(condicao ? { condicao } : {}) }));
   const js = "// Gerado por scripts/sync-notion.js a partir das páginas de regras do Notion (ver scripts/glossario.js). Não edite à mão.\n" +
     `window.ASTER_CONCEITOS = ${JSON.stringify(lista, null, 2)};\n` +
     `window.ASTER_TERMOS = ${JSON.stringify(unicos)};\n`;
-  const antes = fs.existsSync(ARQUIVO_CONCEITOS) ? fs.readFileSync(ARQUIVO_CONCEITOS, "utf8") : "";
-  const mudou = antes !== js;
-  if (mudou) fs.writeFileSync(ARQUIVO_CONCEITOS, js);
-  console.log(`\n  ✔ ${lista.length} entradas, ${unicos.length} formas de termo. ${mudou ? "public/js/data-conceitos.js atualizado — faça commit para publicar" : "sem mudanças"}`);
-  if (semEntrada.length) console.log("  ⚠ termos sem entrada: " + [...new Set(semEntrada)].join(", "));
-  return { entradas: lista.length, termos: unicos.length, semEntrada, arquivoAtualizado: mudou };
+  return { js, lista, termos: unicos.length, semEntrada: [...new Set(semEntrada)] };
 }
 
 function mesmoInstante(a, b) { return !!a && !!b && new Date(a).getTime() === new Date(b).getTime(); }
@@ -717,4 +772,4 @@ if (require.main === module) {
   main().catch((e) => { console.error("\n✖ " + e.message); process.exit(1); });
 }
 
-module.exports = { emParalelo, exportarGlossario, textoMd, blocosMd, valorPropriedade, ajustarTipo, norm, comHifen, BASES, sincronizarLore, criarNotion, carregarEnv };
+module.exports = { emParalelo, exportarGlossario, montarConceitos, entradasDeCondicoes, textoMd, blocosMd, valorPropriedade, ajustarTipo, norm, comHifen, BASES, sincronizarLore, criarNotion, carregarEnv };

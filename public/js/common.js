@@ -100,9 +100,10 @@ function prepararTermos() {
   const termos = window.ASTER_TERMOS || [];
   if (!termos.length) return null; // ainda não carregou: tenta de novo na próxima chamada
   SLUG_DO_TERMO = new Map(termos.map((t) => [t.forma, t.slug]));
-  const re = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const livres = termos.filter((t) => !t.contexto).map((t) => re(t.forma));
-  const ctx = termos.filter((t) => t.contexto).map((t) => re(t.forma));
+  // `evitar`: o que não pode vir logo depois da forma (ex.: "Carga Inicial" do kit médico não é a condição Carga).
+  const re = (t) => t.forma.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + (t.evitar ? `(?!${t.evitar})` : "");
+  const livres = termos.filter((t) => !t.contexto).map(re);
+  const ctx = termos.filter((t) => t.contexto).map(re);
   const L = "[\\p{L}\\p{N}]";
   const contexto = "(?<=(?:[Tt]estes? de |[Aa]tributos? (?:de )?|[Mm]odificador(?:es)? de |\\d (?:pontos? )?(?:de )?|\\d de ))";
   const partes = [`(${livres.join("|")})`];
@@ -192,6 +193,15 @@ window.abrirModal = (() => {
   };
 })();
 
+// Etiquetas de uma condição (Lista de Condições): nível, subtipo e máximo de acúmulos.
+window.fichaCondicao = (cond) => {
+  const esc = window.escapeHTML;
+  const nivel = cond.nivel ? `<span class="tag ${cond.nivel === "Complexa" ? "tag-red" : "tag-azul"}">${esc(cond.nivel)}</span>` : "";
+  const sub = cond.subtipo ? `<span class="tag tag-roxo">${esc(cond.subtipo)}</span>` : "";
+  const max = cond.maximo ? `<span class="cond-max">Máximo de ${esc(cond.maximo)} acúmulos</span>` : "";
+  return nivel || sub || max ? `<div class="cond-tags">${nivel}${sub}${max}</div>` : "";
+};
+
 // Explicação de um termo do sumário numa segunda janela, por cima da que estiver aberta
 // (ex.: a carta continua aberta embaixo). Links dentro dela trocam o conteúdo, com "voltar".
 window.abrirConceito = (() => {
@@ -202,12 +212,14 @@ window.abrirConceito = (() => {
     if (!c) return false;
     const esc = window.escapeHTML;
     const local = [c.categoria, c.grupo].filter(Boolean).join(" › ");
+    const cond = c.condicao;
     dlg.querySelector(".modal-body").innerHTML = `
       ${historico.length > 1 ? '<button class="btn btn-ghost btn-small termo-voltar" type="button" data-voltar>← Voltar</button>' : ""}
-      <span class="eyebrow" style="margin-bottom:.3rem">Sumário · ${esc(local)}</span>
-      <h2 style="margin:0 0 .5em">${esc(c.nome)}</h2>
+      <span class="eyebrow" style="margin-bottom:.3rem">${cond ? "Condição" : "Sumário · " + esc(local)}</span>
+      <h2 style="margin:0 0 .5em">${cond && cond.icone ? `<span class="cond-icone" aria-hidden="true">${esc(cond.icone)}</span> ` : ""}${esc(c.nome)}</h2>
+      ${cond ? window.fichaCondicao(cond) : ""}
       <div class="md">${window.mdHTML(c.conteudo, { termos: true, termoAtual: c.slug })}</div>
-      <p style="margin-top:1.2em"><a class="link-sumario" href="ferramentas.html#conceito-${c.slug}">Ver no sumário completo →</a></p>`;
+      <p style="margin-top:1.2em"><a class="link-sumario" href="ferramentas.html#conceito-${c.slug}">${cond ? "Ver no catálogo de condições →" : "Ver no sumário completo →"}</a></p>`;
     dlg.querySelector(".modal-body").scrollTop = 0;
     return true;
   };

@@ -52,7 +52,7 @@ Moderação de comentários: no Table Editor, marque `oculto = true` na linha do
 ### Conteúdo do Notion → Supabase (esquema `aster`)
 
 O Notion é a fonte da verdade. O esquema `aster` tem uma tabela por base de dados do Notion, com os mesmos campos
-(`cartas`, `racas`, `classes`, `itens`, `criaturas`, `personagens`, `organizacoes`, `cenarios`) e o corpo de cada página
+(`cartas`, `racas`, `classes`, `itens`, `criaturas`, `personagens`, `organizacoes`, `cenarios`, `condicoes`) e o corpo de cada página
 em Markdown na coluna `conteudo`. O site lê raças, classes e cartas daí; se o esquema não estiver disponível, volta
 sozinho para `fichas_jogador`.
 
@@ -75,6 +75,12 @@ npm run sync:notion -- --dry-run  # só lê o Notion e salva JSON em data/notion
 Também traz a **Lore** de cada raça e classe (páginas em Sumário › Raças e Classes, com subpáginas) para a coluna
 `lore` de `racas`/`classes` (`--only=lore` atualiza só ela). Bancos criados antes dessa coluna: rode uma vez
 `supabase/migracoes/002-lore-racas-classes.sql`.
+
+**Condições** (Databases › Condições › Lista de Condições): vão para `aster.condicoes` e também para o sumário do site,
+uma entrada por condição, com nível, subtipo, máximo de acúmulos e remoção. Elas formam o **catálogo de condições**
+(Ferramentas › Condições), e nos textos das cartas cada condição citada vira link direto para ela
+("Atordoado" → Atordoamento, "Tonto" → Tontura). As formas aceitas de cada condição ficam em `CONDICOES_TERMOS`
+(`scripts/glossario.js`). Bancos criados antes da tabela: rode uma vez `supabase/migracoes/003-condicoes.sql`.
 
 O mesmo comando exporta o **Sumário** do site (Conceitos + páginas de regras: combate, entreato, cartas, modos de uso,
 cooldown, alcance, raridade, origens, inventário, itens, condições, tipos de defesa) para `public/js/data-conceitos.js`,

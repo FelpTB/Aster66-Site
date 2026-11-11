@@ -4,7 +4,7 @@
 -- Pode ser executado de novo sem problemas (idempotente).
 --
 -- Uma tabela por base do Notion (Databases), com os mesmos campos:
---   cartas · racas · classes · itens · criaturas · personagens · organizacoes · cenarios
+--   cartas · racas · classes · itens · criaturas · personagens · organizacoes · cenarios · condicoes
 --
 -- Convenções (iguais para todas as tabelas):
 --   id            = ID da página no Notion (chave primária)
@@ -208,6 +208,27 @@ CREATE TABLE IF NOT EXISTS aster.cenarios (
 );
 
 -- ---------------------------------------------------------------------------
+-- Condições  (Notion: Databases › Condições › Lista de Condições)
+-- ---------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS aster.condicoes (
+  id                  UUID PRIMARY KEY,
+  nome                TEXT NOT NULL DEFAULT '',
+  nivel               TEXT,                         -- Nível (Normal / Complexa)
+  descricao           TEXT,                         -- Descrição (resumo do efeito)
+  remocao             TEXT,                         -- Remoção
+  maximo_de_acumulos  NUMERIC,                      -- Máximo de acúmulos
+  subtipo             TEXT,                         -- Subtipo (ex.: Maldição)
+  conteudo            TEXT NOT NULL DEFAULT '',
+  icone               TEXT,
+  capa                TEXT,
+  extras              JSONB NOT NULL DEFAULT '{}'::JSONB,
+  notion_url          TEXT,
+  criado_em           TIMESTAMPTZ,
+  editado_em          TIMESTAMPTZ,
+  sincronizado_em     TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- ---------------------------------------------------------------------------
 -- Colunas acrescentadas depois da primeira versão (para bancos já criados)
 -- ---------------------------------------------------------------------------
 ALTER TABLE aster.racas   ADD COLUMN IF NOT EXISTS lore TEXT NOT NULL DEFAULT '';
@@ -237,7 +258,7 @@ GRANT ALL ON ALL SEQUENCES IN SCHEMA aster TO service_role;
 DO $$
 DECLARE t TEXT;
 BEGIN
-  FOREACH t IN ARRAY ARRAY['cartas','racas','classes','itens','criaturas','personagens','organizacoes','cenarios'] LOOP
+  FOREACH t IN ARRAY ARRAY['cartas','racas','classes','itens','criaturas','personagens','organizacoes','cenarios','condicoes'] LOOP
     EXECUTE format('ALTER TABLE aster.%I ENABLE ROW LEVEL SECURITY', t);
     EXECUTE format('REVOKE ALL ON aster.%I FROM anon, authenticated', t);
     EXECUTE format('GRANT SELECT ON aster.%I TO anon, authenticated', t);

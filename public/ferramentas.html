@@ -27,6 +27,7 @@
       <a href="#racas">Raças</a>
       <a href="#classes">Classes</a>
       <a href="#cartas">Cartas</a>
+      <a href="#condicoes">Condições</a>
       <a href="#conceitos">Sumário</a>
     </div>
   </nav>
@@ -134,6 +135,34 @@
       <p class="dim" id="cartas-contagem" style="font-size:.9rem"></p>
       <div class="galeria" id="cartas-lista"><p class="empty">Carregando cartas…</p></div>
       <div style="text-align:center;margin-top:28px"><button class="btn btn-ghost" id="cartas-mais" hidden>Mostrar mais</button></div>
+    </div>
+  </section>
+
+  <hr class="rule-ouro">
+
+  <section id="condicoes" class="anchor">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Catálogo</span>
+        <h2>Condições</h2>
+        <p class="dim">Malefícios, sintomas e efeitos causados por ataques, habilidades, itens e testes.
+          As <strong>normais</strong> passam com o tempo ou com efeitos que digam “remova uma condição”; as <strong>complexas</strong>
+          só saem com uma ação específica. Nos textos das cartas, cada condição citada leva para cá.</p>
+      </div>
+      <div class="filtros" role="search">
+        <div class="linha">
+          <input class="input" type="search" id="busca-condicoes" placeholder="Buscar condição ou efeito…" aria-label="Buscar condições" style="flex:1;min-width:220px">
+          <button class="btn btn-ghost btn-small" id="limpar-condicoes" type="button">Limpar filtros</button>
+        </div>
+        <div class="linha" id="nivel-condicoes" role="group" aria-label="Nível">
+          <span class="rotulo">Nível</span>
+          <button class="chip" type="button" aria-pressed="false" data-nivel="Normal">Normal</button>
+          <button class="chip" type="button" aria-pressed="false" data-nivel="Complexa">Complexa</button>
+          <button class="chip" type="button" aria-pressed="false" data-acumula="1" title="Condições que somam acúmulos">Acumuláveis</button>
+        </div>
+      </div>
+      <p class="dim" id="condicoes-contagem" style="font-size:.9rem"></p>
+      <div id="condicoes-lista"><p class="empty">Carregando…</p></div>
     </div>
   </section>
 

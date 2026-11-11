@@ -85,9 +85,45 @@ const FONTES = [
   { id: "d57f5867e96083a19f8b814f1b00b0b8", categoria: "Criaturas", grupo: "Tipos de Defesa", entradas: [{ tipo: "secoes", niveis: [3] }] },
 ];
 
-// Entrada do sumário de cada termo (pelo nome da entrada). As condições ainda não têm página
-// própria neste workspace: apontam para "Condições" até a Lista de Condições ser trazida.
+// Entrada do sumário de cada termo (pelo nome da entrada).
 const CONDICOES = "Condições";
+
+// Condições → [entrada (nome na Lista de Condições), formas que viram link, padronizar?, extras?]
+// `evitar`: o que NÃO pode vir logo depois da forma (ex.: "Carga Inicial" do kit médico não é a condição).
+const flexoes = (n) => [n, n.slice(0, -1) + "a", n + "s", n.slice(0, -1) + "as"]; // Atordoado, Atordoada, Atordoados, Atordoadas
+const CONDICOES_TERMOS = [
+  ["Sangramento", ["Sangramento", "Sangrando"], [/\b(sangramento)\b/g, /\b(sangrando)\b/g]],
+  ["Imobilizado", flexoes("Imobilizado"), [/\b(imobilizad[oa]s?)\b/g]],
+  ["Queimando", ["Queimando", "Queimadura", "Queimaduras"], [/\b(queimaduras?)\b/g]],
+  ["Paralisia", ["Paralisia", ...flexoes("Paralisado")], [/\b(paralisia)\b/g, /\b(paralisad[oa]s?)\b/g]],
+  ["Tontura", ["Tontura", ...flexoes("Tonto")], [/\b(tontura)\b/g, /\b(tont[oa]s?)\b/g]],
+  ["Atordoamento", ["Atordoamento", ...flexoes("Atordoado")], [/\b(atordoamento)\b/g, /\b(atordoad[oa]s?)\b/g]],
+  ["Molhado", flexoes("Molhado"), [/\b(molhad[oa]s?)\b/g]],
+  ["Cegueira", ["Cegueira", ...flexoes("Cego")], [/\b(cegueira)\b/g]],
+  ["Envenenamento", ["Envenenamento", ...flexoes("Envenenado")], [/\b(envenenamento)\b/g, /\b(envenenad[oa]s?)\b/g]],
+  ["Exaustão", ["Exaustão", ...flexoes("Exausto")]],
+  ["Exaustão Avançada", ["Exaustão Avançada"]],
+  ["Congelado", ["Congelamento", ...flexoes("Congelado")], [/\b(congelamento)\b/g, /\b(congelad[oa]s?)\b/g]],
+  ["Ferimento Grave", ["Ferimento Grave", "Ferimentos Graves"]],
+  ["Agarrado", flexoes("Agarrado"), [/\b(agarrad[oa]s?)\b/g]],
+  ["Morrendo", ["Morrendo"], [/\b(morrendo)\b/g]],
+  ["Derrubado", flexoes("Derrubado"), [/\b(derrubad[oa]s?)\b/g]],
+  ["Voando", ["Voando"]],
+  ["Furtivo", ["Furtividade", ...flexoes("Furtivo")], [/\b(furtividade)\b/g, /\b(furtiv[oa]s?)\b/g]],
+  ["Motivação", ["Motivação"]],
+  ["Amputado", flexoes("Amputado")],
+  ["Chamas Sombrias", ["Chamas Sombrias"]],
+  ["Corrente de Vento", ["Corrente de Vento", "Correntes de Vento"]],
+  ["Sufocando", ["Sufocando"]],
+  ["Conectado", flexoes("Conectado")],
+  ["Submerso", flexoes("Submerso")],
+  ["Superaquecer", ["Superaquecer", "Superaquecimento", ...flexoes("Superaquecido")]],
+  ["Resfriamento / Resfriado", ["Resfriamento", ...flexoes("Resfriado")], [/\b(resfriad[oa]s?)\b/g]],
+  ["Carga", ["Carga"], null, { evitar: "\\s*(?::|Inicial|M[aá]x)" }],
+  ["Cristal de Mana", ["Cristal de Mana", "Cristais de Mana"]],
+  ["Maldição de Morte", ["Maldição de Morte"]],
+  ["Selamento", ["Selamento"], [/\b(selamento)\b/g]],
+];
 const TERMOS = [
   // Atributos (só viram link/são padronizados em contexto de regra: "Teste de Corpo", "+1 de Mente"…)
   ...["Corpo", "Mente", "Alma", "Destreza", "Foco", "Conhecimento"].map((a) => ({
@@ -175,29 +211,12 @@ const TERMOS = [
   { entrada: "Condições", formas: ["Condição", "Condições"], padronizar: [/\b(condição|condições)\b(?! (?:simples|complexas?))/g] },
   { entrada: "Condições Simples", formas: ["Condição Simples", "Condições Simples"], padronizar: [/\b(condiç(?:ão|ões) simples|Condiç(?:ão|ões) simples)\b/g] },
   { entrada: "Condições Complexas", formas: ["Condição Complexa", "Condições Complexas"], padronizar: [/\b(condiç(?:ão|ões) complexas?|Condiç(?:ão|ões) complexas?)\b/g] },
-  // Condições individuais (página própria quando a Lista de Condições estiver neste workspace)
-  ...[
-    ["Morrendo", /\b(morrendo)\b/g],
-    ["Atordoamento", /\b(atordoamento)\b/g], ["Atordoado", /\b(atordoad[oa]s?)\b/g],
-    ["Tontura", /\b(tontura)\b/g], ["Tonto", /\b(tont[oa]s?)\b/g],
-    ["Sangramento", /\b(sangramento)\b/g], ["Sangrando", /\b(sangrando)\b/g],
-    ["Queimadura", /\b(queimaduras?)\b/g],
-    ["Cegueira", /\b(cegueira)\b/g],
-    ["Derrubado", /\b(derrubad[oa]s?)\b/g], ["Agarrado", /\b(agarrad[oa]s?)\b/g], ["Imobilizado", /\b(imobilizad[oa]s?)\b/g],
-    ["Resfriado", /\b(resfriad[oa]s?)\b/g], ["Congelamento", /\b(congelamento)\b/g], ["Congelado", /\b(congelad[oa]s?)\b/g],
-    ["Envenenamento", /\b(envenenamento)\b/g], ["Envenenado", /\b(envenenad[oa]s?)\b/g],
-    ["Furtividade", /\b(furtividade)\b/g], ["Furtivo", /\b(furtiv[oa]s?)\b/g],
-    ["Selamento", /\b(selamento)\b/g],
-  ].map(([nome, re]) => ({ entrada: nome, alternativa: CONDICOES, formas: formasCondicao(nome), padronizar: [re] })),
+  // Condições individuais: cada uma aponta para a própria entrada, que vem da Lista de Condições
+  // (Notion › Databases › Condições). Se a entrada não existir, cai em "Condições".
+  ...CONDICOES_TERMOS.map(([entrada, formas, padronizar, extra]) =>
+    ({ entrada, alternativa: CONDICOES, formas, ...(padronizar ? { padronizar } : {}), ...(extra || {}) })),
 ];
 
-function formasCondicao(nome) {
-  if (/o$/.test(nome) && !/ento$/.test(nome) && nome !== "Morrendo" && nome !== "Sangrando") {
-    const base = nome.slice(0, -1);
-    return [nome, base + "a", nome + "s", base + "as"];
-  }
-  return nome === "Queimadura" ? ["Queimadura", "Queimaduras"] : [nome];
-}
 
 // "fila de cooldown" → "Fila de Cooldown" (conectivos ficam minúsculos)
 const MINUSCULAS = new Set(["de", "da", "do", "das", "dos", "a", "e", "em", "o"]);

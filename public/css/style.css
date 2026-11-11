@@ -491,3 +491,23 @@ a.termo:hover, a.termo:focus-visible { color: var(--ouro, #E5A93C); text-decorat
   border: 1px solid color-mix(in srgb, var(--ritmo) 45%, transparent);
 }
 .ritmo::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--ritmo); flex: none; }
+
+/* ---------- Catálogo de condições ---------- */
+.tag-azul { color: #8fb8ff; border-color: rgba(120, 160, 255, .45); }
+.tag-roxo { color: #c9a2ff; border-color: rgba(180, 130, 255, .45); }
+.condicoes-grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+.condicao-card {
+  display: flex; flex-direction: column; gap: 8px; text-align: left; font: inherit; color: inherit; cursor: pointer;
+  background: var(--surface); border: 1px solid var(--line); border-left: 3px solid #78a0ff;
+  border-radius: 0 var(--radius) var(--radius) 0; padding: 14px 16px; transition: border-color .15s, background .15s;
+}
+.condicao-card.complexa { border-left-color: var(--rubedo); }
+.condicao-card:hover { border-color: var(--line-ouro); background: var(--surface-2); }
+.cc-topo { display: flex; align-items: center; gap: 10px; }
+.cc-icone { font-size: 1.35rem; line-height: 1; width: 1.6em; text-align: center; flex: none; }
+.cc-topo b { font-family: var(--font-display); font-size: 1.3rem; line-height: 1.15; }
+.cc-texto { color: var(--text-dim); font-size: .88rem; line-height: 1.45; }
+.cc-rodape { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: auto; }
+.cond-max { font-size: .76rem; color: var(--text-faint); letter-spacing: .04em; }
+.cond-tags { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: -.2em 0 1em; }
+.cond-icone { font-size: .85em; }
