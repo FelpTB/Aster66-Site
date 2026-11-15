@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Apoie o projeto — Aster66</title>
+  <meta name="description" content="Formas de apoiar o desenvolvimento do Aster66.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<main id="conteudo">
+  <header class="page-head">
+    <div class="wrap">
+      <span class="eyebrow"><a href="comunidade.html">Comunidade</a> / Apoie o projeto</span>
+      <h1>Apoie o projeto</h1>
+      <p class="lead">O Aster66 é feito por poucas mãos. Teste, divulgue, desenhe ou contribua — toda ajuda move o sistema.</p>
+    </div>
+  </header>
+
+  <section>
+    <div class="wrap community">
+      <div>
+        <div class="grid grid-3 apoio-formas">
+          <div class="card"><h3>Teste na mesa</h3><p class="dim">Jogue uma sessão e conte o que funcionou e o que travou.</p></div>
+          <div class="card"><h3>Divulgue</h3><p class="dim">Indique o sistema para o seu grupo e para outros mestres.</p></div>
+          <div class="card"><h3>Contribua</h3><p class="dim">Arte, revisão de texto, cartas, criaturas ou apoio financeiro.</p></div>
+        </div>
+        <h2 style="font-size:2rem;margin-top:40px">Quero apoiar</h2>
+        <form class="form card" id="form-apoio" novalidate>
+          <label>Nome<input class="input" name="nome" maxlength="60" required autocomplete="name"></label>
+          <label>E-mail para contato<input class="input" type="email" name="email" maxlength="120" autocomplete="email"></label>
+          <label>Como quer apoiar
+            <select class="select" name="forma">
+              <option>Testes de mesa (playtest)</option><option>Divulgação</option><option>Arte e ilustração</option>
+              <option>Revisão de textos e regras</option><option>Apoio financeiro</option><option>Outro</option>
+            </select>
+          </label>
+          <label>Mensagem<textarea class="input" name="mensagem" maxlength="1500" required></textarea></label>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+            <button class="btn btn-primary" type="submit">Enviar</button>
+            <p class="form-msg" id="apoio-msg" role="status"></p>
+          </div>
+        </form>
+      </div>
+      <aside class="card card-frame contact-card">
+        <span class="eyebrow">Apoio financeiro</span>
+        <h3>Em breve</h3>
+        <p class="dim">Ainda não há uma forma de apoio financeiro aberta. Quando houver, ela aparece aqui e nas Notícias.</p>
+        <hr class="rule-ouro" style="margin:20px 0">
+        <p class="dim" style="font-size:.92rem">O formulário abre o seu programa de e-mail com a mensagem pronta para <a data-email href="#"></a>.</p>
+      </aside>
+    </div>
+  </section>
+</main>
+<script src="js/config.js"></script>
+<script src="js/db.js"></script>
+<script src="js/common.js"></script>
+<script src="js/auth-ui.js"></script>
+<script src="js/apoie.js"></script>
+</body>
+</html>

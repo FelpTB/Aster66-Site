@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Criações da comunidade — Aster66</title>
+  <meta name="description" content="Cartas, locais, itens, criaturas e aventuras criados pela comunidade do Aster66 (conteúdo não oficial).">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<main id="conteudo">
+  <header class="page-head">
+    <div class="wrap">
+      <span class="eyebrow"><a href="comunidade.html">Comunidade</a> / Criações da comunidade</span>
+      <h1>Criações da comunidade</h1>
+      <p class="lead">Cartas, locais, itens, criaturas, aventuras e tudo mais criado pelos jogadores para o mundo de Aster.</p>
+    </div>
+  </header>
+
+  <section id="criacoes">
+    <div class="wrap">
+      <div id="criacoes-bloqueio" class="card card-frame criacoes-bloqueio" hidden>
+        <span class="eyebrow">Só para quem tem conta</span>
+        <h3>Entre para ver e publicar criações</h3>
+        <p class="dim">As criações da comunidade ficam visíveis para jogadores com conta no site. É grátis e a mesma conta guarda suas fichas.</p>
+        <button class="btn btn-primary" type="button" id="criacoes-entrar">Entrar ou criar conta</button>
+      </div>
+      <div id="criacoes-conteudo" hidden>
+        <div class="secao-topo">
+          <p class="aviso-naooficial" style="max-width:62ch;margin:0">Conteúdo não oficial, criado por jogadores.
+            Não faz parte das regras oficiais — combine com o mestre antes de usar na mesa.</p>
+          <button class="btn btn-primary" id="btn-nova-criacao" type="button">+ Nova criação</button>
+        </div>
+        <div class="filtros" role="search">
+          <div class="linha">
+            <input class="input" type="search" id="busca-criacoes" placeholder="Buscar por nome, texto, autor ou tag…" aria-label="Buscar criações" style="flex:1;min-width:220px">
+            <select class="select" id="ordem-criacoes" aria-label="Ordenar">
+              <option value="recentes">Mais recentes</option>
+              <option value="antigas">Mais antigas</option>
+              <option value="nome">Nome (A–Z)</option>
+            </select>
+          </div>
+          <div class="linha" id="categorias-criacoes" role="group" aria-label="Categorias">
+            <span class="rotulo">Categoria</span>
+          </div>
+        </div>
+        <p class="dim" id="criacoes-contagem" style="font-size:.9rem"></p>
+        <div id="criacoes-lista"><p class="empty">Carregando…</p></div>
+      </div>
+      <p class="empty" id="criacoes-carregando">Verificando sua conta…</p>
+    </div>
+  </section>
+</main>
+<script src="js/config.js"></script>
+<script src="js/db.js"></script>
+<script src="js/common.js"></script>
+<script src="js/auth-ui.js"></script>
+<script src="js/data-conceitos.js"></script>
+<script src="js/criacoes.js"></script>
+</body>
+</html>

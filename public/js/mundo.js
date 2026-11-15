@@ -1,3 +1,4 @@
+// Página Mundo de Aster: panteão, países e locais, raças e classes. O mapa com a linha do tempo fica em mapa.js.
 (() => {
   const M = window.ASTER_MUNDO;
   const DB = window.AsterDB;
@@ -6,15 +7,6 @@
   const esc = window.escapeHTML;
   const md = window.mdHTML;
   const norm = (s) => String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
-
-  // ---------- Céu de Aster ----------
-  $("astros").innerHTML = M.astros.map((a) => `
-    <article class="card astro">
-      ${window.ASTRO_SVG[a.id]}
-      <div><h3 style="margin:0">${a.nome}</h3>
-      <span class="eyebrow" style="margin:.2rem 0 .6rem">${a.tipo}</span>
-      <p class="dim" style="font-size:.95rem">${a.texto}</p></div>
-    </article>`).join("");
 
   const { cardEntidade, cabecaModal, cardPersona, abrirPersona, casaBusca } = window.AsterUI;
 
@@ -58,6 +50,15 @@
     window.abrirModal(`${cabecaModal(window.monograma(p.nome), p.nome, p.tag)}<div class="md">${md(p.conteudo)}</div>${locais}`, { largo: true });
   });
   renderPaises();
+  // O mapa interativo (mapa.js) abre a mesma janela do card: window.abrirPaisMundo("Tuhan").
+  window.abrirPaisMundo = (nome) => {
+    const n = norm(nome);
+    const i = PAISES.findIndex((p) => norm(p.nome) === n);
+    const j = i >= 0 ? i : PAISES.findIndex((p) => norm(p.nome).startsWith(n));
+    if (j < 0) return false;
+    $("paises-lista").querySelector(`[data-idx="${j}"]`)?.click();
+    return true;
+  };
   DB.paises().then((lista) => {
     if (!lista.length) return;
     PAISES = lista.map((p) => ({ ...p, tag: localPorNome.get(norm(p.nome))?.tag || "" }));
@@ -92,12 +93,4 @@
   render();
   DB.catalogoPersonagens().then((lista) => { P = lista; render(); });
 
-  // ---------- Sub-navegação ----------
-  const links = [...document.querySelectorAll(".subnav a")];
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach((en) => {
-      if (en.isIntersecting) links.forEach((l) => l.classList.toggle("active", l.hash === "#" + en.target.id));
-    });
-  }, { rootMargin: "-40% 0px -55% 0px" });
-  document.querySelectorAll("section.anchor").forEach((s) => obs.observe(s));
 })();

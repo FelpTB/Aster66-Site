@@ -17,62 +17,13 @@
     <div class="wrap">
       <span class="eyebrow">Documentos</span>
       <h1>Materiais para jogar</h1>
-      <p class="lead">Tudo o que você precisa na mesa. Novos documentos aparecem aqui assim que forem publicados.</p>
+      <p class="lead">Tudo o que você precisa na mesa. Cada documento tem a sua página, com o que ele traz e como usar.</p>
     </div>
   </header>
 
   <section>
     <div class="wrap">
-      <article class="card doc featured">
-        <div class="doc-icon">PDF</div>
-        <div>
-          <h3>Ficha editável</h3>
-          <p>Modelo atual da ficha (frente e verso): atributos, vida e energia, cicatrizes, defesas e movimento, ações e reações,
-            dados do personagem, inventário por tipo de espaço, origens e cartas. Preencha em qualquer leitor de PDF —
-            ou use o <a href="ficha.html">montador de fichas</a>, que exporta para este mesmo PDF.</p>
-        </div>
-        <div class="doc-actions">
-          <a class="btn btn-primary" href="docs/ficha-aster66.pdf" download>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 19h16"/></svg>
-            Baixar PDF
-          </a>
-        </div>
-      </article>
-
-      <article class="card doc">
-        <div class="doc-icon">PDF</div>
-        <div>
-          <h3>Livro de regras <span class="tag" style="margin-left:6px">Em breve</span></h3>
-          <p>Livro completo de regras do sistema: conceitos, criação de personagem, combate, entreato, condições e listas.</p>
-        </div>
-        <div class="doc-actions">
-          <span class="btn btn-ghost is-disabled" aria-disabled="true">Baixar PDF</span>
-        </div>
-      </article>
-
-      <article class="card doc">
-        <div class="doc-icon">WEB</div>
-        <div>
-          <h3>Catálogo de cartas</h3>
-          <p>Todas as cartas do sistema, com custo, efeito, origens e raridade — com busca e filtros. A versão em PDF para
-            consulta na mesa está a caminho.</p>
-        </div>
-        <div class="doc-actions">
-          <a class="btn btn-ghost" href="ferramentas.html#cartas">Abrir catálogo</a>
-          <span class="btn btn-ghost is-disabled" aria-disabled="true">PDF em breve</span>
-        </div>
-      </article>
-
-      <article class="card doc">
-        <div class="doc-icon">PDF</div>
-        <div>
-          <h3>Guia de criação de personagem <span class="tag" style="margin-left:6px">Em breve</span></h3>
-          <p>Passo a passo para preencher cada seção da ficha, do conceito até as primeiras cartas.</p>
-        </div>
-        <div class="doc-actions">
-          <span class="btn btn-ghost is-disabled" aria-disabled="true">Baixar PDF</span>
-        </div>
-      </article>
+      <div id="docs-lista"></div>
     </div>
   </section>
 </main>
@@ -80,5 +31,6 @@
 <script src="js/db.js"></script>
 <script src="js/common.js"></script>
 <script src="js/auth-ui.js"></script>
+<script src="js/documentos.js"></script>
 </body>
 </html>

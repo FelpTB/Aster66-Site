@@ -1,5 +1,6 @@
 // Criações da comunidade (conteúdo não oficial): catálogo com filtro de categorias,
 // formulário de criação/edição e janela de detalhes. Dados em Supabase → esquema "comunidade".
+// Visível só para quem tem conta (sem login aparece o convite para entrar).
 (() => {
   const DB = window.AsterDB;
   const esc = window.escapeHTML;
@@ -11,6 +12,10 @@
   const busca = $("busca-criacoes");
   const ordem = $("ordem-criacoes");
   const btnNova = $("btn-nova-criacao");
+  const bloqueio = $("criacoes-bloqueio");
+  const conteudo = $("criacoes-conteudo");
+  const verificando = $("criacoes-carregando");
+  $("criacoes-entrar")?.addEventListener("click", () => window.abrirLogin?.());
 
   let categorias = [];
   let porSlug = new Map();
@@ -20,11 +25,8 @@
   const norm = (s) => String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
   const data = (iso) => new Date(iso).toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" });
 
-  if (!DB?.ativo) {
-    lista.innerHTML = `<p class="empty">As criações da comunidade ficam no Supabase, que não está configurado nesta versão do site.</p>`;
-    btnNova.hidden = true;
-    return;
-  }
+  if (!DB?.ativo) { verificando.textContent = "As contas não estão disponíveis neste site."; return; }
+  const mostrar = (u) => { verificando.hidden = true; bloqueio.hidden = !!u; conteudo.hidden = !u; };
 
   // ---------------- Catálogo ----------------
   function renderChips() {
@@ -262,7 +264,7 @@
   // ---------------- Carga ----------------
   async function carregar() {
     try {
-      [categorias, criacoes, usuario] = await Promise.all([DB.criacoes.categorias(), DB.criacoes.listar(), DB.auth.usuario()]);
+      [categorias, criacoes] = await Promise.all([DB.criacoes.categorias(), DB.criacoes.listar()]);
       porSlug = new Map(categorias.map((c) => [c.slug, c]));
       renderChips(); render();
       const m = location.hash.match(/^#criacao-([0-9a-f-]{36})$/);
@@ -275,10 +277,11 @@
   document.addEventListener("aster:auth", async (e) => {
     const antes = usuario?.id;
     usuario = e.detail;
-    if (antes === usuario?.id || !categorias.length) return;
-    if (!usuario && filtroCat === "minhas") filtroCat = "";
-    criacoes = await DB.criacoes.listar().catch(() => criacoes); // inclui/retira as ocultas do próprio autor
+    mostrar(usuario);
+    if (antes === usuario?.id || !usuario) return;
+    if (!categorias.length) return carregar();
+    criacoes = await DB.criacoes.listar().catch(() => criacoes); // inclui as ocultas do próprio autor
     renderChips(); render();
   });
-  carregar();
+  DB.auth.usuario().then((u) => { usuario = u; mostrar(u); if (u) carregar(); }).catch(() => mostrar(null));
 })();

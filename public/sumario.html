@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sumário — Aster66</title>
+  <meta name="description" content="Sumário de regras, termos e condições do Aster66.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<main id="conteudo">
+  <header class="page-head">
+    <div class="wrap">
+      <span class="eyebrow"><a href="ferramentas.html">Ferramentas</a> / Sumário</span>
+      <h1>Sumário</h1>
+      <p class="lead">As regras e os termos do sistema, como estão no livro — e o catálogo de condições.</p>
+    </div>
+  </header>
+
+  <nav class="subnav" aria-label="Seções">
+    <div class="wrap">
+      <a href="#conceitos">Regras e termos</a>
+      <a href="#condicoes">Condições</a>
+    </div>
+  </nav>
+
+  <section id="conceitos" class="anchor">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Livro de regras</span>
+        <h2>Sumário</h2>
+        <p class="dim">Os termos e regras do sistema, como estão no livro: conceitos, combate, entreato, cartas, inventário, itens e condições. Nos textos das cartas, raças e classes, os termos sublinhados levam para cá.</p>
+      </div>
+      <div class="filtros" role="search">
+        <div class="linha">
+          <input class="input" type="search" id="busca-conceitos" placeholder="Buscar termo ou regra…" aria-label="Buscar conceitos" style="flex:1;min-width:220px">
+        </div>
+        <div class="linha" id="grupos-conceitos" role="group" aria-label="Categoria"><span class="rotulo">Categoria</span></div>
+      </div>
+      <div id="conceitos-lista"></div>
+    </div>
+  </section>
+  <hr class="rule-ouro">
+
+  <section id="condicoes" class="anchor">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Catálogo</span>
+        <h2>Condições</h2>
+        <p class="dim">Malefícios, sintomas e efeitos causados por ataques, habilidades, itens e testes.
+          As <strong>normais</strong> passam com o tempo ou com efeitos que digam “remova uma condição”; as <strong>complexas</strong>
+          só saem com uma ação específica. Nos textos das cartas, cada condição citada leva para cá.</p>
+      </div>
+      <div class="filtros" role="search">
+        <div class="linha">
+          <input class="input" type="search" id="busca-condicoes" placeholder="Buscar condição ou efeito…" aria-label="Buscar condições" style="flex:1;min-width:220px">
+          <button class="btn btn-ghost btn-small" id="limpar-condicoes" type="button">Limpar filtros</button>
+        </div>
+        <div class="linha" id="nivel-condicoes" role="group" aria-label="Nível">
+          <span class="rotulo">Nível</span>
+          <button class="chip" type="button" aria-pressed="false" data-nivel="Normal">Normal</button>
+          <button class="chip" type="button" aria-pressed="false" data-nivel="Complexa">Complexa</button>
+          <button class="chip" type="button" aria-pressed="false" data-acumula="1" title="Condições que somam acúmulos">Acumuláveis</button>
+        </div>
+      </div>
+      <p class="dim" id="condicoes-contagem" style="font-size:.9rem"></p>
+      <div id="condicoes-lista"><p class="empty">Carregando…</p></div>
+    </div>
+  </section>
+</main>
+<script src="js/config.js"></script>
+<script src="js/db.js"></script>
+<script src="js/common.js"></script>
+<script src="js/auth-ui.js"></script>
+<script src="js/data-conceitos.js"></script>
+<script src="js/personas.js"></script>
+<script src="js/sumario.js"></script>
+</body>
+</html>

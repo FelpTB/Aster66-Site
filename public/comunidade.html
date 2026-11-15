@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Comunidade — Aster66</title>
-  <meta name="description" content="Criações não oficiais da comunidade (cartas, locais, itens, criaturas…), comentários e contato com a equipe do Aster66.">
+  <meta name="description" content="Deixe seu comentário, sugestão ou relato de mesa e fale com a equipe do Aster66.">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,53 +15,14 @@
 <main id="conteudo">
   <header class="page-head">
     <div class="wrap">
-      <span class="eyebrow">Comunidade</span>
+      <span class="eyebrow">Comunidade / Comentários e contato</span>
       <h1>A mesa é de todos</h1>
-      <p class="lead">Crie cartas, locais, itens e criaturas para o mundo de Aster, conte como foi sua sessão
-        ou aponte dúvidas nas regras. Cada contribuição ajuda a moldar o sistema.</p>
+      <p class="lead">Conte como foi sua sessão, sugira cartas, aponte dúvidas nas regras ou só diga oi.
+        Cada comentário ajuda a moldar o sistema.</p>
     </div>
   </header>
 
-  <nav class="subnav" aria-label="Seções">
-    <div class="wrap">
-      <a href="#criacoes">Criações da comunidade</a>
-      <a href="#comentarios">Comentários</a>
-      <a href="#contato">Contato</a>
-    </div>
-  </nav>
-
-  <section id="criacoes">
-    <div class="wrap">
-      <div class="secao-topo">
-        <div>
-          <span class="eyebrow">Conteúdo não oficial</span>
-          <h2 style="font-size:2.4rem;margin:.1em 0 .2em">Criações da comunidade</h2>
-          <p class="dim" style="max-width:62ch;margin:0">Cartas, locais, itens, criaturas e tudo mais criado por jogadores.
-            Não fazem parte das regras oficiais — combine com o mestre antes de usar na mesa.</p>
-        </div>
-        <button class="btn btn-primary" id="btn-nova-criacao" type="button">+ Nova criação</button>
-      </div>
-      <div class="filtros" role="search">
-        <div class="linha">
-          <input class="input" type="search" id="busca-criacoes" placeholder="Buscar por nome, texto, autor ou tag…" aria-label="Buscar criações" style="flex:1;min-width:220px">
-          <select class="select" id="ordem-criacoes" aria-label="Ordenar">
-            <option value="recentes">Mais recentes</option>
-            <option value="antigas">Mais antigas</option>
-            <option value="nome">Nome (A–Z)</option>
-          </select>
-        </div>
-        <div class="linha" id="categorias-criacoes" role="group" aria-label="Categorias">
-          <span class="rotulo">Categoria</span>
-        </div>
-      </div>
-      <p class="dim" id="criacoes-contagem" style="font-size:.9rem"></p>
-      <div id="criacoes-lista"><p class="empty">Carregando…</p></div>
-    </div>
-  </section>
-
-  <hr class="rule-ouro">
-
-  <section id="comentarios">
+  <section>
     <div class="wrap community">
       <div>
         <h2 style="font-size:2rem">Deixe seu comentário</h2>
@@ -95,7 +56,7 @@
         <div id="lista-comentarios"><p class="empty">Carregando…</p></div>
       </div>
 
-      <aside class="card card-frame contact-card" id="contato">
+      <aside class="card card-frame contact-card">
         <span class="eyebrow">Contato</span>
         <h3>Fale com a equipe</h3>
         <p class="dim">Parcerias, dúvidas, relatos de bugs na ficha ou propostas para o sistema:</p>
@@ -116,8 +77,6 @@
 <script src="js/db.js"></script>
 <script src="js/common.js"></script>
 <script src="js/auth-ui.js"></script>
-<script src="js/data-conceitos.js"></script>
 <script src="js/comunidade.js"></script>
-<script src="js/criacoes.js"></script>
 </body>
 </html>

@@ -48,7 +48,7 @@
           <span class="eyebrow" style="margin:.4rem 0 .4rem">Atributos iniciais</span>
           <div class="attr-list">${attrs.join("") || '<span class="dim">—</span>'}</div>
           <span class="eyebrow" style="margin:.4rem 0 .4rem">Origens</span>
-          <div class="attr-list">${x.origens.map((o) => `<a class="origem-link" href="ferramentas.html?origem=${encodeURIComponent(o)}#cartas" data-filtra-origem="${esc(o)}">${esc(o)}</a>`).join("") || '<span class="dim">—</span>'}</div>
+          <div class="attr-list">${x.origens.map((o) => `<a class="origem-link" href="catalogos.html?origem=${encodeURIComponent(o)}#cartas" data-filtra-origem="${esc(o)}">${esc(o)}</a>`).join("") || '<span class="dim">—</span>'}</div>
           ${x.habilidade.nome ? `
           <div class="skill" style="margin-top:6px">
             <span class="eyebrow" style="margin:.2rem 0 .3rem;font-size:.66rem">${rotuloHab}</span>
