@@ -35,6 +35,7 @@ O que vem do banco:
 - **Raças e classes** (Explorar e ficha online) — `fichas_jogador.raca` / `classe`
 - **Catálogo de cartas** (Explorar → Cartas) — `fichas_jogador.carta` e origens
 - **Comentários** (Comunidade) — `public.comentario`
+- **Criações da comunidade** (Comunidade, conteúdo não oficial) — esquema `comunidade`
 - **Login e fichas na nuvem** (ficha online) — Supabase Auth + `fichas_jogador.ficha_site`
 
 Sem a chave configurada o site continua funcionando com os dados locais (sem cartas, sem login).
@@ -44,10 +45,28 @@ Sem a chave configurada o site continua funcionando com os dados locais (sem car
 2. **Chave pública:** Dashboard → Project Settings → API Keys → copie a chave **anon / publishable**
    e cole em `.env` na linha `SUPABASE_ANON_KEY=`. Reinicie com `npm start`.
    O servidor recusa enviar ao navegador uma chave `service_role`/secret.
-3. **Auth → URL Configuration:** adicione `http://localhost:5173` (e depois o domínio real) em
-   *Site URL* / *Redirect URLs*, para os links de confirmação e de nova senha voltarem ao site.
+3. **Authentication → URL Configuration** (senão os e-mails de confirmação e de nova senha
+   mandam para `localhost:3000`):
+   - *Site URL:* `https://felptb.github.io/Aster66-Site/`
+   - *Redirect URLs:* `https://felptb.github.io/Aster66-Site/**` e `http://localhost:5173/**`
+
+   O link de nova senha volta para a página inicial, que abre a janela “Defina sua nova senha”.
 
 Moderação de comentários: no Table Editor, marque `oculto = true` na linha do comentário.
+
+### Criações da comunidade (esquema `comunidade`)
+1. SQL Editor → cole `supabase/migracoes/004-comunidade.sql` → Run.
+2. Project Settings → API (Data API) → *Exposed schemas* → adicione `comunidade` → Save.
+
+Tabelas:
+- `comunidade.categoria` — tipos de objeto (carta, item, local, criatura, personagem, organização,
+  raça, classe, condição, aventura, outro) e os **campos** de cada um (JSON lido pelo formulário).
+  Para criar uma categoria nova basta inserir uma linha; o site monta o formulário sozinho.
+- `comunidade.criacao` — qualquer objeto: colunas comuns (nome, resumo, conteúdo em Markdown, tags,
+  autor) + `atributos` (JSONB) com os campos da categoria.
+
+Qualquer visitante lê; só usuários logados publicam, e cada um edita/apaga só o que é seu
+(limite de 10 criações a cada 10 min). Moderação: no Table Editor, mude `status` para `oculto`.
 
 ### Conteúdo do Notion → Supabase (esquema `aster`)
 

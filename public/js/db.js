@@ -40,6 +40,7 @@
       [/relation .* does not exist|Could not find the table/i, "A tabela ainda não existe no Supabase — rode supabase/migracao-site.sql."],
       [/permission denied|row-level security/i, "Sem permissão. Verifique se a migração do site foi aplicada no Supabase."],
       [/Failed to fetch|NetworkError/i, "Sem conexão com o servidor do Supabase."],
+      [/Invalid schema|schema must be one of/i, "O esquema “comunidade” ainda não está exposto na API do Supabase (Settings → API → Exposed schemas)."],
     ];
     for (const [re, msg] of mapa) {
       const hit = m.match(re);
@@ -280,7 +281,7 @@
     },
     async recuperar(email) {
       const db = await pronto;
-      const { error } = await db.auth.resetPasswordForEmail(email, { redirectTo: new URL("ficha.html#nova-senha", SITE_BASE).href });
+      const { error } = await db.auth.resetPasswordForEmail(email, { redirectTo: new URL("index.html", SITE_BASE).href });
       falha(error);
     },
     async novaSenha(senha) {
@@ -293,6 +294,9 @@
       db.auth.onAuthStateChange((evento, sessao) => cb(sessao?.user || null, evento));
     },
     nome(u) { return u?.user_metadata?.full_name || (u?.email || "").split("@")[0]; },
+    // Endereço para onde os e-mails de confirmação/redefinição devem voltar (precisa estar
+    // em Authentication → URL Configuration → Redirect URLs no Supabase).
+    base: SITE_BASE,
   };
 
   // ---------------- Fichas na nuvem ----------------
@@ -346,5 +350,46 @@
     },
   };
 
-  window.AsterDB = { ativo: !!cfg, pronto, catalogoPersonagens, cartas, panteao, paises, auth, fichas, comentarios, traduzErro, mdTexto };
+  // ---------------- Criações da comunidade (esquema "comunidade") ----------------
+  const comunidade = () => {
+    if (!client) throw new Error("As criações da comunidade precisam da conexão com o Supabase.");
+    return client.schema("comunidade");
+  };
+  const COLS_CRIACAO = "id,categoria,nome,resumo,conteudo,atributos,tags,autor_id,autor_nome,status,criado_em,atualizado_em";
+  let cacheCategorias = null;
+  const criacoes = {
+    async categorias() {
+      await pronto;
+      if (cacheCategorias) return cacheCategorias;
+      const { data, error } = await comunidade().from("categoria").select("slug,nome,plural,icone,ordem,descricao,campos").order("ordem");
+      falha(error);
+      return (cacheCategorias = data);
+    },
+    async listar() {
+      await pronto;
+      const { data, error } = await comunidade().from("criacao").select(COLS_CRIACAO)
+        .order("criado_em", { ascending: false }).limit(1000);
+      falha(error); return data;
+    },
+    async salvar({ id, categoria, nome, resumo, conteudo, atributos, tags, autor_nome }) {
+      await pronto;
+      const linha = {
+        categoria, nome: String(nome || "").trim().slice(0, 120),
+        resumo: String(resumo || "").trim().slice(0, 300) || null,
+        conteudo: String(conteudo || "").slice(0, 20000),
+        atributos: atributos || {}, tags: (tags || []).slice(0, 12),
+        autor_nome: String(autor_nome || "").trim().slice(0, 60) || "Anônimo",
+      };
+      const q = id
+        ? comunidade().from("criacao").update(linha).eq("id", id).select(COLS_CRIACAO).single()
+        : comunidade().from("criacao").insert(linha).select(COLS_CRIACAO).single();
+      const { data, error } = await q; falha(error); return data;
+    },
+    async excluir(id) {
+      await pronto;
+      const { error } = await comunidade().from("criacao").delete().eq("id", id); falha(error);
+    },
+  };
+
+  window.AsterDB = { ativo: !!cfg, pronto, catalogoPersonagens, cartas, panteao, paises, auth, fichas, comentarios, criacoes, traduzErro, mdTexto };
 })();

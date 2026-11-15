@@ -301,13 +301,5 @@
       catch (e) { cloudState(e.message, true); }
     });
 
-    // Link de redefinição de senha (vem por e-mail)
-    if (location.hash.includes("nova-senha") || location.hash.includes("type=recovery")) $("nova-senha").hidden = false;
-    $("btn-nova-senha").addEventListener("click", async () => {
-      const senha = $("inp-nova-senha").value;
-      if (senha.length < 6) return cloudState("A senha precisa ter pelo menos 6 caracteres.", true);
-      try { await DB.auth.novaSenha(senha); $("nova-senha").hidden = true; cloudState("Senha alterada ✓"); history.replaceState(null, "", location.pathname); }
-      catch (e) { cloudState(e.message, true); }
-    });
   }
 })();

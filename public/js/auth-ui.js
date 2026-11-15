@@ -2,7 +2,10 @@
 (() => {
   const DB = window.AsterDB;
   const slot = document.getElementById("nav-auth");
-  if (!DB || !DB.ativo || !slot) return;
+  if (!DB || !DB.ativo) return;
+  // O link do e-mail chega com #access_token=…&type=recovery (ou #error=… se expirou).
+  // Guardado antes que o Supabase limpe o endereço.
+  const hashInicial = new URLSearchParams(location.hash.slice(1));
   const esc = window.escapeHTML;
 
   const dlg = document.createElement("dialog");
@@ -15,28 +18,32 @@
         <button role="tab" data-tab="cadastrar" aria-selected="false">Criar conta</button>
       </div>
       <form class="form" id="auth-form" novalidate>
+        <h3 data-only="nova-senha" hidden style="margin:0">Defina sua nova senha</h3>
         <label data-only="cadastrar" hidden>Nome de exibição<input class="input" name="nome" maxlength="60" autocomplete="nickname"></label>
-        <label>E-mail<input class="input" type="email" name="email" required autocomplete="email"></label>
-        <label data-hide="recuperar">Senha<input class="input" type="password" name="senha" minlength="6" autocomplete="current-password"></label>
+        <label data-hide="nova-senha">E-mail<input class="input" type="email" name="email" required autocomplete="email"></label>
+        <label data-hide="recuperar"><span id="auth-rotulo-senha">Senha</span><input class="input" type="password" name="senha" minlength="6" autocomplete="current-password"></label>
         <button class="btn btn-primary" type="submit" id="auth-submit">Entrar</button>
         <button class="linkish" type="button" data-tab="recuperar" data-only="entrar">Esqueci minha senha</button>
         <p class="form-msg" id="auth-msg" role="status"></p>
       </form>
-      <p class="dim" style="font-size:.85rem;margin:8px 0 0">Com uma conta você salva suas fichas na nuvem e acessa de qualquer dispositivo.</p>
+      <p class="dim" id="auth-dica" style="font-size:.85rem;margin:8px 0 0">Com uma conta você salva suas fichas na nuvem e acessa de qualquer dispositivo.</p>
     </div>`;
   document.body.append(dlg);
 
   const form = dlg.querySelector("#auth-form");
   const msg = dlg.querySelector("#auth-msg");
   let modo = "entrar";
-  const LABEL = { entrar: "Entrar", cadastrar: "Criar conta", recuperar: "Enviar link de redefinição" };
+  const LABEL = { entrar: "Entrar", cadastrar: "Criar conta", recuperar: "Enviar link de redefinição", "nova-senha": "Salvar nova senha" };
 
   function setModo(m) {
     modo = m;
     dlg.querySelectorAll(".auth-tabs [data-tab]").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.tab === m)));
     form.querySelectorAll("[data-only]").forEach((el) => (el.hidden = el.dataset.only !== m));
     form.querySelectorAll("[data-hide]").forEach((el) => (el.hidden = el.dataset.hide === m));
-    form.senha.autocomplete = m === "cadastrar" ? "new-password" : "current-password";
+    form.senha.autocomplete = m === "entrar" ? "current-password" : "new-password";
+    dlg.querySelector("#auth-rotulo-senha").textContent = m === "nova-senha" ? "Nova senha" : "Senha";
+    dlg.querySelector(".auth-tabs").hidden = m === "nova-senha";
+    dlg.querySelector("#auth-dica").hidden = m === "nova-senha";
     dlg.querySelector("#auth-submit").textContent = LABEL[m];
     msg.textContent = ""; msg.className = "form-msg";
   }
@@ -46,13 +53,17 @@
     if (t) setModo(t.dataset.tab);
   });
 
-  window.abrirLogin = (m = "entrar") => { setModo(m); dlg.showModal(); form.email.focus(); };
+  window.abrirLogin = (m = "entrar") => {
+    setModo(m);
+    if (!dlg.open) dlg.showModal();
+    (m === "nova-senha" ? form.senha : form.email).focus();
+  };
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const email = form.email.value.trim(), senha = form.senha.value, nome = form.nome.value.trim();
     const erro = (t) => { msg.className = "form-msg err"; msg.textContent = t; };
-    if (!/^\S+@\S+\.\S+$/.test(email)) return erro("Informe um e-mail válido.");
+    if (modo !== "nova-senha" && !/^\S+@\S+\.\S+$/.test(email)) return erro("Informe um e-mail válido.");
     if (modo !== "recuperar" && senha.length < 6) return erro("A senha precisa ter pelo menos 6 caracteres.");
     const btn = dlg.querySelector("#auth-submit");
     btn.disabled = true;
@@ -64,6 +75,11 @@
         const r = await DB.auth.cadastrar(email, senha, nome);
         if (r.precisaConfirmar) { msg.className = "form-msg ok"; msg.textContent = "Conta criada! Enviamos um link de confirmação para o seu e-mail."; }
         else { dlg.close(); form.reset(); }
+      } else if (modo === "nova-senha") {
+        await DB.auth.novaSenha(senha);
+        form.reset();
+        msg.className = "form-msg ok"; msg.textContent = "Senha alterada! Você já está conectado.";
+        setTimeout(() => dlg.close(), 1800);
       } else {
         await DB.auth.recuperar(email);
         msg.className = "form-msg ok"; msg.textContent = "Se o e-mail tiver conta, você vai receber um link para criar uma nova senha.";
@@ -73,6 +89,7 @@
   });
 
   function render(u) {
+    if (!slot) return;
     slot.innerHTML = u
       ? `<a class="account-chip" href="ficha.html" title="${esc(u.email)}">${esc(DB.auth.nome(u))}</a><button class="linkish" id="btn-sair">Sair</button>`
       : `<button class="btn btn-ghost btn-small" id="btn-entrar">Entrar</button>`;
@@ -80,5 +97,21 @@
     slot.querySelector("#btn-sair")?.addEventListener("click", () => DB.auth.sair());
   }
   DB.auth.usuario().then(render);
-  DB.auth.aoMudar((u) => { render(u); document.dispatchEvent(new CustomEvent("aster:auth", { detail: u })); });
+  DB.auth.aoMudar((u, evento) => {
+    render(u);
+    if (evento === "PASSWORD_RECOVERY") window.abrirLogin("nova-senha");
+    document.dispatchEvent(new CustomEvent("aster:auth", { detail: u }));
+  });
+
+  // Link de redefinição: abre a janela de nova senha (mesmo se o evento já tiver passado).
+  if (hashInicial.get("type") === "recovery") {
+    DB.auth.usuario().then((u) => { if (u) window.abrirLogin("nova-senha"); });
+  } else if (hashInicial.get("error_description")) {
+    window.abrirLogin("recuperar");
+    msg.className = "form-msg err";
+    msg.textContent = /expired|invalid/i.test(hashInicial.get("error_code") + hashInicial.get("error_description"))
+      ? "Esse link expirou ou já foi usado. Peça um novo abaixo."
+      : hashInicial.get("error_description").replace(/\+/g, " ");
+    history.replaceState(null, "", location.pathname + location.search);
+  }
 })();
