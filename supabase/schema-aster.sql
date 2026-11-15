@@ -4,7 +4,7 @@
 -- Pode ser executado de novo sem problemas (idempotente).
 --
 -- Uma tabela por base do Notion (Databases), com os mesmos campos:
---   cartas · racas · classes · itens · criaturas · personagens · organizacoes · cenarios · condicoes
+--   cartas · racas · classes · itens · criaturas · personagens · organizacoes · cenarios · condicoes · eventos · cenas
 --
 -- Convenções (iguais para todas as tabelas):
 --   id            = ID da página no Notion (chave primária)
@@ -197,6 +197,8 @@ CREATE TABLE IF NOT EXISTS aster.cenarios (
   cenarios_relacionados  UUID[] NOT NULL DEFAULT '{}', -- Cenários Relacionados → aster.cenarios
   efeito                 TEXT,                         -- Efeito
   inspiracoes            TEXT,                         -- Inspirações
+  mapa_x                 NUMERIC,                      -- Mapa X (posição no mapa de Maresia)
+  mapa_y                 NUMERIC,                      -- Mapa Y
   conteudo               TEXT NOT NULL DEFAULT '',
   icone                  TEXT,
   capa                   TEXT,
@@ -218,6 +220,49 @@ CREATE TABLE IF NOT EXISTS aster.condicoes (
   remocao             TEXT,                         -- Remoção
   maximo_de_acumulos  NUMERIC,                      -- Máximo de acúmulos
   subtipo             TEXT,                         -- Subtipo (ex.: Maldição)
+  conteudo            TEXT NOT NULL DEFAULT '',
+  icone               TEXT,
+  capa                TEXT,
+  extras              JSONB NOT NULL DEFAULT '{}'::JSONB,
+  notion_url          TEXT,
+  criado_em           TIMESTAMPTZ,
+  editado_em          TIMESTAMPTZ,
+  sincronizado_em     TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- ---------------------------------------------------------------------------
+-- Eventos  (Notion: Databases › Eventos › Lista de Eventos)
+CREATE TABLE IF NOT EXISTS aster.eventos (
+  id                   UUID PRIMARY KEY,
+  nome                 TEXT NOT NULL DEFAULT '',
+  data_inicio          TEXT,                         -- Data Início (calendário de Aster; vazio se incerto)
+  data_fim             TEXT,                         -- Data Fim
+  descricao            TEXT,                         -- Descrição
+  locais_relacionados  UUID[] NOT NULL DEFAULT '{}', -- Locais relacionados → aster.cenarios
+  epoca                TEXT,                         -- Época (linha do tempo do mapa)
+  tipo                 TEXT[] NOT NULL DEFAULT '{}', -- Tipo (Divino, Guerra, Fundação, Catástrofe, Política)
+  ordem                NUMERIC,                      -- Ordem dentro da época
+  mapa_x               NUMERIC,                      -- Posição no mapa (viewBox 0 0 1280 920)
+  mapa_y               NUMERIC,
+  rota_no_mapa         TEXT,                         -- "x,y; x,y; …" (trajeto opcional)
+  conteudo             TEXT NOT NULL DEFAULT '',
+  icone                TEXT,
+  capa                 TEXT,
+  extras               JSONB NOT NULL DEFAULT '{}'::JSONB,
+  notion_url           TEXT,
+  criado_em            TIMESTAMPTZ,
+  editado_em           TIMESTAMPTZ,
+  sincronizado_em      TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- ---------------------------------------------------------------------------
+-- Cenas  (Notion: Databases › Cenas › Lista de Cenas)
+CREATE TABLE IF NOT EXISTS aster.cenas (
+  id                  UUID PRIMARY KEY,
+  nome                TEXT NOT NULL DEFAULT '',
+  descricao_cenario   TEXT,                         -- Descrição Cenário
+  descricao_mecanica  TEXT,                         -- Descrição Mecânica
+  tipo_de_cena        TEXT,                         -- Tipo de cena (Combate, Entreato, Problema)
   conteudo            TEXT NOT NULL DEFAULT '',
   icone               TEXT,
   capa                TEXT,
@@ -258,7 +303,7 @@ GRANT ALL ON ALL SEQUENCES IN SCHEMA aster TO service_role;
 DO $$
 DECLARE t TEXT;
 BEGIN
-  FOREACH t IN ARRAY ARRAY['cartas','racas','classes','itens','criaturas','personagens','organizacoes','cenarios','condicoes'] LOOP
+  FOREACH t IN ARRAY ARRAY['cartas','racas','classes','itens','criaturas','personagens','organizacoes','cenarios','condicoes','eventos','cenas'] LOOP
     EXECUTE format('ALTER TABLE aster.%I ENABLE ROW LEVEL SECURITY', t);
     EXECUTE format('REVOKE ALL ON aster.%I FROM anon, authenticated', t);
     EXECUTE format('GRANT SELECT ON aster.%I TO anon, authenticated', t);

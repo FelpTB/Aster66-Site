@@ -237,4 +237,29 @@
     filtros: [{ rotulo: "Abrangência", valores: (x) => x.abrangencia }],
     ficha: (x) => [["Abrangência", x.abrangencia], [x.abrangencia === "País" ? "Locais" : "Ligado a", x.ligados]],
   });
+
+  const ORDEM_EPOCAS = ["Reino de É-Dingirra", "A Queda de Édin", "Era dos Reinos", "Era Atual"];
+  montar("cat-eventos", {
+    rotulo: ["evento", "eventos"], termos: true,
+    carregar: async () => {
+      const [evs, cens] = await Promise.all([DB.tabela("eventos"), DB.tabela("cenarios", "id,nome")]);
+      const nome = new Map(cens.map((c) => [c.id, c.nome]));
+      return evs.map((e) => ({ ...e, conteudo: e.descricao || e.conteudo || "", locais: (e.locais_relacionados || []).map((id) => nome.get(id)).filter(Boolean) }))
+        .sort((a, b) => (ORDEM_EPOCAS.indexOf(a.epoca) - ORDEM_EPOCAS.indexOf(b.epoca)) || ((a.ordem ?? 999) - (b.ordem ?? 999)));
+    },
+    sub: (x) => [x.epoca, juntar(x.tipo)].filter(Boolean).join(" · "),
+    filtros: [{ rotulo: "Época", valores: (x) => x.epoca }, { rotulo: "Tipo", valores: (x) => x.tipo }],
+    ficha: (x) => [["Época", x.epoca], ["Tipo", x.tipo], ["Início", x.data_inicio], ["Fim", x.data_fim], ["Locais", x.locais]],
+  });
+
+  montar("cat-cenas", {
+    rotulo: ["cena", "cenas"], termos: true,
+    carregar: async () => (await DB.tabela("cenas")).map((c) => ({
+      ...c, conteudo: [c.descricao_cenario && `### Cenário\n${c.descricao_cenario}`,
+        c.descricao_mecanica && `### Mecânica\n${c.descricao_mecanica}`, c.conteudo].filter(Boolean).join("\n\n"),
+    })),
+    sub: (x) => x.tipo_de_cena || "",
+    filtros: [{ rotulo: "Tipo de cena", valores: (x) => x.tipo_de_cena }],
+    ficha: (x) => [["Tipo de cena", x.tipo_de_cena]],
+  });
 })();

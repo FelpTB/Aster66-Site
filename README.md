@@ -65,6 +65,15 @@ Sem a chave configurada o site continua funcionando com os dados locais (sem car
 
 Moderação de comentários: no Table Editor, marque `oculto = true` na linha do comentário.
 
+### Eventos, Cenas e o mapa (migração 005)
+SQL Editor → cole `supabase/migracoes/005-eventos-cenas.sql` → Run. Ela cria `aster.eventos` e `aster.cenas`,
+acrescenta `mapa_x`/`mapa_y` em `aster.cenarios` e as categorias "evento" e "cena" nas criações da comunidade.
+Depois: `npm run sync:notion -- --full --only=cenarios,eventos,cenas`.
+
+No Notion: **Databases › Eventos › Lista de Eventos** (Época, Tipo, Ordem e Mapa X/Y posicionam o evento no mapa)
+e **Databases › Cenas › Lista de Cenas**. Em **Cenários**, preencha *Mapa X* / *Mapa Y* para o local aparecer no mapa
+(coordenadas do `img/mapa-maresia.svg`, viewBox 0 0 1280 920). O mapa mostra sempre os locais e os eventos da época.
+
 ### Criações da comunidade (esquema `comunidade`)
 1. SQL Editor → cole `supabase/migracoes/004-comunidade.sql` → Run.
 2. Project Settings → API (Data API) → *Exposed schemas* → adicione `comunidade` → Save.

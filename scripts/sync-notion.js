@@ -123,6 +123,33 @@ const BASES = {
       "Locais Relacionados": { col: "cenarios_relacionados", rel: "cenarios" }, // nome antigo
       "Efeito": "efeito",
       "Inspirações": "inspiracoes",
+      "Mapa X": "mapa_x",
+      "Mapa Y": "mapa_y",
+    },
+  },
+  eventos: {
+    database: "419f5867e96081889e52edab7c4608fb", // Databases › Eventos › Lista de Eventos
+    props: {
+      "Nome": "nome",
+      "Data Início": "data_inicio",
+      "Data Fim": "data_fim",
+      "Descrição": "descricao",
+      "Locais relacionados": { col: "locais_relacionados", rel: "cenarios" },
+      "Época": "epoca",
+      "Tipo": "tipo",
+      "Ordem": "ordem",
+      "Mapa X": "mapa_x",
+      "Mapa Y": "mapa_y",
+      "Rota no mapa": "rota_no_mapa",
+    },
+  },
+  cenas: {
+    database: "419f5867e960810daba5e40346e242f9", // Databases › Cenas › Lista de Cenas
+    props: {
+      "Nome": "nome",
+      "Descrição Cenário": "descricao_cenario",
+      "Descrição Mecânica": "descricao_mecanica",
+      "Tipo de cena": "tipo_de_cena",
     },
   },
   condicoes: {
@@ -144,7 +171,7 @@ const COLUNAS_ARRAY = new Set([
   "atributos_iniciais", "origens_relacionadas", "atributos", "locais_relacionados", "organizacoes_relacionadas",
   "carta_relacionada", "habilidade_inata", "habilidade_caracteristica", "cartas", "cenarios_relacionados",
 ]);
-const COLUNAS_NUMERO = new Set(["qtd_por_espaco", "vida", "acoes", "reacoes", "movimento", "maximo_de_acumulos"]);
+const COLUNAS_NUMERO = new Set(["qtd_por_espaco", "vida", "acoes", "reacoes", "movimento", "maximo_de_acumulos", "mapa_x", "mapa_y", "ordem"]);
 
 // ---------------------------------------------------------------------------
 // Utilidades

@@ -180,8 +180,9 @@ section { padding: clamp(64px, 9vw, 112px) 0; }
 }
 .orbit { transform-origin: 250px 250px; animation: spin 140s linear infinite; }
 .orbit.slow { animation-duration: 220s; animation-direction: reverse; }
+.orbit .luas { transform-origin: 250px 45px; animation: spin 18s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
-@media (prefers-reduced-motion: reduce) { .orbit { animation: none; } html { scroll-behavior: auto; } }
+@media (prefers-reduced-motion: reduce) { .orbit, .orbit .luas { animation: none; } html { scroll-behavior: auto; } }
 
 /* ---------- Cards / grids ---------- */
 .grid { display: grid; gap: 20px; }
@@ -704,3 +705,64 @@ a.termo:hover, a.termo:focus-visible { color: var(--ouro, #E5A93C); text-decorat
   .mapa-svg .evento-num { font-size: 15px; }
   .mapa-svg #rotulos .rotulo.reino, .mapa-svg #rotulos .relevo { opacity: 0; }
 }
+
+/* ---------- Mapa: camada de locais (sempre visível) ---------- */
+.mapa-svg.com-locais #capitais { display: none; }
+.mapa-svg .local { cursor: pointer; outline: none; }
+.mapa-svg .local-marca { fill: #f4ead6; stroke: #08080a; stroke-width: 1.6; transition: fill .15s; }
+.mapa-svg .local-nome { fill: #f4ead6; font: 600 9.5px "Source Sans 3", sans-serif; paint-order: stroke; stroke: #08080a; stroke-width: 3px; stroke-linejoin: round; pointer-events: none; }
+.mapa-svg .local:hover .local-marca, .mapa-svg .local:focus-visible .local-marca { fill: var(--ouro); }
+.mapa-svg.unificado .local { opacity: .75; }
+.mapa-legenda i.leg-local { width: 9px; height: 9px; border-radius: 1px; transform: rotate(45deg); background: #f4ead6; border: 1px solid #08080a; }
+.mapa-eventos .sem-posicao .num { background: transparent; border: 1px dashed var(--cor); color: var(--text-dim); }
+.mapa-rel { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 1.2em; }
+.mapa-rel .rotulo { font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--text-faint); margin-right: 4px; }
+.mapa-ligados { padding-left: 1.1em; }
+
+/* ---------- Modelo do sistema de Aster (Céu) ---------- */
+.modelo-aster { display: grid; gap: 18px; }
+.modelo-controles { display: grid; gap: 12px; padding: 16px 18px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+.modelo-data { display: flex; flex-wrap: wrap; gap: 10px; }
+.modelo-data label { display: grid; gap: 4px; font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--text-faint); }
+.modelo-data .input { width: 92px; }
+.modelo-data .select { min-width: 160px; }
+.modelo-botoes, .modelo-saltos { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.modelo-saltos .rotulo { font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--text-faint); margin-right: 4px; }
+.modelo-linha { position: relative; padding-bottom: 26px; }
+.modelo-linha input { width: 100%; accent-color: var(--ouro); position: relative; z-index: 1; }
+.modelo-linha-marcas span { position: absolute; top: 26px; transform: translateX(-50%); font-size: .7rem; color: var(--text-dim); white-space: nowrap; }
+.modelo-linha-marcas span::before { content: ""; position: absolute; left: 50%; top: -10px; width: 1px; height: 8px; background: currentColor; }
+.modelo-linha-marcas span.grande { color: var(--rubedo); font-weight: 700; transform: translateX(-100%); }
+.modelo-linha-marcas span.grande::before { left: auto; right: 0; }
+.modelo-linha-marcas span.hex { top: 6px; height: 4px; transform: none; border-radius: 2px; opacity: .35; }
+.modelo-linha-marcas span.hex::before { display: none; }
+.modelo-linha-marcas span.hex.alb { background: #ffffff; }
+.modelo-linha-marcas span.hex.nig { background: var(--ouro); }
+.modelo-corpo { display: grid; gap: 18px; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); align-items: start; }
+@media (max-width: 860px) { .modelo-corpo { grid-template-columns: 1fr; } }
+.modelo-orbita { margin: 0; background: radial-gradient(circle at 50% 50%, #17121a, #0b0b10 70%); border: 1px solid var(--line); border-radius: var(--radius); padding: 8px; }
+.modelo-orbita svg { width: 100%; height: auto; display: block; }
+.modelo-orbita figcaption { font-size: .8rem; text-align: center; padding: 4px 0 6px; }
+.md-rotulo { fill: var(--text-dim); font: 600 12px "Source Sans 3", sans-serif; }
+.md-aviso { fill: var(--ouro); font: 700 14px "Source Sans 3", sans-serif; letter-spacing: .04em; }
+#md-svg.alinhado #md-linha-sol { stroke-opacity: .9; stroke-dasharray: none; stroke: #ff8a3d; }
+.modelo-info { display: grid; gap: 14px; }
+.modelo-ceu { display: grid; grid-template-columns: 200px 1fr; gap: 14px; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px; }
+.modelo-ceu svg { width: 100%; height: auto; display: block; }
+.modelo-ceu p { margin: .3em 0 0; font-size: .92rem; }
+@media (max-width: 480px) { .modelo-ceu { grid-template-columns: 1fr; } }
+#md-dados { display: grid; grid-template-columns: max-content 1fr; gap: 6px 14px; margin: 0; font-size: .95rem; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; }
+#md-dados dt { color: var(--ouro); font-weight: 600; }
+#md-dados dd { margin: 0; color: var(--text); }
+@media (max-width: 480px) { #md-dados { grid-template-columns: 1fr; } #md-dados dd { margin-bottom: 6px; } }
+.modelo-mes { background: var(--surface); border: 1px solid var(--line-ouro); border-radius: var(--radius); padding: 14px 16px; }
+.modelo-mes h3 { margin: .1em 0 .3em; }
+.modelo-mes p { margin: .3em 0 0; font-size: .92rem; }
+.modelo-tabelas { display: grid; gap: 22px; }
+.tabela-rolagem { overflow-x: auto; }
+.tabela { width: 100%; border-collapse: collapse; font-size: .92rem; min-width: 560px; }
+.tabela caption { text-align: left; font-family: var(--font-display); font-size: 1.35rem; color: var(--text); padding-bottom: 8px; }
+.tabela th, .tabela td { text-align: left; vertical-align: top; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+.tabela thead th { color: var(--text-faint); font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; }
+.tabela tbody th { color: var(--ouro); font-weight: 600; white-space: nowrap; }
+.tabela td { color: var(--text-dim); }

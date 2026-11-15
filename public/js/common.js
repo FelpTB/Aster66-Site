@@ -46,7 +46,7 @@ const NAV = [
   ] },
   { rotulo: "Ferramentas", paginas: ["ferramentas.html", "ficha.html", "catalogos.html", "sumario.html"], itens: [
     ["ficha.html", "Montador de fichas", "Monte a ficha e exporte para PDF"],
-    ["catalogos.html", "Catálogos", "Raças, classes, cartas, bestiário, itens e locais"],
+    ["catalogos.html", "Catálogos", "Raças, classes, cartas, bestiário, itens, locais, eventos e cenas"],
     ["sumario.html", "Sumário", "Regras, termos e condições"],
   ] },
   { rotulo: "Documentos", paginas: ["documentos.html", "documento.html"], itens: [

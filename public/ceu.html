@@ -27,6 +27,8 @@
       <a href="#mundo">O Planeta</a>
       <a href="#geologia">Geologia</a>
       <a href="#ceu">Céu de Aster</a>
+      <a href="#modelo">Modelo do sistema</a>
+      <a href="#calendario">Calendário</a>
     </div>
   </nav>
 
@@ -87,9 +89,35 @@
       <div class="section-head" style="margin-bottom:24px">
         <span class="eyebrow">Céu de Aster</span>
         <h2>Nigredo, Albedo e Rubedo</h2>
-        <p class="dim">Duas luas e uma estrela iluminam o planeta.</p>
+        <p class="dim">Duas luas e uma estrela iluminam o planeta. A luz de Rubedo e a atmosfera dão a Aster a sua cor amarelada.</p>
       </div>
       <div class="grid grid-3" id="astros"></div>
+    </div>
+  </section>
+
+  <section id="modelo" class="anchor">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Modelo do sistema</span>
+        <h2>As luas que trocam de órbita</h2>
+        <p class="dim">Aster gira em torno de Rubedo, e as duas luas, Albedo e Nigredo, giram em torno de Aster em órbitas
+          vizinhas. A cada 6 anos elas se encontram e trocam de lugar: é a Travessia, 14 dias sem data em que as marés
+          crescem e podem ocorrer terremotos e erupções. No hexênio de cada lua, é ela que fica na órbita interna. A cada
+          terceira troca (18 anos) vem o Grande Alinhamento: Sol, planeta e as duas luas na mesma linha.</p>
+      </div>
+      <div id="modelo-aster" class="modelo-aster"><p class="empty">Carregando o modelo…</p></div>
+    </div>
+  </section>
+
+  <section id="calendario" class="anchor">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Calendário</span>
+        <h2>Dias, meses, hexênios</h2>
+        <p class="dim">Contagem geral: Dia (1 a 28) / Mês (1 a 13) / Ano. No Calendário Elitiano, a história é contada em
+          hexênios: os de Albedo são de Mattiya, e os de Nigredo, de Ah-Rimã.</p>
+      </div>
+      <div id="modelo-tabelas" class="modelo-tabelas"></div>
     </div>
   </section>
 </main>
@@ -100,5 +128,7 @@
 <script src="js/astros.js"></script>
 <script src="js/data-mundo.js"></script>
 <script src="js/ceu.js"></script>
+<script src="js/data-ceu.js"></script>
+<script src="js/modelo-aster.js"></script>
 </body>
 </html>
