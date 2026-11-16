@@ -90,10 +90,12 @@ const NAV = [
   header.className = "site-header";
   header.innerHTML = `
     <a class="skip" href="#conteudo">Pular para o conteúdo</a>
-    <div class="wrap">
-      <div class="navbar">
-        <a class="brand" href="index.html" aria-label="Aster66 — início">${LOGO_SVG}<span class="brand-name">Aster<b>66</b></span></a>
-        <button class="nav-toggle" aria-expanded="false" aria-controls="nav-principal">Menu</button>
+    <div class="navbar">
+      <a class="brand" href="index.html" aria-label="Aster66 — início">${LOGO_SVG}<span class="brand-name">Aster<b>66</b></span></a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-painel" aria-label="Abrir menu">
+        <span class="nav-toggle-icone" aria-hidden="true"><i></i><i></i><i></i></span>
+      </button>
+      <div class="nav-painel" id="nav-painel">
         <nav class="nav" id="nav-principal" aria-label="Principal">
           ${NAV.map(grupo).join("")}
         </nav>
@@ -102,7 +104,8 @@ const NAV = [
           <a class="btn btn-primary btn-small nav-cta" href="ficha.html">Criar personagem</a>
         </div>
       </div>
-    </div>`;
+    </div>
+    <div class="banner-friso" aria-hidden="true"><span></span></div>`;
   document.body.prepend(header);
 
   // Dropdowns: o clique abre e fecha (no computador também abrem ao passar o mouse, pelo CSS).
@@ -124,12 +127,19 @@ const NAV = [
   document.addEventListener("click", (e) => { if (!e.target.closest(".nav-grupo")) fechar(); });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") fechar(); });
 
+  // Celular: barra fixa no topo; o botão abre o painel com o menu, a conta e o "Criar personagem".
   const toggle = header.querySelector(".nav-toggle");
-  const nav = header.querySelector(".nav");
-  toggle.addEventListener("click", () => {
-    const open = nav.classList.toggle("open");
-    toggle.setAttribute("aria-expanded", String(open));
-  });
+  const painel = header.querySelector(".nav-painel");
+  const abrirPainel = (abrir) => {
+    painel.classList.toggle("open", abrir);
+    document.documentElement.classList.toggle("menu-aberto", abrir);
+    toggle.setAttribute("aria-expanded", String(abrir));
+    toggle.setAttribute("aria-label", abrir ? "Fechar menu" : "Abrir menu");
+  };
+  toggle.addEventListener("click", () => abrirPainel(!painel.classList.contains("open")));
+  painel.addEventListener("click", (e) => { if (e.target.closest("a")) abrirPainel(false); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && painel.classList.contains("open")) abrirPainel(false); });
+  matchMedia("(min-width: 1151px)").addEventListener("change", (e) => { if (e.matches) abrirPainel(false); });
 
   const footer = document.createElement("footer");
   footer.innerHTML = `

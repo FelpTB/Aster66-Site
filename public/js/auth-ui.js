@@ -91,7 +91,7 @@
   function render(u) {
     if (!slot) return;
     slot.innerHTML = u
-      ? `<a class="account-chip" href="ficha.html" title="${esc(u.email)}">${esc(DB.auth.nome(u))}</a><button class="linkish" id="btn-sair">Sair</button>`
+      ? `<a class="account-chip" href="ficha.html" title="${esc(u.email)}" data-inicial="${esc((DB.auth.nome(u) || "?").trim().charAt(0).toUpperCase())}"><span>${esc(DB.auth.nome(u))}</span></a><button class="linkish" id="btn-sair">Sair</button>`
       : `<button class="btn btn-ghost btn-small" id="btn-entrar">Entrar</button>`;
     slot.querySelector("#btn-entrar")?.addEventListener("click", () => window.abrirLogin());
     slot.querySelector("#btn-sair")?.addEventListener("click", () => DB.auth.sair());
