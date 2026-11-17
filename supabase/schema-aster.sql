@@ -199,6 +199,7 @@ CREATE TABLE IF NOT EXISTS aster.cenarios (
   inspiracoes            TEXT,                         -- Inspirações
   mapa_x                 NUMERIC,                      -- Mapa X (posição no mapa de Maresia)
   mapa_y                 NUMERIC,                      -- Mapa Y
+  periodo                TEXT[] NOT NULL DEFAULT '{}', -- Período (eras em que o local aparece no mapa; vazio = todas)
   conteudo               TEXT NOT NULL DEFAULT '',
   icone                  TEXT,
   capa                   TEXT,

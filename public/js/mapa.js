@@ -18,7 +18,7 @@
   const legenda = document.getElementById("mapa-legenda");
   let svg, camadaEventos, camadaLocais, rotuloEra, eraAtual = ERAS.length - 1;
   let eventosPorEra = new Map(ERAS.map((e) => [e.nome, []]));
-  let locais = [];          // { id, nome, abrangencia, x, y, conteudo }
+  let locais = [];          // { id, nome, abrangencia, x, y, conteudo, periodo: [nomes de época] (vazio = todas) }
   let locaisPorId = new Map();
 
   const el = (tag, attrs = {}) => { const e = document.createElementNS(NS, tag); for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v); return e; };
@@ -31,23 +31,33 @@
   function locaisDoSvg() {
     return [...svg.querySelectorAll("#capitais [data-nome]")].map((c) => ({
       id: "svg-" + c.dataset.nome, nome: c.dataset.nome, abrangencia: "Cidade (Capital)", pais: c.dataset.pais,
-      x: +c.getAttribute("cx"), y: +c.getAttribute("cy"), conteudo: "",
+      x: +c.getAttribute("cx"), y: +c.getAttribute("cy"), conteudo: "", periodo: [],
     }));
   }
+  const locaisReserva = () => (DADOS.locais || []).map((l) => ({ id: "reserva-" + l.nome, conteudo: "", periodo: [], ...l }));
+  // Junta as capitais do SVG que o banco/reserva ainda não tem (mesmo nome = já existe).
+  function comCapitais(lista) {
+    const nomes = new Set(lista.map((l) => l.nome.toLowerCase()));
+    return [...lista, ...locaisDoSvg().filter((c) => !nomes.has(c.nome.toLowerCase()))];
+  }
+  const existeNa = (l, era) => !l.periodo?.length || l.periodo.includes(era.nome);
 
   // ---------- Dados: Supabase ----------
   async function dadosDoBanco() {
     const DB = window.AsterDB;
     if (!DB?.ativo || !DB.tabela) return false;
     try {
+      const CAMPOS_LOCAIS = "id,nome,abrangencia,mapa_x,mapa_y,conteudo";
       const [evs, cens] = await Promise.all([
         DB.tabela("eventos", "id,nome,descricao,data_inicio,data_fim,epoca,tipo,ordem,mapa_x,mapa_y,rota_no_mapa,locais_relacionados"),
-        DB.tabela("cenarios", "id,nome,abrangencia,mapa_x,mapa_y,conteudo"),
+        // `periodo` vem da migração 006; sem ela, os locais aparecem em todas as épocas.
+        DB.tabela("cenarios", CAMPOS_LOCAIS + ",periodo").catch(() => DB.tabela("cenarios", CAMPOS_LOCAIS)),
       ]);
       if (!evs.length) return false;
       locaisPorId = new Map(cens.map((c) => [c.id, c]));
       locais = cens.filter((c) => c.mapa_x != null && c.mapa_y != null)
-        .map((c) => ({ id: c.id, nome: c.nome, abrangencia: c.abrangencia, x: +c.mapa_x, y: +c.mapa_y, conteudo: c.conteudo }));
+        .map((c) => ({ id: c.id, nome: c.nome, abrangencia: c.abrangencia, x: +c.mapa_x, y: +c.mapa_y, conteudo: c.conteudo,
+          periodo: Array.isArray(c.periodo) ? c.periodo : c.periodo ? [c.periodo] : [] }));
       const porEra = new Map(ERAS.map((e) => [e.nome, []]));
       for (const e of evs) {
         if (!porEra.has(e.epoca)) continue;
@@ -90,7 +100,7 @@
     svg.classList.add("mapa-svg", "com-locais");
     svg.setAttribute("viewBox", "70 96 1010 810");
     svg.querySelector("title")?.remove();
-    if (!doBanco || !locais.length) locais = locaisDoSvg();
+    locais = comCapitais(doBanco && locais.length ? locais : locaisReserva());
     // hachura para territórios sem governo
     const defs = svg.querySelector("defs");
     defs.insertAdjacentHTML("beforeend", `<pattern id="hachura-mapa" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
@@ -102,7 +112,6 @@
     camadaEventos = el("g", { id: "eventos" });
     rotuloEra = el("text", { class: "rotulo-era", "text-anchor": "middle" });
     svg.append(rotuloEra, camadaLocais, camadaEventos);
-    desenharLocais();
     svg.addEventListener("click", cliqueNoMapa);
     svg.addEventListener("keydown", (e) => {
       if ((e.key === "Enter" || e.key === " ") && e.target.closest(".evento, .local")) { e.preventDefault(); cliqueNoMapa(e); }
@@ -114,10 +123,11 @@
     mudarEra(pedida >= 0 ? pedida : eraAtual);
   }).catch(() => { tela.innerHTML = `<p class="empty">Não foi possível carregar o mapa.</p>`; });
 
-  // ---------- Camada de locais (todas as épocas) ----------
-  function desenharLocais() {
+  // ---------- Camada de locais (só os que existem na época; Período vazio = todas) ----------
+  function desenharLocais(era) {
     camadaLocais.innerHTML = "";
     locais.forEach((l, k) => {
+      if (!existeNa(l, era)) return;
       const g = el("g", { class: "local", "data-l": k, tabindex: "0", role: "button", "aria-label": l.nome, transform: `translate(${l.x} ${l.y})` });
       g.append(el("rect", { class: "local-marca", x: -4.5, y: -4.5, width: 9, height: 9, transform: "rotate(45)" }));
       const t = el("text", { class: "local-nome", x: 8, y: 3.5 }); t.textContent = l.nome;
@@ -148,6 +158,7 @@
 
     rotuloEra.textContent = era.rotulo ? era.rotulo.texto : "";
     if (era.rotulo) { rotuloEra.setAttribute("x", era.rotulo.x); rotuloEra.setAttribute("y", era.rotulo.y); }
+    desenharLocais(era);
 
     camadaEventos.innerHTML = "";
     eventosDa(era).forEach((ev, k) => {

@@ -125,6 +125,7 @@ const BASES = {
       "Inspirações": "inspiracoes",
       "Mapa X": "mapa_x",
       "Mapa Y": "mapa_y",
+      "Período": "periodo",
     },
   },
   eventos: {
@@ -169,7 +170,7 @@ const BASES = {
 const COLUNAS_ARRAY = new Set([
   "tipo", "modo_de_uso", "cooldown", "custo_em_energia", "origem", "alcance", "palavra_chave",
   "atributos_iniciais", "origens_relacionadas", "atributos", "locais_relacionados", "organizacoes_relacionadas",
-  "carta_relacionada", "habilidade_inata", "habilidade_caracteristica", "cartas", "cenarios_relacionados",
+  "carta_relacionada", "habilidade_inata", "habilidade_caracteristica", "cartas", "cenarios_relacionados", "periodo",
 ]);
 const COLUNAS_NUMERO = new Set(["qtd_por_espaco", "vida", "acoes", "reacoes", "movimento", "maximo_de_acumulos", "mapa_x", "mapa_y", "ordem"]);
 

@@ -78,6 +78,8 @@ As épocas seguem a **Linha do Tempo** do Notion (Sumário › Linha do Tempo): 
 Período Pós-Queda, Era Moderna e Era Contemporânea. Os nomes no campo *Época* precisam ser exatamente esses;
 o estado do mapa em cada era (países que ainda não existem, É-Dingirra) fica em `public/js/data-mapa.js`.
 A migração `006-eras-linha-do-tempo.sql` troca as opções de *Época* no formulário de criações da comunidade.
+Em **Cenários**, o campo *Período* (múltipla escolha com as mesmas eras) diz em que eras o local aparece no mapa;
+vazio = todas. Ele precisa da migração `007-periodo-locais.sql`.
 
 ### Criações da comunidade (esquema `comunidade`)
 1. SQL Editor → cole `supabase/migracoes/004-comunidade.sql` → Run.

@@ -13,7 +13,7 @@ window.ASTER_CONCEITOS = [
     "nome": "Ação",
     "categoria": "Conceitos",
     "grupo": "Termos Básicos",
-    "conteudo": "( Ações e Reações são usadas para balancear o tempo de jogo durante uma cena de combate ou tensão, durante cenas livre de interação, exploração ou Descanso, os jogadores podem agir livremente.)\n\nO número de Ações de um personagem no geral, define o que o personagem é capaz de fazer durante seu Turno. Ações só podem ser realizadas durante o Turno próprio e estão relacionadas a feitos mais complexos e que normalmente demandariam mais esforço do que os realizados usando [Reações](https://www.notion.so/p/b90f5867e96082f6aa5b81c0a60d2dae). O número base de Ações é 1, mas existem cartas e efeitos específicos que podem permitir a realização de um número maior de Ações.\n\nDurante uma Ação o personagem pode realizar qualquer um dos feitos abaixo (Um feito por Ação):\n\n- Usar uma Carta: O personagem gasta sua Ação para utilizar qualquer carta cujo [modo de uso](https://www.notion.so/3aae66c8f973803a94c1eb9b93ca202a) seja igual ou inferior à uma Ação.\n- Utilizar um Item: O personagem gasta sua Ação para utilizar qualquer item cujo [modo de uso](https://www.notion.so/3aae66c8f973803a94c1eb9b93ca202a) seja uma Ação ou inferior.\n- Golpear: O personagem gasta sua Ação para atacar usando a arma Em Mãos, isso pode ser feito com qualquer arma que tenha como [modo de uso](https://www.notion.so/3aae66c8f973803a94c1eb9b93ca202a) uma Ação ou algo inferior a isso.\n- Se mover: O personagem gasta sua Ação para se mover por até o dobro da distância de seu [Deslocamento](https://www.notion.so/p/d9af5867e96082bebeb301ad9d6b0ff5).( Na prática, é como se fossem realizadas 2 Ações de movimento concatenadas)\n- Agarrar: O personagem gasta sua Ação para se agarrar a um objeto ou criatura que esteja no alcance Corpo a Corpo, infringindo a Condição [Agarrado.](https://www.notion.so/2bae66c8f97380e0ad1ac1e3e4ac609c)\n- Realizar um Feito: O personagem descreve um feito simples, em alguns casos o feito descrito pode levar a um teste. O que pode ser realizado com essa Ação é subjetivo mas vale ao jogador o bom senso de tentar apenas o que se é possível fazer em uma pequena janela de tempo.\nO Turno de um jogador é sempre encerrado assim que ele termina de usar suas Ações.",
+    "conteudo": "( Ações e Reações são usadas para balancear o tempo de jogo durante uma cena de combate ou tensão, durante cenas livre de interação, exploração ou Descanso, os jogadores podem agir livremente.)\n\nO número de Ações de um personagem no geral, define o que o personagem é capaz de fazer durante seu Turno. Ações só podem ser realizadas durante o Turno próprio e estão relacionadas a feitos mais complexos e que normalmente demandariam mais esforço do que os realizados usando [Reações](https://www.notion.so/p/b90f5867e96082f6aa5b81c0a60d2dae). O número base de Ações é 1, mas existem cartas e efeitos específicos que podem permitir a realização de um número maior de Ações.\n\nDurante uma Ação o personagem pode realizar qualquer um dos feitos abaixo (Um feito por Ação):\n\n- Usar uma Carta: O personagem gasta sua Ação para utilizar qualquer carta cujo [modo de uso](https://www.notion.so/22ef5867e96082c3bba58189fb065aeb) seja igual ou inferior à uma Ação.\n- Utilizar um Item: O personagem gasta sua Ação para utilizar qualquer item cujo [modo de uso](https://www.notion.so/22ef5867e96082c3bba58189fb065aeb) seja uma Ação ou inferior.\n- Golpear: O personagem gasta sua Ação para atacar usando a arma Em Mãos, isso pode ser feito com qualquer arma que tenha como [modo de uso](https://www.notion.so/22ef5867e96082c3bba58189fb065aeb) uma Ação ou algo inferior a isso.\n- Se mover: O personagem gasta sua Ação para se mover por até o dobro da distância de seu [Deslocamento](https://www.notion.so/p/d9af5867e96082bebeb301ad9d6b0ff5).( Na prática, é como se fossem realizadas 2 Ações de movimento concatenadas)\n- Agarrar: O personagem gasta sua Ação para se agarrar a um objeto ou criatura que esteja no alcance Corpo a Corpo, infringindo a Condição [Agarrado.](https://www.notion.so/414f5867e9608014883ff8d6a649b170)\n- Realizar um Feito: O personagem descreve um feito simples, em alguns casos o feito descrito pode levar a um teste. O que pode ser realizado com essa Ação é subjetivo mas vale ao jogador o bom senso de tentar apenas o que se é possível fazer em uma pequena janela de tempo.\nO Turno de um jogador é sempre encerrado assim que ele termina de usar suas Ações.",
     "fonte": "6e5f5867-e960-823a-bf71-010365d3e4a6"
   },
   {
@@ -21,7 +21,7 @@ window.ASTER_CONCEITOS = [
     "nome": "Reação",
     "categoria": "Conceitos",
     "grupo": "Termos Básicos",
-    "conteudo": "( Ações e Reações são usadas para balancear o tempo de jogo durante uma cena de combate ou tensão, durante cenas livre de interação, exploração ou Descanso, os jogadores podem agir livremente.)\n\nAo contrário das Ações, que só podem ser realizadas durante o Turno próprio do personagem, as Reações podem ser realizadas a qualquer momento durante uma cena, já que o personagem pode escolher reagir a qualquer acontecimento. O número base de Reações de um personagem é 1 mas esse valor varia conforme o atributo de Destreza, além de cartas ou itens que podem aumentar também esse valor.\n\n| Valor de Destreza | Número de Reações |\n|---|---|\n| 0 | 2 |\n| 1 | 3 |\n| 2 | 3 |\n| 3 | 4 |\n| 4 | 4 |\n| 5 | 5 |\n\nDurante uma Reação o personagem pode realizar qualquer um dos feitos abaixo (Um feito por Reação):\n\n- Reação de Defesa: O personagem reage a um ataque que ele receberia, aplicando um Bloqueio ou uma Esquiva.\n  Bloquear: O personagem reduz o dano recebido com base no valor de seu atributo de Bloqueio.\n\n  Esquivar: O personagem força o atacante a realizar um teste de acerto, valores inferiores a seu atributo de [Esquiva](https://www.notion.so/p/890f5867e960833a9b748175fb06b48a) fazem o dano e/ou efeitos do ataque serem anulados. (No caso de um ataque em área o personagem deve se movimentar para fora da Área de Efeito como Reação de Esquiva, a Esquiva falha caso o [Deslocamento](https://www.notion.so/p/d9af5867e96082bebeb301ad9d6b0ff5) seja insuficiente.)\n- Se mover: O personagem gasta sua Reação para se mover por até a distância de seu [Deslocamento](https://www.notion.so/p/d9af5867e96082bebeb301ad9d6b0ff5).\n- Usar uma Carta: O personagem gasta sua Reação para utilizar qualquer carta cujo[ modo de uso](https://www.notion.so/3aae66c8f973803a94c1eb9b93ca202a) seja igual ou inferior à uma Reação.\n- Usar um Item: O personagem gasta sua Reação para utilizar qualquer item cujo [modo de uso ](https://www.notion.so/3aae66c8f973803a94c1eb9b93ca202a)seja uma Reação ou inferior.\n- Realizar Feito Simples: O personagem descreve um feito simples, em alguns casos o feito descrito pode levar a um teste. O que pode ser realizado durante uma Reação é subjetivo, mas vale ao jogador o bom senso de que o tempo é ainda menor que de uma Ação, impossibilitando qualquer feito que não seja rápido e/ou fácil.\n### Ordem das Reações:\n\nPara que a cena não perca o controle, as Reações são ordenadas da seguinte maneira.\n\n- Reações sempre ocorrem após a Ação ou evento reagido.\n- Reações de defesa ocorrem unicamente no momento que o dano seria aplicado.\n- Caso mais de uma Reação seja declarada ao mesmo tempo a ordem de acontecimentos prioriza personagens com maior Destreza (Em caso de empate, decide no d6.)\n- Caso uma Reação invalide por qualquer motivo uma Reação subsequente, a Reação invalidada é perdida.\n( Um bom exercício é pedir para os jogadores manifestarem um sinal assim que forem declarar uma Reação.)\n\nExemplo: Um jogador foi atacado por uma criatura e decidiu reagir se movimentando para fora do alcance. Nesse caso o ataque (evento reagido) ocorre primeiro, logo, o jogador recebe o dano e se move após isso.",
+    "conteudo": "( Ações e Reações são usadas para balancear o tempo de jogo durante uma cena de combate ou tensão, durante cenas livre de interação, exploração ou Descanso, os jogadores podem agir livremente.)\n\nAo contrário das Ações, que só podem ser realizadas durante o Turno próprio do personagem, as Reações podem ser realizadas a qualquer momento durante uma cena, já que o personagem pode escolher reagir a qualquer acontecimento. O número base de Reações de um personagem é 1 mas esse valor varia conforme o atributo de Destreza, além de cartas ou itens que podem aumentar também esse valor.\n\n| Valor de Destreza | Número de Reações |\n|---|---|\n| 0 | 2 |\n| 1 | 3 |\n| 2 | 3 |\n| 3 | 4 |\n| 4 | 4 |\n| 5 | 5 |\n\nDurante uma Reação o personagem pode realizar qualquer um dos feitos abaixo (Um feito por Reação):\n\n- Reação de Defesa: O personagem reage a um ataque que ele receberia, aplicando um Bloqueio ou uma Esquiva.\n  Bloquear: O personagem reduz o dano recebido com base no valor de seu atributo de Bloqueio.\n\n  Esquivar: O personagem força o atacante a realizar um teste de acerto, valores inferiores a seu atributo de [Esquiva](https://www.notion.so/p/890f5867e960833a9b748175fb06b48a) fazem o dano e/ou efeitos do ataque serem anulados. (No caso de um ataque em área o personagem deve se movimentar para fora da Área de Efeito como Reação de Esquiva, a Esquiva falha caso o [Deslocamento](https://www.notion.so/p/d9af5867e96082bebeb301ad9d6b0ff5) seja insuficiente.)\n- Se mover: O personagem gasta sua Reação para se mover por até a distância de seu [Deslocamento](https://www.notion.so/p/d9af5867e96082bebeb301ad9d6b0ff5).\n- Usar uma Carta: O personagem gasta sua Reação para utilizar qualquer carta cujo[ modo de uso](https://www.notion.so/22ef5867e96082c3bba58189fb065aeb) seja igual ou inferior à uma Reação.\n- Usar um Item: O personagem gasta sua Reação para utilizar qualquer item cujo [modo de uso ](https://www.notion.so/22ef5867e96082c3bba58189fb065aeb)seja uma Reação ou inferior.\n- Realizar Feito Simples: O personagem descreve um feito simples, em alguns casos o feito descrito pode levar a um teste. O que pode ser realizado durante uma Reação é subjetivo, mas vale ao jogador o bom senso de que o tempo é ainda menor que de uma Ação, impossibilitando qualquer feito que não seja rápido e/ou fácil.\n### Ordem das Reações:\n\nPara que a cena não perca o controle, as Reações são ordenadas da seguinte maneira.\n\n- Reações sempre ocorrem após a Ação ou evento reagido.\n- Reações de defesa ocorrem unicamente no momento que o dano seria aplicado.\n- Caso mais de uma Reação seja declarada ao mesmo tempo a ordem de acontecimentos prioriza personagens com maior Destreza (Em caso de empate, decide no d6.)\n- Caso uma Reação invalide por qualquer motivo uma Reação subsequente, a Reação invalidada é perdida.\n( Um bom exercício é pedir para os jogadores manifestarem um sinal assim que forem declarar uma Reação.)\n\nExemplo: Um jogador foi atacado por uma criatura e decidiu reagir se movimentando para fora do alcance. Nesse caso o ataque (evento reagido) ocorre primeiro, logo, o jogador recebe o dano e se move após isso.",
     "fonte": "6e5f5867-e960-823a-bf71-010365d3e4a6"
   },
   {
@@ -45,7 +45,7 @@ window.ASTER_CONCEITOS = [
     "nome": "Vida",
     "categoria": "Conceitos",
     "grupo": "Termos Básicos",
-    "conteudo": "Cada personagem jogável ou não jogável possui o atributo de Vida. Esse atributo é o que define a saúde do personagem tanto dentro quanto fora de combate. \n\nEsse atributo pode ser dividido em:\n\n- Vida Temporária: O valor atual do atributo, esse valor é modificado por curas ou danos recebidos.\n- Vida Permanente: Valor Absoluto do atributo, define o valor máximo e inicial do atributo, pode ser modificado em ocasiões especiais por meio de cartas mas em um geral é um valor constante.\nCom base nessas divisões temos os seguintes efeitos:\n\n- Receber dano de qualquer natureza reduz temporariamente o atributo Vida.\n- Receber cura de qualquer natureza recupera a redução temporária do atributo Vida.\n- Alguns efeitos pontuais permitem aumentar permanente ou temporariamente o atributo de Vida máxima.\n- Alguns efeitos pontuais podem reduzir permanentemente ou temporariamente o atributo de Vida máxima.\n## O que acontece quando a Vida do personagem chega a 0?\n\n#### Personagem jogável: \n\n- O personagem adquire a Condição [Morrendo](https://www.notion.so/2bae66c8f973806f82d9c704d5c0ce26).\n#### Personagem não jogável:\n\n- A decisão cabe ao mestre, mas no geral o personagem é abatido instantaneamente.\n## Como é definida a Vida inicial?\n\n#### Personagem jogável: \n\n- A Vida inicial é definida durante a criação da ficha e é composta por Vida inicial (Raça) + Vida inicial (Classe) + Valor do atributo Corpo + Vida concedida por qualquer Carta.\n#### Personagem não jogável:\n\n- O valor inicial é definido na ficha do personagem não jogável, podendo ser de acordo com, uma montagem de ficha tradicional, um valor fixo definido no livro, ou uma decisão do mestre.",
+    "conteudo": "Cada personagem jogável ou não jogável possui o atributo de Vida. Esse atributo é o que define a saúde do personagem tanto dentro quanto fora de combate. \n\nEsse atributo pode ser dividido em:\n\n- Vida Temporária: O valor atual do atributo, esse valor é modificado por curas ou danos recebidos.\n- Vida Permanente: Valor Absoluto do atributo, define o valor máximo e inicial do atributo, pode ser modificado em ocasiões especiais por meio de cartas mas em um geral é um valor constante.\nCom base nessas divisões temos os seguintes efeitos:\n\n- Receber dano de qualquer natureza reduz temporariamente o atributo Vida.\n- Receber cura de qualquer natureza recupera a redução temporária do atributo Vida.\n- Alguns efeitos pontuais permitem aumentar permanente ou temporariamente o atributo de Vida máxima.\n- Alguns efeitos pontuais podem reduzir permanentemente ou temporariamente o atributo de Vida máxima.\n## O que acontece quando a Vida do personagem chega a 0?\n\n#### Personagem jogável: \n\n- O personagem adquire a Condição [Morrendo](https://www.notion.so/414f5867e96080c9bb94ee4655f581a5).\n#### Personagem não jogável:\n\n- A decisão cabe ao mestre, mas no geral o personagem é abatido instantaneamente.\n## Como é definida a Vida inicial?\n\n#### Personagem jogável: \n\n- A Vida inicial é definida durante a criação da ficha e é composta por Vida inicial (Raça) + Vida inicial (Classe) + Valor do atributo Corpo + Vida concedida por qualquer Carta.\n#### Personagem não jogável:\n\n- O valor inicial é definido na ficha do personagem não jogável, podendo ser de acordo com, uma montagem de ficha tradicional, um valor fixo definido no livro, ou uma decisão do mestre.",
     "fonte": "6e5f5867-e960-823a-bf71-010365d3e4a6"
   },
   {
@@ -61,7 +61,7 @@ window.ASTER_CONCEITOS = [
     "nome": "Deslocamento",
     "categoria": "Conceitos",
     "grupo": "Termos Básicos",
-    "conteudo": "O atributo de Deslocamento define a distância que um personagem pode se mover durante uma Ação de movimento.\n\nAção de movimento: Gasta-se uma [Reação](https://www.notion.so/p/d9af5867e96082bebeb301ad9d6b0ff5) ou[ Ação](https://www.notion.so/p/3cdf5867e9608276a10e011e38271e61) para se mover pela distância exata do Deslocamento, em qualquer direção definida. Caso seja gasta uma Ação pode se considerar o Deslocamento como o dobro do valor normal.\n\n## Como esse valor é definido?\n\nBasicamente o valor inicial é sempre de 3 metros, mas algumas cartas ou efeitos pontuais podem aumentar ou diminuir esse valor. \n\n## Em qual direção o personagem deve se mover?\n\nA direção do movimento é definida por quem estiver controlando o personagem, cabe dizer quem, a depender de algumas Condições como [Voando](https://www.notion.so/2bae66c8f97380649866d51568c1c33b) ou [Submerso](https://www.notion.so/326e66c8f973807ba754c20c8516cfc7) é possível extrapolar as direções normais e o movimento pode ser feito para cima ou para baixo.",
+    "conteudo": "O atributo de Deslocamento define a distância que um personagem pode se mover durante uma Ação de movimento.\n\nAção de movimento: Gasta-se uma [Reação](https://www.notion.so/p/d9af5867e96082bebeb301ad9d6b0ff5) ou[ Ação](https://www.notion.so/p/3cdf5867e9608276a10e011e38271e61) para se mover pela distância exata do Deslocamento, em qualquer direção definida. Caso seja gasta uma Ação pode se considerar o Deslocamento como o dobro do valor normal.\n\n## Como esse valor é definido?\n\nBasicamente o valor inicial é sempre de 3 metros, mas algumas cartas ou efeitos pontuais podem aumentar ou diminuir esse valor. \n\n## Em qual direção o personagem deve se mover?\n\nA direção do movimento é definida por quem estiver controlando o personagem, cabe dizer quem, a depender de algumas Condições como [Voando](https://www.notion.so/414f5867e96080b5bafcd3126554f1d1) ou [Submerso](https://www.notion.so/414f5867e960805d9adee7ffcf2e2029) é possível extrapolar as direções normais e o movimento pode ser feito para cima ou para baixo.",
     "fonte": "6e5f5867-e960-823a-bf71-010365d3e4a6"
   },
   {
@@ -69,7 +69,7 @@ window.ASTER_CONCEITOS = [
     "nome": "Cicatrizes",
     "categoria": "Conceitos",
     "grupo": "Termos Básicos",
-    "conteudo": "Cicatrizes são as marcas deixada pelos ferimentos de um personagem. Essas marcas se acumulam sempre que o personagem chega a 0 de Vida e entra na Condição [Morrendo](https://www.notion.so/2bae66c8f973806f82d9c704d5c0ce26) durante um combate ou cena qualquer. \n\nCaso tenha 5 Cicatrizes, o personagem morre instantaneamente ao chegar a 0 de Vida, entrando pela ultima vez na Condição [**Morrendo**](https://www.notion.so/2bae66c8f973806f82d9c704d5c0ce26).\n\n## É possível remover?\n\nCicatrizes podem ser removidas por efeitos de algumas cartas específicas. O mestre é livre pra inserir na história outros métodos para remover essas Cicatrizes.",
+    "conteudo": "Cicatrizes são as marcas deixada pelos ferimentos de um personagem. Essas marcas se acumulam sempre que o personagem chega a 0 de Vida e entra na Condição [Morrendo](https://www.notion.so/414f5867e96080c9bb94ee4655f581a5) durante um combate ou cena qualquer. \n\nCaso tenha 5 Cicatrizes, o personagem morre instantaneamente ao chegar a 0 de Vida, entrando pela ultima vez na Condição [**Morrendo**](https://www.notion.so/414f5867e96080c9bb94ee4655f581a5).\n\n## É possível remover?\n\nCicatrizes podem ser removidas por efeitos de algumas cartas específicas. O mestre é livre pra inserir na história outros métodos para remover essas Cicatrizes.",
     "fonte": "6e5f5867-e960-823a-bf71-010365d3e4a6"
   },
   {
@@ -93,7 +93,7 @@ window.ASTER_CONCEITOS = [
     "nome": "Hierarquia de Tempo",
     "categoria": "Conceitos",
     "grupo": "Termos de Combate",
-    "conteudo": "Cada carta possui um modo de uso diferente, esses modos seguem uma hierarquia, que é baseada na demora narrativa para usar aquela carta.\n\n> Descanso → Ação → Reação → Ação Livre\n\n(Tudo que pode ser feito em um tempo menor pode também ser feito em um tempo maior, por exemplo, tudo que pode ser feito com uma Reação pode ser feito gastando uma Ação e assim por diante.)\n\n## Outros Conceitos\n\nPassivo: Continua funcionando enquanto a/as Condições para tal estejam sendo cumpridas.\n\nMorrendo: Pode ser ativo no momento em que o personagem adquire a Condição [Morrendo](https://www.notion.so/2bae66c8f973806f82d9c704d5c0ce26).",
+    "conteudo": "Cada carta possui um modo de uso diferente, esses modos seguem uma hierarquia, que é baseada na demora narrativa para usar aquela carta.\n\n> Descanso → Ação → Reação → Ação Livre\n\n(Tudo que pode ser feito em um tempo menor pode também ser feito em um tempo maior, por exemplo, tudo que pode ser feito com uma Reação pode ser feito gastando uma Ação e assim por diante.)\n\n## Outros Conceitos\n\nPassivo: Continua funcionando enquanto a/as Condições para tal estejam sendo cumpridas.\n\nMorrendo: Pode ser ativo no momento em que o personagem adquire a Condição [Morrendo](https://www.notion.so/414f5867e96080c9bb94ee4655f581a5).",
     "fonte": "6e5f5867-e960-823a-bf71-010365d3e4a6"
   },
   {
@@ -229,7 +229,7 @@ window.ASTER_CONCEITOS = [
     "nome": "Habilidade",
     "categoria": "Cartas",
     "grupo": "Tipos de Carta",
-    "conteudo": "Tipo mais geral, abrange Cartas com todo tipo de uso, desde ativas à passivas. Não possuem interações específicas.\n\nLista",
+    "conteudo": "Tipo mais geral, abrange Cartas com todo tipo de uso, desde ativas à passivas. Não possuem interações específicas.\n\n[Lista](https://www.notion.so/339f5867e96082c4932d01ad0aa7e8d8)",
     "fonte": "79bf5867-e960-82cb-b35a-0119616317b5"
   },
   {
@@ -237,7 +237,7 @@ window.ASTER_CONCEITOS = [
     "nome": "Ritmos",
     "categoria": "Cartas",
     "grupo": "Tipos de Carta",
-    "conteudo": "Cartas musicais, focadas em uma performance artística, precisam ser ativadas e se mantém em efeito enquanto estiverem na Fila de Cooldown. Cada ritmo possui um marcador de ritmo esses marcadores podem ativar efeitos especiais quando combinados com a classe do Bardo.\n\nLista",
+    "conteudo": "Cartas musicais, focadas em uma performance artística, precisam ser ativadas e se mantém em efeito enquanto estiverem na Fila de Cooldown. Cada ritmo possui um marcador de ritmo esses marcadores podem ativar efeitos especiais quando combinados com a classe do Bardo.\n\n[Lista](https://www.notion.so/339f5867e96082c4932d01ad0aa7e8d8)",
     "fonte": "79bf5867-e960-82cb-b35a-0119616317b5"
   },
   {
@@ -245,7 +245,7 @@ window.ASTER_CONCEITOS = [
     "nome": "Magia",
     "categoria": "Cartas",
     "grupo": "Tipos de Carta",
-    "conteudo": "Magias normalmente envolvem efeitos exotéricos e trazem um custo de Energia que varia conforme o impacto da magia, além disso, cartas de magia em sua maioria não possuem Cooldown. Magias possuem interações com diversas classes, como magos ou enfeitiçados, que podem aprender magias de maneira mais fácil ou até aprimorar magias conhecidas.\n\nLista",
+    "conteudo": "Magias normalmente envolvem efeitos exotéricos e trazem um custo de Energia que varia conforme o impacto da magia, além disso, cartas de magia em sua maioria não possuem Cooldown. Magias possuem interações com diversas classes, como magos ou enfeitiçados, que podem aprender magias de maneira mais fácil ou até aprimorar magias conhecidas.\n\n[Lista](https://www.notion.so/339f5867e96082c4932d01ad0aa7e8d8)",
     "fonte": "79bf5867-e960-82cb-b35a-0119616317b5"
   },
   {
@@ -253,7 +253,7 @@ window.ASTER_CONCEITOS = [
     "nome": "Ritual",
     "categoria": "Cartas",
     "grupo": "Tipos de Carta",
-    "conteudo": "Rituais são cartas complexas que ativam efeitos poderosos, mas sempre possuem um custo especial para a ativação, podendo ser componentes ou Ações de Roleplay, além disso, rituais possuem sempre uma Condição de desativação que pode encerrar o efeito do ritual. Rituais também possuem interações com algumas classes como é o caso do Xamã e do Alquimista.\n\nLista",
+    "conteudo": "Rituais são cartas complexas que ativam efeitos poderosos, mas sempre possuem um custo especial para a ativação, podendo ser componentes ou Ações de Roleplay, além disso, rituais possuem sempre uma Condição de desativação que pode encerrar o efeito do ritual. Rituais também possuem interações com algumas classes como é o caso do Xamã e do Alquimista.\n\n[Lista](https://www.notion.so/339f5867e96082c4932d01ad0aa7e8d8)",
     "fonte": "79bf5867-e960-82cb-b35a-0119616317b5"
   },
   {
@@ -261,7 +261,7 @@ window.ASTER_CONCEITOS = [
     "nome": "Língua",
     "categoria": "Cartas",
     "grupo": "Tipos de Carta",
-    "conteudo": "Línguas são cartas voltadas para o RP e comunicação, elas trazem pro personagem um conhecimento sobre a linguagem e até a cultura de um povo ou região do mundo. Funcionam de maneira passiva.\n\nLista",
+    "conteudo": "Línguas são cartas voltadas para o RP e comunicação, elas trazem pro personagem um conhecimento sobre a linguagem e até a cultura de um povo ou região do mundo. Funcionam de maneira passiva.\n\n[Lista](https://www.notion.so/339f5867e96082c4932d01ad0aa7e8d8)",
     "fonte": "79bf5867-e960-82cb-b35a-0119616317b5"
   },
   {
@@ -269,7 +269,7 @@ window.ASTER_CONCEITOS = [
     "nome": "Golpe",
     "categoria": "Cartas",
     "grupo": "Tipos de Carta",
-    "conteudo": "Golpes são ataques ou manobras físicas, técnicas de luta inspiradas em artes marciais ou até em um estilo mais “desonesto” de lutar. Essas cartas estão mais relacionadas a classes de combate físico e podem interagir com a arma equipada pelo personagem.\n\nLista",
+    "conteudo": "Golpes são ataques ou manobras físicas, técnicas de luta inspiradas em artes marciais ou até em um estilo mais “desonesto” de lutar. Essas cartas estão mais relacionadas a classes de combate físico e podem interagir com a arma equipada pelo personagem.\n\n[Lista](https://www.notion.so/339f5867e96082c4932d01ad0aa7e8d8)",
     "fonte": "79bf5867-e960-82cb-b35a-0119616317b5"
   },
   {
@@ -277,7 +277,7 @@ window.ASTER_CONCEITOS = [
     "nome": "Receita",
     "categoria": "Cartas",
     "grupo": "Tipos de Carta",
-    "conteudo": "Receitas são Cartas que permitem ao usuário criar, itens, sejam consumíveis, componente e até equipamentos. Elas normalmente só podem ser usadas durante períodos de Descanso e pedem um custo específico em componentes. Algumas classes que interagem bem com receitas são o Alquimista, o Cozinheiro e o Forjador.\n\nLista",
+    "conteudo": "Receitas são Cartas que permitem ao usuário criar, itens, sejam consumíveis, componente e até equipamentos. Elas normalmente só podem ser usadas durante períodos de Descanso e pedem um custo específico em componentes. Algumas classes que interagem bem com receitas são o Alquimista, o Cozinheiro e o Forjador.\n\n[Lista](https://www.notion.so/339f5867e96082c4932d01ad0aa7e8d8)",
     "fonte": "79bf5867-e960-82cb-b35a-0119616317b5"
   },
   {
@@ -285,7 +285,7 @@ window.ASTER_CONCEITOS = [
     "nome": "Habilidade Inata",
     "categoria": "Cartas",
     "grupo": "Tipos de Carta",
-    "conteudo": "Cartas inatas, são cartas que tem como origem uma raça específica, ou seja, cada raça possui sua carta inicial que representa um efeito inato principal da raça. Além da Habilidade Inata, raças podem possuir outras cartas.\n\nLista",
+    "conteudo": "Cartas inatas, são cartas que tem como origem uma raça específica, ou seja, cada raça possui sua carta inicial que representa um efeito inato principal da raça. Além da Habilidade Inata, raças podem possuir outras cartas.\n\n[Lista](https://www.notion.so/339f5867e96082c4932d01ad0aa7e8d8)",
     "fonte": "79bf5867-e960-82cb-b35a-0119616317b5"
   },
   {
@@ -293,7 +293,7 @@ window.ASTER_CONCEITOS = [
     "nome": "Habilidade Característica",
     "categoria": "Cartas",
     "grupo": "Tipos de Carta",
-    "conteudo": "Cartas características são as habilidades iniciais das classes, elas não possuem pré-requisito para o aprendizado e trazem mecânicas diferentes para o personagem. Essas habilidade também acrescentam Origens ao leque do personagem, permitindo ele aprender outras habilidades daquela classe.\n\nLista",
+    "conteudo": "Cartas características são as habilidades iniciais das classes, elas não possuem pré-requisito para o aprendizado e trazem mecânicas diferentes para o personagem. Essas habilidade também acrescentam [Origens](https://www.notion.so/d6ef5867e96083b1b8ce819157ae63cc) ao leque do personagem, permitindo ele aprender outras habilidades daquela classe.\n\n[Lista](https://www.notion.so/339f5867e96082c4932d01ad0aa7e8d8)",
     "fonte": "79bf5867-e960-82cb-b35a-0119616317b5"
   },
   {
@@ -301,7 +301,7 @@ window.ASTER_CONCEITOS = [
     "nome": "Treinamento",
     "categoria": "Cartas",
     "grupo": "Tipos de Carta",
-    "conteudo": "Cartas de treinamento permitem ao personagem evoluir atributos específicos, desde aumentar a Vida e a Energia, até atributos como Corpo, Alma, Mente, Conhecimento, Destreza e Foco.\n\nLista",
+    "conteudo": "Cartas de treinamento permitem ao personagem evoluir atributos específicos, desde aumentar a Vida e a Energia, até atributos como Corpo, Alma, Mente, Conhecimento, Destreza e Foco.\n\n[Lista](https://www.notion.so/339f5867e96082c4932d01ad0aa7e8d8)",
     "fonte": "79bf5867-e960-82cb-b35a-0119616317b5"
   },
   {
@@ -309,7 +309,7 @@ window.ASTER_CONCEITOS = [
     "nome": "Companhia",
     "categoria": "Cartas",
     "grupo": "Tipos de Carta",
-    "conteudo": "Cartas de companhia adicionam ao personagem um companheiro, seja ele um animal ou criatura mágica, trazendo quase um segundo personagem jogável para o jogador.\n\nLista",
+    "conteudo": "Cartas de companhia adicionam ao personagem um companheiro, seja ele um animal ou criatura mágica, trazendo quase um segundo personagem jogável para o jogador.\n\n[Lista](https://www.notion.so/339f5867e96082c4932d01ad0aa7e8d8)",
     "fonte": "79bf5867-e960-82cb-b35a-0119616317b5"
   },
   {
@@ -317,7 +317,7 @@ window.ASTER_CONCEITOS = [
     "nome": "Disparo (Cartas)",
     "categoria": "Cartas",
     "grupo": "Tipos de Carta",
-    "conteudo": "Cartas de Disparo funcionam como cartas de golpe, a diferença é que elas requisitam o uso de uma arma de Disparo.\n\nLista",
+    "conteudo": "Cartas de Disparo funcionam como cartas de golpe, a diferença é que elas requisitam o uso de uma arma de Disparo.\n\n[Lista](https://www.notion.so/339f5867e96082c4932d01ad0aa7e8d8)",
     "fonte": "79bf5867-e960-82cb-b35a-0119616317b5"
   },
   {
@@ -349,7 +349,7 @@ window.ASTER_CONCEITOS = [
     "nome": "Morrendo (Cartas)",
     "categoria": "Cartas",
     "grupo": "Modos de Uso",
-    "conteudo": "Pode ser usado assim que o personagem entrar na Condição [Morrendo](https://www.notion.so/2bae66c8f973806f82d9c704d5c0ce26).",
+    "conteudo": "Pode ser usado assim que o personagem entrar na Condição [Morrendo](https://www.notion.so/414f5867e96080c9bb94ee4655f581a5).",
     "fonte": "22ef5867-e960-82c3-bba5-8189fb065aeb"
   },
   {
@@ -605,7 +605,7 @@ window.ASTER_CONCEITOS = [
     "nome": "Origens",
     "categoria": "Personagem",
     "grupo": "",
-    "conteudo": "Origens são atributos que podem estar presentes em cartas ou em personagens, a presença desse atributo quer dizer coisas diferentes em cada caso, mas esses significados estão relacionados:\n\n## Origem nos Personagens\n\nAs origens em um personagem indicam as origens de carta que aquele personagem pode adicionar ao seu baralho.\n\n## Origem nas Cartas\n\nAs origens de uma carta indicam qual/quais origens um personagem deve ter para poder adicionar aquela carta a seu baralho.\n\nEx: Um personagem com as origens Bardo e Magia de Vento poderá adicionar ao seu baralho, durante a montagem inicial ou upgrade do seu baralho, qualquer carta que pertença a qualquer uma dessas origens.\n\n## Exceções \n\n### Origem Livre\n\nAlgumas cartas possuem a origem “Livre” o que significa que qualquer personagem pode adicionar aquela carta ao seu baralho.\n\n### Cartas de Aprendizado\n\nAlgumas cartas concedem ao personagem a capacidade de aprender habilidades independente da origem, alguns exemplos são: \n\nCultista: Pode adicionar cartas ao seu baralho com base no seu atributo de Ligação.\n\nMago: Magos podem adicionar a seu grimório qualquer carta do tipo Magia.\n\n## Como consigo novas origens para o meu personagem?\n\n### Novas Classes\n\nA carta principal de cada classe (que tem o tipo Habilidade Característica) concede ao personagem a origem relacionada com aquela classe, essa carta é de origem livre.\n\n### Cartas\n\nAlgumas cartas específicas podem conceder origens ao serem adicionadas ao baralho do personagem.\n\n## Lista de Origens",
+    "conteudo": "Origens são atributos que podem estar presentes em cartas ou em personagens, a presença desse atributo quer dizer coisas diferentes em cada caso, mas esses significados estão relacionados:\n\n## Origem nos Personagens\n\nAs origens em um personagem indicam as origens de carta que aquele personagem pode adicionar ao seu baralho.\n\n## Origem nas Cartas\n\nAs origens de uma carta indicam qual/quais origens um personagem deve ter para poder adicionar aquela carta a seu baralho.\n\nEx: Um personagem com as origens Bardo e Magia de Vento poderá adicionar ao seu baralho, durante a montagem inicial ou upgrade do seu baralho, qualquer carta que pertença a qualquer uma dessas origens.\n\n## Exceções \n\n### Origem Livre\n\nAlgumas cartas possuem a origem “Livre” o que significa que qualquer personagem pode adicionar aquela carta ao seu baralho.\n\n### Cartas de Aprendizado\n\nAlgumas cartas concedem ao personagem a capacidade de aprender habilidades independente da origem, alguns exemplos são: \n\n[Cultista](https://www.notion.so/4b6f5867e96083d39dae0176d25b41eb): Pode adicionar cartas ao seu baralho com base no seu atributo de [Ligação](https://www.notion.so/p/2c8f5867e96082c29a5d013e810ef180).\n\n[Mago](https://www.notion.so/bc9f5867e9608372a4f481ccecec837c): Magos podem adicionar a seu grimório qualquer carta do tipo Magia.\n\n## Como consigo novas origens para o meu personagem?\n\n### Novas Classes\n\nA carta principal de cada classe (que tem o tipo Habilidade Característica) concede ao personagem a origem relacionada com aquela classe, essa carta é de origem livre.\n\n### Cartas\n\nAlgumas cartas específicas podem conceder origens ao serem adicionadas ao baralho do personagem.\n\n## Lista de Origens",
     "fonte": "d6ef5867-e960-83b1-b8ce-819157ae63cc"
   },
   {
