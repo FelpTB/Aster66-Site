@@ -74,6 +74,11 @@ No Notion: **Databases › Eventos › Lista de Eventos** (Época, Tipo, Ordem e
 e **Databases › Cenas › Lista de Cenas**. Em **Cenários**, preencha *Mapa X* / *Mapa Y* para o local aparecer no mapa
 (coordenadas do `img/mapa-maresia.svg`, viewBox 0 0 1280 920). O mapa mostra sempre os locais e os eventos da época.
 
+As épocas seguem a **Linha do Tempo** do Notion (Sumário › Linha do Tempo): Era Primitiva, Era Ediniana,
+Período Pós-Queda, Era Moderna e Era Contemporânea. Os nomes no campo *Época* precisam ser exatamente esses;
+o estado do mapa em cada era (países que ainda não existem, É-Dingirra) fica em `public/js/data-mapa.js`.
+A migração `006-eras-linha-do-tempo.sql` troca as opções de *Época* no formulário de criações da comunidade.
+
 ### Criações da comunidade (esquema `comunidade`)
 1. SQL Editor → cole `supabase/migracoes/004-comunidade.sql` → Run.
 2. Project Settings → API (Data API) → *Exposed schemas* → adicione `comunidade` → Save.

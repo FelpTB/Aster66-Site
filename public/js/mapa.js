@@ -1,5 +1,5 @@
 // Mapa interativo de Maresia (página Mundo de Aster).
-// A linha do tempo no topo escolhe a época; o mapa muda (fronteiras, territórios sem governo, É-Dingirra).
+// A linha do tempo no topo escolhe a era (as mesmas de Notion › Linha do Tempo); o mapa muda (fronteiras, territórios sem governo, É-Dingirra).
 // Duas camadas sempre visíveis: LOCAIS (Notion › Cenários com Mapa X/Y) e EVENTOS da época (Notion › Lista de Eventos).
 // Dados: Supabase (aster.cenarios / aster.eventos); reserva sem conexão: js/data-mapa.js.
 // Desenho: img/mapa-maresia.svg (gerado por scripts/gerar-mapa.py). Clicar num país abre a ficha dele.
@@ -107,7 +107,10 @@
     svg.addEventListener("keydown", (e) => {
       if ((e.key === "Enter" || e.key === " ") && e.target.closest(".evento, .local")) { e.preventDefault(); cliqueNoMapa(e); }
     });
-    const pedida = ERAS.findIndex((e) => location.hash === "#mapa-" + e.id);
+    // Links antigos (#mapa-edin, #mapa-queda, #mapa-reinos, #mapa-atual) continuam abrindo a era equivalente.
+    const ANTIGAS = { edin: "ediniana", queda: "ediniana", reinos: "pos-queda", atual: "contemporanea" };
+    const idPedido = location.hash.replace(/^#mapa-/, "");
+    const pedida = ERAS.findIndex((e) => e.id === (ANTIGAS[idPedido] || idPedido));
     mudarEra(pedida >= 0 ? pedida : eraAtual);
   }).catch(() => { tela.innerHTML = `<p class="empty">Não foi possível carregar o mapa.</p>`; });
 
@@ -164,7 +167,7 @@
   function renderPainel(era) {
     const evs = eventosDa(era);
     painel.innerHTML = `
-      <span class="eyebrow">Época ${eraAtual + 1} de ${ERAS.length}</span>
+      <span class="eyebrow">Era ${eraAtual + 1} de ${ERAS.length}${era.anos ? ` · ${esc(era.anos)}` : ""}</span>
       <h3>${esc(era.nome)}</h3>
       <p class="dim">${window.linkarTermos(esc(era.resumo))}</p>
       <ol class="mapa-eventos">${evs.map((ev, k) => `
@@ -188,7 +191,7 @@
     const nome = pais.dataset.nome, era = ERAS[eraAtual];
     if (era.unificado) {
       return window.abrirModal(`<span class="eyebrow">${esc(era.nome)}</span><h2 style="margin:0 0 .5em">${esc(nome)}</h2>
-        <p class="dim">Nesta época, estas terras ainda fazem parte do Reino de É-Dingirra — o país de ${esc(nome)} só surge depois da queda.</p>
+        <p class="dim">${era.notaPais ? esc(era.notaPais) : `Nesta época, estas terras ainda fazem parte do Reino de É-Dingirra — o país de ${esc(nome)} só surge depois da queda.`}</p>
         <p><button class="btn btn-ghost btn-small" type="button" data-ver-pais="${esc(nome)}">Ver ${esc(nome)} hoje</button></p>`);
     }
     const estado = (era.estados || {})[nome];

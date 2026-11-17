@@ -690,7 +690,7 @@ a.termo:hover, a.termo:focus-visible { color: var(--ouro, #E5A93C); text-decorat
 .mapa-eras-marcas button:hover { color: var(--text); }
 .mapa-eras-marcas button[aria-current="true"] { color: var(--ouro); }
 .mapa-era-curto { display: none; }
-@media (max-width: 700px) { .mapa-era-nome { display: none; } .mapa-era-curto { display: inline; } .mapa-eras-marcas button { font-size: 1rem; } }
+@media (max-width: 700px) { .mapa-era-nome { display: none; } .mapa-era-curto { display: inline; } .mapa-eras-marcas button { font-size: .92rem; white-space: nowrap; } }
 
 .mapa-corpo { display: grid; grid-template-columns: minmax(0, 1fr) 320px; }
 .mapa-tela { position: relative; background: #0d1418; min-height: 300px; }

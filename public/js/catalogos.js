@@ -238,7 +238,7 @@
     ficha: (x) => [["Abrangência", x.abrangencia], [x.abrangencia === "País" ? "Locais" : "Ligado a", x.ligados]],
   });
 
-  const ORDEM_EPOCAS = ["Reino de É-Dingirra", "A Queda de Édin", "Era dos Reinos", "Era Atual"];
+  const ORDEM_EPOCAS = ["Era Primitiva", "Era Ediniana", "Período Pós-Queda", "Era Moderna", "Era Contemporânea"];
   montar("cat-eventos", {
     rotulo: ["evento", "eventos"], termos: true,
     carregar: async () => {
