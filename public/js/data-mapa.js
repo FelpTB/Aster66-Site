@@ -128,9 +128,7 @@ window.ASTER_MAPA = {
       edingirra: "corrompida",
       eventos: [
         {"titulo":"Gaius, imperador","tipo":"politica","x":540,"y":258,"local":"Zew Phater","inicio":"","fim":"","texto":"O bastardo da antiga linhagem, cofundador da Guilda dos Aventureiros, vence os irmãos em combate e encerra a expansão de Zew Phater."},
-        {"titulo":"Líderes da Nova Era","tipo":"","x":null,"y":null,"local":"","inicio":"Ano 1512","fim":"","texto":""},
         {"titulo":"A fundação da Guilda de Mercenários","tipo":"fundacao","x":738,"y":330,"local":"Crimmor","inicio":"","fim":"","texto":"Jason Dill aplica um golpe nos bancos de Crimmor. O dinheiro compra armas, contrata combatentes e ergue a primeira sede da Guilda de Mercenários."},
-        {"titulo":"Destino Sangrento","tipo":"","x":null,"y":null,"local":"","inicio":"Ano 1532","fim":"","texto":""},
       ],
     },
   ],
